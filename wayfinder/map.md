@@ -54,14 +54,7 @@ a build phase — no extension code is written as part of this map.
 
 ## Not yet specified
 
-- Error/fallback handling when a rulebook PDF is unavailable, broken, or fails to
-  parse, or when state extraction fails for a given game.
-- Onboarding/settings UX for entering, storing, and rotating the user's LLM API key.
-- Validation/testing strategy for extending the generic engine to games beyond the
-  initial three once the architecture is chosen.
-- Rate limiting and cost controls for cloud LLM usage (e.g. guarding against runaway
-  token spend from repeated "what's my next move" queries).
-- Handling multiple simultaneous BGA game tabs/tables open at once.
+_(empty — everything graduated to tickets)_
 
 ## Out of scope
 
