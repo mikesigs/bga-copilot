@@ -1,0 +1,25 @@
+{
+  "manifest_version": 3,
+  "name": "BGA Copilot",
+  "version": "0.1.0",
+  "description": "AI chat sidebar for BoardGameArena, aware of your live game.",
+  "permissions": ["sidePanel", "storage", "scripting", "tabs"],
+  "host_permissions": [
+    "https://*.boardgamearena.com/*",
+    "https://api.anthropic.com/*",
+    "https://api.openai.com/*"
+  ],
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://*.boardgamearena.com/*"],
+      "js": ["content.js"]
+    }
+  ],
+  "side_panel": {
+    "default_path": "sidepanel.html"
+  }
+}
