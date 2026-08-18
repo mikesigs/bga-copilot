@@ -9,14 +9,49 @@
     <div class="panel">
       <header class="panel-header">
         <span class="title">BGA Copilot</span>
+        <button id="settings-toggle" class="icon-btn" type="button" aria-label="Settings">⚙</button>
       </header>
-      <main class="msg-list" id="msg-list">
-        <p class="empty-state">No messages yet.</p>
-      </main>
-      <div class="composer">
-        <input type="text" placeholder="Ask about the game..." disabled />
-        <button type="button" disabled>Send</button>
-      </div>
+
+      <section id="chat-view" class="view">
+        <div id="key-prompt" class="key-prompt" hidden>
+          <p>Add your API key to get started.</p>
+          <button id="key-prompt-open-settings" type="button">Open settings</button>
+        </div>
+        <main class="msg-list" id="msg-list">
+          <p class="empty-state">No messages yet.</p>
+        </main>
+        <div class="composer">
+          <input type="text" placeholder="Ask about the game..." disabled />
+          <button type="button" disabled>Send</button>
+        </div>
+      </section>
+
+      <section id="settings-view" class="view" hidden>
+        <div class="settings-body">
+          <label class="field-label">Provider</label>
+          <div class="provider-picker" id="provider-picker">
+            <button type="button" class="provider-option" data-provider="anthropic">
+              Anthropic
+              <span class="key-badge" hidden>&#10003;</span>
+            </button>
+            <button type="button" class="provider-option" data-provider="openai">
+              OpenAI
+              <span class="key-badge" hidden>&#10003;</span>
+            </button>
+          </div>
+
+          <label class="field-label" for="api-key-input">API key</label>
+          <input type="password" id="api-key-input" placeholder="sk-..." autocomplete="off" />
+          <p id="key-error" class="key-error" hidden></p>
+          <p id="key-saved" class="key-saved" hidden>Saved.</p>
+          <button type="button" id="save-key-btn">Save</button>
+
+          <p class="disclosure">
+            Your key is stored only in this browser and sent directly to the chosen provider, never to us or
+            any other server. Treat it like a password.
+          </p>
+        </div>
+      </section>
     </div>
     <script src="sidepanel.js"></script>
   </body>

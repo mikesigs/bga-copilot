@@ -3,7 +3,7 @@
   "name": "BGA Copilot",
   "version": "0.1.0",
   "description": "AI chat sidebar for BoardGameArena, aware of your live game.",
-  "permissions": ["sidePanel", "tabs"],
+  "permissions": ["sidePanel", "tabs", "storage"],
   "host_permissions": [
     "https://*.boardgamearena.com/*",
     "https://api.anthropic.com/*",

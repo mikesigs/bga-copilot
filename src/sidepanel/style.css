@@ -19,11 +19,39 @@ body {
   background: #5c3d24;
   color: #fff;
   flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .title {
   font-weight: 600;
   font-size: 14px;
+}
+
+.icon-btn {
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-size: 15px;
+  cursor: pointer;
+  padding: 2px 6px;
+  border-radius: 6px;
+}
+
+.icon-btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.view {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.view[hidden] {
+  display: none;
 }
 
 .msg-list {
@@ -60,4 +88,114 @@ body {
   border-radius: 8px;
   padding: 8px 14px;
   font-size: 13px;
+}
+
+.key-prompt {
+  margin: 10px 12px 0;
+  padding: 10px 12px;
+  background: #fdf6e3;
+  border: 1px solid #e8d9a0;
+  border-radius: 8px;
+  font-size: 13px;
+}
+
+.key-prompt p {
+  margin: 0 0 8px;
+}
+
+.key-prompt button {
+  background: #5c3d24;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 10px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.settings-body {
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.field-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #5c3d24;
+  margin-top: 8px;
+}
+
+.provider-picker {
+  display: flex;
+  gap: 8px;
+}
+
+.provider-option {
+  flex: 1;
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid #ded3bd;
+  background: #fff;
+  font-size: 13px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.provider-option.active {
+  border-color: #2f6f4e;
+  background: #e6f2ec;
+  font-weight: 600;
+}
+
+.key-badge {
+  color: #2f6f4e;
+  font-size: 12px;
+}
+
+#api-key-input {
+  padding: 8px 10px;
+  border-radius: 8px;
+  border: 1px solid #ded3bd;
+  font-size: 13px;
+}
+
+.key-error {
+  color: #a63d2f;
+  font-size: 12px;
+  margin: 0;
+}
+
+.key-saved {
+  color: #2f6f4e;
+  font-size: 12px;
+  margin: 0;
+}
+
+#save-key-btn {
+  align-self: flex-start;
+  background: #2f6f4e;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 7px 14px;
+  font-size: 13px;
+  cursor: pointer;
+  margin-top: 4px;
+}
+
+#save-key-btn:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.disclosure {
+  margin-top: 14px;
+  font-size: 11px;
+  color: #7a6f5f;
+  line-height: 1.4;
 }
