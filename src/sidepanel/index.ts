@@ -84,9 +84,23 @@ function render(): void {
   }
 }
 
+// Defends against a background service worker still running an older build
+// (Chrome doesn't always restart a service worker immediately on reload) —
+// spreading the real response over safe defaults means a missing field
+// degrades to "not configured" instead of crashing render().
+function normalizeSettingsResponse(response: Partial<GetSettingsResponse>): GetSettingsResponse {
+  return {
+    activeProvider: response.activeProvider ?? "anthropic",
+    hasKey: { anthropic: false, openai: false, ...response.hasKey },
+    keyPreview: { anthropic: null, openai: null, ...response.keyPreview },
+  };
+}
+
 async function refreshSettings(): Promise<void> {
   try {
-    settings = await sendMessage<GetSettingsResponse>({ type: "GET_SETTINGS" });
+    settings = normalizeSettingsResponse(
+      await sendMessage<Partial<GetSettingsResponse>>({ type: "GET_SETTINGS" }),
+    );
     render();
   } catch (error) {
     // Leave `settings` at its last-known-good value rather than corrupting
