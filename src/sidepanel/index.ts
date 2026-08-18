@@ -23,11 +23,30 @@ const chatView = document.getElementById("chat-view") as HTMLElement;
 const settingsView = document.getElementById("settings-view") as HTMLElement;
 const keyPrompt = document.getElementById("key-prompt") as HTMLElement;
 const openSettingsFromPrompt = document.getElementById("key-prompt-open-settings") as HTMLButtonElement;
-const providerPicker = document.getElementById("provider-picker") as HTMLElement;
-const apiKeyInput = document.getElementById("api-key-input") as HTMLInputElement;
-const keyError = document.getElementById("key-error") as HTMLElement;
-const keySaved = document.getElementById("key-saved") as HTMLElement;
-const saveKeyBtn = document.getElementById("save-key-btn") as HTMLButtonElement;
+
+interface ProviderCard {
+  provider: Provider;
+  radio: HTMLInputElement;
+  badge: HTMLElement;
+  keyInput: HTMLInputElement;
+  saveBtn: HTMLButtonElement;
+  errorEl: HTMLElement;
+  savedEl: HTMLElement;
+}
+
+function bindProviderCard(provider: Provider): ProviderCard {
+  return {
+    provider,
+    radio: document.getElementById(`active-${provider}`) as HTMLInputElement,
+    badge: document.getElementById(`badge-${provider}`) as HTMLElement,
+    keyInput: document.getElementById(`key-input-${provider}`) as HTMLInputElement,
+    saveBtn: document.getElementById(`save-${provider}`) as HTMLButtonElement,
+    errorEl: document.getElementById(`error-${provider}`) as HTMLElement,
+    savedEl: document.getElementById(`saved-${provider}`) as HTMLElement,
+  };
+}
+
+const providerCards: ProviderCard[] = [bindProviderCard("anthropic"), bindProviderCard("openai")];
 
 let settings: GetSettingsResponse = { activeProvider: "anthropic", hasKey: { anthropic: false, openai: false } };
 
@@ -39,16 +58,13 @@ function showView(view: "chat" | "settings"): void {
 function render(): void {
   keyPrompt.hidden = settings.hasKey[settings.activeProvider];
 
-  for (const button of providerPicker.querySelectorAll<HTMLButtonElement>(".provider-option")) {
-    const provider = button.dataset.provider as Provider;
-    button.classList.toggle("active", provider === settings.activeProvider);
-    const badge = button.querySelector<HTMLElement>(".key-badge");
-    if (badge) badge.hidden = !settings.hasKey[provider];
+  for (const card of providerCards) {
+    card.radio.checked = settings.activeProvider === card.provider;
+    card.badge.textContent = settings.hasKey[card.provider] ? "✓ saved" : "not saved";
+    card.keyInput.value = "";
+    card.errorEl.hidden = true;
+    card.savedEl.hidden = true;
   }
-
-  apiKeyInput.value = "";
-  keyError.hidden = true;
-  keySaved.hidden = true;
 }
 
 async function refreshSettings(): Promise<void> {
@@ -69,49 +85,47 @@ settingsToggle.addEventListener("click", () => {
 
 openSettingsFromPrompt.addEventListener("click", () => showView("settings"));
 
-providerPicker.addEventListener("click", (event) => {
-  const button = (event.target as HTMLElement).closest<HTMLButtonElement>(".provider-option");
-  if (!button) return;
-  const provider = button.dataset.provider as Provider;
-  if (provider === settings.activeProvider) return;
+for (const card of providerCards) {
+  card.radio.addEventListener("change", () => {
+    if (!card.radio.checked) return;
+    void sendMessage({ type: "SET_ACTIVE_PROVIDER", provider: card.provider })
+      .then(() => refreshSettings())
+      .catch((error) => console.error("BGA Copilot: failed to switch provider", error));
+  });
 
-  void sendMessage({ type: "SET_ACTIVE_PROVIDER", provider })
-    .then(() => refreshSettings())
-    .catch((error) => console.error("BGA Copilot: failed to switch provider", error));
-});
+  card.saveBtn.addEventListener("click", () => {
+    const key = card.keyInput.value.trim();
+    card.errorEl.hidden = true;
+    card.savedEl.hidden = true;
 
-saveKeyBtn.addEventListener("click", () => {
-  const key = apiKeyInput.value.trim();
-  keyError.hidden = true;
-  keySaved.hidden = true;
+    if (!key) {
+      card.errorEl.textContent = "Enter a key first.";
+      card.errorEl.hidden = false;
+      return;
+    }
 
-  if (!key) {
-    keyError.textContent = "Enter a key first.";
-    keyError.hidden = false;
-    return;
-  }
-
-  saveKeyBtn.disabled = true;
-  void sendMessage<SaveKeyResponse>({ type: "SAVE_KEY", provider: settings.activeProvider, key })
-    .then(async (result) => {
-      if (result.ok) {
-        // refreshSettings() re-renders (clearing transient state), so only
-        // reveal the confirmation once that settles.
-        await refreshSettings();
-        keySaved.hidden = false;
-      } else {
-        keyError.textContent = result.error;
-        keyError.hidden = false;
-      }
-    })
-    .catch((error) => {
-      keyError.textContent = "Something went wrong talking to the extension. Try again.";
-      keyError.hidden = false;
-      console.error("BGA Copilot: failed to save key", error);
-    })
-    .finally(() => {
-      saveKeyBtn.disabled = false;
-    });
-});
+    card.saveBtn.disabled = true;
+    void sendMessage<SaveKeyResponse>({ type: "SAVE_KEY", provider: card.provider, key })
+      .then(async (result) => {
+        if (result.ok) {
+          // refreshSettings() re-renders (clearing transient state), so only
+          // reveal the confirmation once that settles.
+          await refreshSettings();
+          card.savedEl.hidden = false;
+        } else {
+          card.errorEl.textContent = result.error;
+          card.errorEl.hidden = false;
+        }
+      })
+      .catch((error) => {
+        card.errorEl.textContent = "Something went wrong talking to the extension. Try again.";
+        card.errorEl.hidden = false;
+        console.error("BGA Copilot: failed to save key", error);
+      })
+      .finally(() => {
+        card.saveBtn.disabled = false;
+      });
+  });
+}
 
 void refreshSettings();

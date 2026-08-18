@@ -6,6 +6,7 @@ body {
   margin: 0;
   font-family: -apple-system, "Segoe UI", Roboto, sans-serif;
   color: #2a2015;
+  background: #fff;
 }
 
 .panel {
@@ -127,41 +128,44 @@ body {
   margin-top: 8px;
 }
 
-.provider-picker {
+.provider-cards {
   display: flex;
-  gap: 8px;
+  flex-direction: column;
+  gap: 10px;
 }
 
-.provider-option {
-  flex: 1;
-  padding: 8px 10px;
-  border-radius: 8px;
+.provider-card {
   border: 1px solid #ded3bd;
-  background: #fff;
-  font-size: 13px;
-  cursor: pointer;
+  border-radius: 10px;
+  padding: 10px;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  flex-direction: column;
   gap: 6px;
 }
 
-.provider-option.active {
-  border-color: #2f6f4e;
-  background: #e6f2ec;
+.provider-card-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.provider-card-header label {
   font-weight: 600;
+  font-size: 13px;
+  flex: 1;
 }
 
-.key-badge {
-  color: #2f6f4e;
-  font-size: 12px;
+.key-status-badge {
+  font-size: 11px;
+  color: #7a6f5f;
 }
 
-#api-key-input {
+.provider-card input[type="password"] {
   padding: 8px 10px;
   border-radius: 8px;
   border: 1px solid #ded3bd;
   font-size: 13px;
+  width: 100%;
 }
 
 .key-error {
@@ -176,8 +180,13 @@ body {
   margin: 0;
 }
 
-#save-key-btn {
-  align-self: flex-start;
+.provider-card-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.provider-card-actions button {
   background: #2f6f4e;
   color: #fff;
   border: none;
@@ -185,10 +194,9 @@ body {
   padding: 7px 14px;
   font-size: 13px;
   cursor: pointer;
-  margin-top: 4px;
 }
 
-#save-key-btn:disabled {
+.provider-card-actions button:disabled {
   opacity: 0.6;
   cursor: default;
 }

@@ -28,23 +28,37 @@
 
       <section id="settings-view" class="view" hidden>
         <div class="settings-body">
-          <label class="field-label">Provider</label>
-          <div class="provider-picker" id="provider-picker">
-            <button type="button" class="provider-option" data-provider="anthropic">
-              Anthropic
-              <span class="key-badge" hidden>&#10003;</span>
-            </button>
-            <button type="button" class="provider-option" data-provider="openai">
-              OpenAI
-              <span class="key-badge" hidden>&#10003;</span>
-            </button>
-          </div>
+          <label class="field-label">LLM Providers</label>
 
-          <label class="field-label" for="api-key-input">API key</label>
-          <input type="password" id="api-key-input" placeholder="sk-..." autocomplete="off" />
-          <p id="key-error" class="key-error" hidden></p>
-          <p id="key-saved" class="key-saved" hidden>Saved.</p>
-          <button type="button" id="save-key-btn">Save</button>
+          <div class="provider-cards">
+            <div class="provider-card" data-provider="anthropic">
+              <div class="provider-card-header">
+                <input type="radio" name="active-provider" id="active-anthropic" />
+                <label for="active-anthropic">Anthropic</label>
+                <span class="key-status-badge" id="badge-anthropic"></span>
+              </div>
+              <input type="password" id="key-input-anthropic" placeholder="sk-ant-..." autocomplete="off" />
+              <div class="provider-card-actions">
+                <button type="button" id="save-anthropic">Save</button>
+                <span class="key-error" id="error-anthropic" hidden></span>
+                <span class="key-saved" id="saved-anthropic" hidden>Saved.</span>
+              </div>
+            </div>
+
+            <div class="provider-card" data-provider="openai">
+              <div class="provider-card-header">
+                <input type="radio" name="active-provider" id="active-openai" />
+                <label for="active-openai">OpenAI</label>
+                <span class="key-status-badge" id="badge-openai"></span>
+              </div>
+              <input type="password" id="key-input-openai" placeholder="sk-..." autocomplete="off" />
+              <div class="provider-card-actions">
+                <button type="button" id="save-openai">Save</button>
+                <span class="key-error" id="error-openai" hidden></span>
+                <span class="key-saved" id="saved-openai" hidden>Saved.</span>
+              </div>
+            </div>
+          </div>
 
           <p class="disclosure">
             Your key is stored only in this browser and sent directly to the chosen provider, never to us or
