@@ -17,7 +17,6 @@ const keySaved = document.getElementById("key-saved") as HTMLElement;
 const saveKeyBtn = document.getElementById("save-key-btn") as HTMLButtonElement;
 
 let settings: GetSettingsResponse = { activeProvider: "anthropic", hasKey: { anthropic: false, openai: false } };
-let selectedProvider: Provider = "anthropic";
 
 function showView(view: "chat" | "settings"): void {
   chatView.hidden = view !== "chat";
@@ -27,10 +26,9 @@ function showView(view: "chat" | "settings"): void {
 function render(): void {
   keyPrompt.hidden = settings.hasKey[settings.activeProvider];
 
-  selectedProvider = settings.activeProvider;
   for (const button of providerPicker.querySelectorAll<HTMLButtonElement>(".provider-option")) {
     const provider = button.dataset.provider as Provider;
-    button.classList.toggle("active", provider === selectedProvider);
+    button.classList.toggle("active", provider === settings.activeProvider);
     const badge = button.querySelector<HTMLElement>(".key-badge");
     if (badge) badge.hidden = !settings.hasKey[provider];
   }
@@ -55,7 +53,7 @@ providerPicker.addEventListener("click", (event) => {
   const button = (event.target as HTMLElement).closest<HTMLButtonElement>(".provider-option");
   if (!button) return;
   const provider = button.dataset.provider as Provider;
-  if (provider === selectedProvider) return;
+  if (provider === settings.activeProvider) return;
 
   void sendMessage({ type: "SET_ACTIVE_PROVIDER", provider }).then(() => refreshSettings());
 });
@@ -72,7 +70,7 @@ saveKeyBtn.addEventListener("click", () => {
   }
 
   saveKeyBtn.disabled = true;
-  void sendMessage<SaveKeyResponse>({ type: "SAVE_KEY", provider: selectedProvider, key })
+  void sendMessage<SaveKeyResponse>({ type: "SAVE_KEY", provider: settings.activeProvider, key })
     .then(async (result) => {
       if (result.ok) {
         // refreshSettings() re-renders (clearing transient state), so only
