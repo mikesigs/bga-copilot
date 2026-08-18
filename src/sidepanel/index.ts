@@ -27,32 +27,49 @@ const openSettingsFromPrompt = document.getElementById("key-prompt-open-settings
 interface ProviderCard {
   provider: Provider;
   radio: HTMLInputElement;
-  badge: HTMLElement;
+  statusRow: HTMLElement;
+  previewText: HTMLElement;
+  editBtn: HTMLButtonElement;
+  editRow: HTMLElement;
   keyInput: HTMLInputElement;
   saveBtn: HTMLButtonElement;
+  cancelBtn: HTMLButtonElement;
   errorEl: HTMLElement;
-  savedEl: HTMLElement;
 }
 
 function bindProviderCard(provider: Provider): ProviderCard {
   return {
     provider,
     radio: document.getElementById(`active-${provider}`) as HTMLInputElement,
-    badge: document.getElementById(`badge-${provider}`) as HTMLElement,
+    statusRow: document.getElementById(`key-status-${provider}`) as HTMLElement,
+    previewText: document.getElementById(`key-preview-${provider}`) as HTMLElement,
+    editBtn: document.getElementById(`edit-${provider}`) as HTMLButtonElement,
+    editRow: document.getElementById(`key-edit-${provider}`) as HTMLElement,
     keyInput: document.getElementById(`key-input-${provider}`) as HTMLInputElement,
     saveBtn: document.getElementById(`save-${provider}`) as HTMLButtonElement,
+    cancelBtn: document.getElementById(`cancel-${provider}`) as HTMLButtonElement,
     errorEl: document.getElementById(`error-${provider}`) as HTMLElement,
-    savedEl: document.getElementById(`saved-${provider}`) as HTMLElement,
   };
 }
 
 const providerCards: ProviderCard[] = [bindProviderCard("anthropic"), bindProviderCard("openai")];
 
-let settings: GetSettingsResponse = { activeProvider: "anthropic", hasKey: { anthropic: false, openai: false } };
+let settings: GetSettingsResponse = {
+  activeProvider: "anthropic",
+  hasKey: { anthropic: false, openai: false },
+  keyPreview: { anthropic: null, openai: null },
+};
 
 function showView(view: "chat" | "settings"): void {
   chatView.hidden = view !== "chat";
   settingsView.hidden = view !== "settings";
+}
+
+function collapseToStatus(card: ProviderCard): void {
+  card.editRow.hidden = true;
+  card.statusRow.hidden = false;
+  card.keyInput.value = "";
+  card.errorEl.hidden = true;
 }
 
 function render(): void {
@@ -60,10 +77,10 @@ function render(): void {
 
   for (const card of providerCards) {
     card.radio.checked = settings.activeProvider === card.provider;
-    card.badge.textContent = settings.hasKey[card.provider] ? "✓ saved" : "not saved";
-    card.keyInput.value = "";
-    card.errorEl.hidden = true;
-    card.savedEl.hidden = true;
+    const preview = settings.keyPreview[card.provider];
+    card.previewText.textContent = preview ?? "Not configured";
+    card.editBtn.textContent = preview ? "Change key" : "Add key";
+    collapseToStatus(card);
   }
 }
 
@@ -93,10 +110,17 @@ for (const card of providerCards) {
       .catch((error) => console.error("BGA Copilot: failed to switch provider", error));
   });
 
+  card.editBtn.addEventListener("click", () => {
+    card.statusRow.hidden = true;
+    card.editRow.hidden = false;
+    card.keyInput.focus();
+  });
+
+  card.cancelBtn.addEventListener("click", () => collapseToStatus(card));
+
   card.saveBtn.addEventListener("click", () => {
     const key = card.keyInput.value.trim();
     card.errorEl.hidden = true;
-    card.savedEl.hidden = true;
 
     if (!key) {
       card.errorEl.textContent = "Enter a key first.";
@@ -108,10 +132,9 @@ for (const card of providerCards) {
     void sendMessage<SaveKeyResponse>({ type: "SAVE_KEY", provider: card.provider, key })
       .then(async (result) => {
         if (result.ok) {
-          // refreshSettings() re-renders (clearing transient state), so only
-          // reveal the confirmation once that settles.
+          // refreshSettings() re-renders every card (including collapsing
+          // this one back to its status view with the fresh masked preview).
           await refreshSettings();
-          card.savedEl.hidden = false;
         } else {
           card.errorEl.textContent = result.error;
           card.errorEl.hidden = false;

@@ -18,8 +18,8 @@ function makeDeps(initial: Settings, overrides: Partial<MessageHandlerDeps> = {}
 }
 
 describe("handleMessage", () => {
-  it("GET_SETTINGS reports the active provider and which providers have keys, never the keys themselves", async () => {
-    const settings = setKey(defaultSettings(), "anthropic", "sk-ant-abc");
+  it("GET_SETTINGS reports the active provider, which providers have keys, and a masked preview — never the raw key", async () => {
+    const settings = setKey(defaultSettings(), "anthropic", "sk-ant-secretvalue");
     const deps = makeDeps(settings);
 
     const response = await handleMessage({ type: "GET_SETTINGS" }, deps);
@@ -27,6 +27,7 @@ describe("handleMessage", () => {
     expect(response).toEqual({
       activeProvider: "anthropic",
       hasKey: { anthropic: true, openai: false },
+      keyPreview: { anthropic: "sk-...alue", openai: null },
     });
   });
 

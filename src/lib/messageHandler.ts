@@ -1,3 +1,4 @@
+import { maskKey } from "./maskKey";
 import type { GetSettingsResponse, Message, SaveKeyResponse, SetActiveProviderResponse } from "./messages";
 import { hasKey, setActiveProvider, setKey, type Provider, type Settings } from "./settings";
 import type { KeyValidator } from "./providers/types";
@@ -18,6 +19,10 @@ export async function handleMessage(
       return {
         activeProvider: settings.activeProvider,
         hasKey: { anthropic: hasKey(settings, "anthropic"), openai: hasKey(settings, "openai") },
+        keyPreview: {
+          anthropic: settings.keys.anthropic ? maskKey(settings.keys.anthropic) : null,
+          openai: settings.keys.openai ? maskKey(settings.keys.openai) : null,
+        },
       };
     }
 

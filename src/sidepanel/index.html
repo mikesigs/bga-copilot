@@ -35,13 +35,20 @@
               <div class="provider-card-header">
                 <input type="radio" name="active-provider" id="active-anthropic" />
                 <label for="active-anthropic">Anthropic</label>
-                <span class="key-status-badge" id="badge-anthropic"></span>
               </div>
-              <input type="password" id="key-input-anthropic" placeholder="sk-ant-..." autocomplete="off" />
-              <div class="provider-card-actions">
-                <button type="button" id="save-anthropic">Save</button>
-                <span class="key-error" id="error-anthropic" hidden></span>
-                <span class="key-saved" id="saved-anthropic" hidden>Saved.</span>
+
+              <div class="provider-key-status" id="key-status-anthropic">
+                <span id="key-preview-anthropic">Not configured</span>
+                <button type="button" id="edit-anthropic">Add key</button>
+              </div>
+
+              <div class="provider-key-edit" id="key-edit-anthropic" hidden>
+                <input type="password" id="key-input-anthropic" placeholder="sk-ant-..." autocomplete="off" />
+                <div class="provider-card-actions">
+                  <button type="button" id="save-anthropic">Save</button>
+                  <button type="button" class="secondary" id="cancel-anthropic">Cancel</button>
+                </div>
+                <p class="key-error" id="error-anthropic" hidden></p>
               </div>
             </div>
 
@@ -49,13 +56,20 @@
               <div class="provider-card-header">
                 <input type="radio" name="active-provider" id="active-openai" />
                 <label for="active-openai">OpenAI</label>
-                <span class="key-status-badge" id="badge-openai"></span>
               </div>
-              <input type="password" id="key-input-openai" placeholder="sk-..." autocomplete="off" />
-              <div class="provider-card-actions">
-                <button type="button" id="save-openai">Save</button>
-                <span class="key-error" id="error-openai" hidden></span>
-                <span class="key-saved" id="saved-openai" hidden>Saved.</span>
+
+              <div class="provider-key-status" id="key-status-openai">
+                <span id="key-preview-openai">Not configured</span>
+                <button type="button" id="edit-openai">Add key</button>
+              </div>
+
+              <div class="provider-key-edit" id="key-edit-openai" hidden>
+                <input type="password" id="key-input-openai" placeholder="sk-..." autocomplete="off" />
+                <div class="provider-card-actions">
+                  <button type="button" id="save-openai">Save</button>
+                  <button type="button" class="secondary" id="cancel-openai">Cancel</button>
+                </div>
+                <p class="key-error" id="error-openai" hidden></p>
               </div>
             </div>
           </div>

@@ -2,6 +2,20 @@
   box-sizing: border-box;
 }
 
+/*
+ * The `hidden` attribute must always win. Without `!important` here, any
+ * class rule that sets its own `display` (flex/block/etc.) on a
+ * hidden-toggled element beats the UA default `[hidden] { display: none }`
+ * at equal specificity, since author styles come later in the cascade —
+ * this exact bug has recurred three times across this file already
+ * (.view, .provider-key-edit, .provider-key-status) before this rule was
+ * added. One global override closes the whole bug class instead of
+ * patching it selector-by-selector as new toggled elements get added.
+ */
+[hidden] {
+  display: none !important;
+}
+
 body {
   margin: 0;
   font-family: -apple-system, "Segoe UI", Roboto, sans-serif;
@@ -49,10 +63,6 @@ body {
   display: flex;
   flex-direction: column;
   min-height: 0;
-}
-
-.view[hidden] {
-  display: none;
 }
 
 .msg-list {
@@ -155,9 +165,23 @@ body {
   flex: 1;
 }
 
-.key-status-badge {
-  font-size: 11px;
-  color: #7a6f5f;
+.provider-key-status {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.provider-key-status span {
+  font-size: 13px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  color: #5c3d24;
+}
+
+.provider-key-edit {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
 }
 
 .provider-card input[type="password"] {
@@ -174,19 +198,14 @@ body {
   margin: 0;
 }
 
-.key-saved {
-  color: #2f6f4e;
-  font-size: 12px;
-  margin: 0;
-}
-
 .provider-card-actions {
   display: flex;
   align-items: center;
   gap: 8px;
 }
 
-.provider-card-actions button {
+.provider-card-actions button,
+.provider-key-status button {
   background: #2f6f4e;
   color: #fff;
   border: none;
@@ -194,6 +213,12 @@ body {
   padding: 7px 14px;
   font-size: 13px;
   cursor: pointer;
+}
+
+.provider-card-actions button.secondary {
+  background: #fff;
+  color: #5c3d24;
+  border: 1px solid #ded3bd;
 }
 
 .provider-card-actions button:disabled {

@@ -8,6 +8,8 @@ export type Message =
 export interface GetSettingsResponse {
   activeProvider: Provider;
   hasKey: Record<Provider, boolean>;
+  // Masked preview (e.g. "sk-...vaMA") for display — never the real key.
+  keyPreview: Record<Provider, string | null>;
 }
 
 export type SaveKeyResponse = { ok: true } | { ok: false; error: string };
