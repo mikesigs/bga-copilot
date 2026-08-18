@@ -2,7 +2,20 @@ import type { GetSettingsResponse, Message, SaveKeyResponse } from "../lib/messa
 import type { Provider } from "../lib/settings";
 
 function sendMessage<T>(message: Message): Promise<T> {
-  return new Promise((resolve) => chrome.runtime.sendMessage(message, resolve));
+  return new Promise((resolve, reject) => {
+    chrome.runtime.sendMessage(message, (response: T) => {
+      // chrome.runtime.sendMessage still invokes this callback (with an
+      // undefined response) when delivery itself fails — e.g. the background
+      // service worker hasn't finished registering its listener yet. Without
+      // this check that failure was silently treated as a valid empty
+      // response, corrupting all downstream state.
+      if (chrome.runtime.lastError) {
+        reject(new Error(chrome.runtime.lastError.message));
+        return;
+      }
+      resolve(response);
+    });
+  });
 }
 
 const settingsToggle = document.getElementById("settings-toggle") as HTMLButtonElement;
@@ -39,8 +52,15 @@ function render(): void {
 }
 
 async function refreshSettings(): Promise<void> {
-  settings = await sendMessage<GetSettingsResponse>({ type: "GET_SETTINGS" });
-  render();
+  try {
+    settings = await sendMessage<GetSettingsResponse>({ type: "GET_SETTINGS" });
+    render();
+  } catch (error) {
+    // Leave `settings` at its last-known-good value rather than corrupting
+    // it — a transient failure here shouldn't break every other read of
+    // `settings` for the rest of the panel's lifetime.
+    console.error("BGA Copilot: failed to load settings", error);
+  }
 }
 
 settingsToggle.addEventListener("click", () => {
@@ -55,7 +75,9 @@ providerPicker.addEventListener("click", (event) => {
   const provider = button.dataset.provider as Provider;
   if (provider === settings.activeProvider) return;
 
-  void sendMessage({ type: "SET_ACTIVE_PROVIDER", provider }).then(() => refreshSettings());
+  void sendMessage({ type: "SET_ACTIVE_PROVIDER", provider })
+    .then(() => refreshSettings())
+    .catch((error) => console.error("BGA Copilot: failed to switch provider", error));
 });
 
 saveKeyBtn.addEventListener("click", () => {
@@ -81,6 +103,11 @@ saveKeyBtn.addEventListener("click", () => {
         keyError.textContent = result.error;
         keyError.hidden = false;
       }
+    })
+    .catch((error) => {
+      keyError.textContent = "Something went wrong talking to the extension. Try again.";
+      keyError.hidden = false;
+      console.error("BGA Copilot: failed to save key", error);
     })
     .finally(() => {
       saveKeyBtn.disabled = false;
