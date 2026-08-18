@@ -1,7 +1,7 @@
 import { isBgaUrl } from "./lib/isBgaUrl";
 import { handleMessage } from "./lib/messageHandler";
 import type { Message } from "./lib/messages";
-import { validators } from "./lib/providers";
+import { chatSenders, validators } from "./lib/providers";
 import { loadSettings, saveSettings } from "./lib/settingsStore";
 
 // The side panel is only meaningful on BoardGameArena tabs — keep it enabled
@@ -32,6 +32,6 @@ chrome.sidePanel
   .catch((error) => console.error("Failed to set side panel behavior:", error));
 
 chrome.runtime.onMessage.addListener((message: Message, _sender, sendResponse) => {
-  handleMessage(message, { loadSettings, saveSettings, validators }).then(sendResponse);
+  handleMessage(message, { loadSettings, saveSettings, validators, chatSenders }).then(sendResponse);
   return true; // keep the message channel open for the async response
 });

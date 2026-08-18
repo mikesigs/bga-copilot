@@ -1,18 +1,25 @@
 import { maskKey } from "./maskKey";
-import type { GetSettingsResponse, Message, SaveKeyResponse, SetActiveProviderResponse } from "./messages";
+import type {
+  GetSettingsResponse,
+  Message,
+  SaveKeyResponse,
+  SendChatMessageResponse,
+  SetActiveProviderResponse,
+} from "./messages";
 import { hasKey, setActiveProvider, setKey, type Provider, type Settings } from "./settings";
-import type { KeyValidator } from "./providers/types";
+import type { ChatSender, KeyValidator } from "./providers/types";
 
 export interface MessageHandlerDeps {
   loadSettings: () => Promise<Settings>;
   saveSettings: (settings: Settings) => Promise<void>;
   validators: Record<Provider, KeyValidator>;
+  chatSenders: Record<Provider, ChatSender>;
 }
 
 export async function handleMessage(
   message: Message,
   deps: MessageHandlerDeps,
-): Promise<GetSettingsResponse | SaveKeyResponse | SetActiveProviderResponse> {
+): Promise<GetSettingsResponse | SaveKeyResponse | SetActiveProviderResponse | SendChatMessageResponse> {
   switch (message.type) {
     case "GET_SETTINGS": {
       const settings = await deps.loadSettings();
@@ -39,6 +46,15 @@ export async function handleMessage(
       const settings = await deps.loadSettings();
       await deps.saveSettings(setActiveProvider(settings, message.provider));
       return { ok: true };
+    }
+
+    case "SEND_CHAT_MESSAGE": {
+      const settings = await deps.loadSettings();
+      const provider = settings.activeProvider;
+      const key = settings.keys[provider];
+      if (!key) return { ok: false, error: `No API key configured for ${provider}.` };
+
+      return deps.chatSenders[provider](key, message.messages);
     }
   }
 }

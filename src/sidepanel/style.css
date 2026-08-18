@@ -76,6 +76,70 @@ body {
   font-size: 13px;
 }
 
+.quick-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 0 12px 10px;
+  flex-shrink: 0;
+}
+
+.quick-action {
+  background: #fdf6e3;
+  color: #5c3d24;
+  border: 1px solid #e8d9a0;
+  border-radius: 999px;
+  padding: 5px 10px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.quick-action:hover {
+  background: #f7ecc7;
+}
+
+.quick-action:disabled,
+.composer input:disabled,
+.composer button:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.msg {
+  max-width: 85%;
+  margin-bottom: 10px;
+  padding: 8px 12px;
+  border-radius: 10px;
+  font-size: 13px;
+  line-height: 1.4;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+.msg-user {
+  background: #2f6f4e;
+  color: #fff;
+  margin-left: auto;
+}
+
+.msg-assistant {
+  background: #f4efe4;
+  color: #2a2015;
+  margin-right: auto;
+}
+
+.msg-error {
+  background: #fbe9e6;
+  color: #a63d2f;
+  margin-right: auto;
+  border: 1px solid #f0c4bc;
+}
+
+.msg-pending {
+  color: #7a6f5f;
+  font-style: italic;
+}
+
 .composer {
   display: flex;
   gap: 8px;
@@ -99,6 +163,7 @@ body {
   border-radius: 8px;
   padding: 8px 14px;
   font-size: 13px;
+  cursor: pointer;
 }
 
 .key-prompt {

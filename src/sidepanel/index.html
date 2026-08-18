@@ -18,11 +18,16 @@
           <button id="key-prompt-open-settings" type="button">Open settings</button>
         </div>
         <main class="msg-list" id="msg-list">
-          <p class="empty-state">No messages yet.</p>
+          <p class="empty-state" id="empty-state">No messages yet.</p>
         </main>
+        <div class="quick-actions" id="quick-actions">
+          <button type="button" class="quick-action" data-prompt="Suggest my next move.">Suggest my next move</button>
+          <button type="button" class="quick-action" data-prompt="Explain this rule.">Explain this rule</button>
+          <button type="button" class="quick-action" data-prompt="What just happened?">What just happened</button>
+        </div>
         <div class="composer">
-          <input type="text" placeholder="Ask about the game..." disabled />
-          <button type="button" disabled>Send</button>
+          <input type="text" id="composer-input" placeholder="Ask about the game..." />
+          <button type="button" id="composer-send">Send</button>
         </div>
       </section>
 

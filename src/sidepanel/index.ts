@@ -1,4 +1,5 @@
-import type { GetSettingsResponse, Message, SaveKeyResponse } from "../lib/messages";
+import type { GetSettingsResponse, Message, SaveKeyResponse, SendChatMessageResponse } from "../lib/messages";
+import type { ChatMessage } from "../lib/providers/types";
 import type { Provider } from "../lib/settings";
 
 function sendMessage<T>(message: Message): Promise<T> {
@@ -23,6 +24,11 @@ const chatView = document.getElementById("chat-view") as HTMLElement;
 const settingsView = document.getElementById("settings-view") as HTMLElement;
 const keyPrompt = document.getElementById("key-prompt") as HTMLElement;
 const openSettingsFromPrompt = document.getElementById("key-prompt-open-settings") as HTMLButtonElement;
+const msgList = document.getElementById("msg-list") as HTMLElement;
+const emptyState = document.getElementById("empty-state") as HTMLElement;
+const quickActions = document.getElementById("quick-actions") as HTMLElement;
+const composerInput = document.getElementById("composer-input") as HTMLInputElement;
+const composerSend = document.getElementById("composer-send") as HTMLButtonElement;
 
 interface ProviderCard {
   provider: Provider;
@@ -74,6 +80,13 @@ function collapseToStatus(card: ProviderCard): void {
 
 function render(): void {
   keyPrompt.hidden = settings.hasKey[settings.activeProvider];
+
+  const canChat = settings.hasKey[settings.activeProvider] && !isSending;
+  composerInput.disabled = !canChat;
+  composerSend.disabled = !canChat;
+  for (const chip of quickActions.querySelectorAll("button")) {
+    (chip as HTMLButtonElement).disabled = !canChat;
+  }
 
   for (const card of providerCards) {
     card.radio.checked = settings.activeProvider === card.provider;
@@ -162,6 +175,72 @@ for (const card of providerCards) {
       .finally(() => {
         card.saveBtn.disabled = false;
       });
+  });
+}
+
+const chatHistory: ChatMessage[] = [];
+let isSending = false;
+
+function appendMessage(role: "user" | "assistant" | "error", text: string): HTMLElement {
+  emptyState.hidden = true;
+  const el = document.createElement("p");
+  el.className = `msg msg-${role}`;
+  el.textContent = text;
+  msgList.appendChild(el);
+  msgList.scrollTop = msgList.scrollHeight;
+  return el;
+}
+
+async function sendChat(text: string): Promise<void> {
+  if (isSending || !text.trim()) return;
+
+  appendMessage("user", text);
+  chatHistory.push({ role: "user", content: text });
+
+  isSending = true;
+  render();
+  const pending = appendMessage("assistant", "Thinking...");
+  pending.classList.add("msg-pending");
+
+  try {
+    const response = await sendMessage<SendChatMessageResponse>({
+      type: "SEND_CHAT_MESSAGE",
+      messages: chatHistory,
+    });
+
+    pending.remove();
+    if (response.ok) {
+      appendMessage("assistant", response.text);
+      chatHistory.push({ role: "assistant", content: response.text });
+    } else {
+      appendMessage("error", response.error);
+    }
+  } catch (error) {
+    pending.remove();
+    appendMessage("error", "Something went wrong talking to the extension. Try again.");
+    console.error("BGA Copilot: failed to send chat message", error);
+  } finally {
+    isSending = false;
+    render();
+  }
+}
+
+composerSend.addEventListener("click", () => {
+  const text = composerInput.value.trim();
+  if (!text) return;
+  composerInput.value = "";
+  void sendChat(text);
+});
+
+composerInput.addEventListener("keydown", (event) => {
+  if (event.key !== "Enter") return;
+  composerSend.click();
+});
+
+for (const chip of quickActions.querySelectorAll<HTMLButtonElement>(".quick-action")) {
+  chip.addEventListener("click", () => {
+    const prompt = chip.dataset.prompt;
+    if (prompt) void sendChat(prompt);
   });
 }
 

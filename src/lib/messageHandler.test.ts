@@ -13,6 +13,10 @@ function makeDeps(initial: Settings, overrides: Partial<MessageHandlerDeps> = {}
       anthropic: vi.fn(async () => ({ ok: true }) as const),
       openai: vi.fn(async () => ({ ok: true }) as const),
     },
+    chatSenders: {
+      anthropic: vi.fn(async () => ({ ok: true, text: "anthropic reply" }) as const),
+      openai: vi.fn(async () => ({ ok: true, text: "openai reply" }) as const),
+    },
     ...overrides,
   };
 }
@@ -67,5 +71,51 @@ describe("handleMessage", () => {
     const saved = await deps.loadSettings();
     expect(saved.activeProvider).toBe("openai");
     expect(saved.keys).toEqual({ anthropic: "sk-ant-abc", openai: "sk-oai-xyz" });
+  });
+});
+
+describe("handleMessage SEND_CHAT_MESSAGE", () => {
+  it("sends the message history to the active provider's chat sender using its stored key", async () => {
+    const settings = setKey(defaultSettings(), "anthropic", "sk-ant-abc");
+    const deps = makeDeps(settings);
+
+    const response = await handleMessage(
+      { type: "SEND_CHAT_MESSAGE", messages: [{ role: "user", content: "hello" }] },
+      deps,
+    );
+
+    expect(deps.chatSenders.anthropic).toHaveBeenCalledWith("sk-ant-abc", [
+      { role: "user", content: "hello" },
+    ]);
+    expect(response).toEqual({ ok: true, text: "anthropic reply" });
+  });
+
+  it("returns an error without calling the provider when no key is configured", async () => {
+    const deps = makeDeps(defaultSettings());
+
+    const response = await handleMessage(
+      { type: "SEND_CHAT_MESSAGE", messages: [{ role: "user", content: "hello" }] },
+      deps,
+    );
+
+    expect(response).toEqual({ ok: false, error: "No API key configured for anthropic." });
+    expect(deps.chatSenders.anthropic).not.toHaveBeenCalled();
+  });
+
+  it("surfaces a provider error instead of throwing", async () => {
+    const settings = setKey(defaultSettings(), "anthropic", "sk-ant-abc");
+    const deps = makeDeps(settings, {
+      chatSenders: {
+        anthropic: vi.fn(async () => ({ ok: false, error: "Could not reach Anthropic: network down" }) as const),
+        openai: vi.fn(async () => ({ ok: true, text: "openai reply" }) as const),
+      },
+    });
+
+    const response = await handleMessage(
+      { type: "SEND_CHAT_MESSAGE", messages: [{ role: "user", content: "hello" }] },
+      deps,
+    );
+
+    expect(response).toEqual({ ok: false, error: "Could not reach Anthropic: network down" });
   });
 });

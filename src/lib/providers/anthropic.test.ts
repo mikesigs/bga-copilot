@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
-import { validateAnthropicKey } from "./anthropic";
+import { sendAnthropicChat, validateAnthropicKey } from "./anthropic";
 
 function fakeFetch(response: { status: number }) {
   return vi.fn().mockResolvedValue({ status: response.status } as Response);
@@ -35,6 +35,55 @@ describe("validateAnthropicKey", () => {
   it("reports an error when the network call throws", async () => {
     const fetchImpl = vi.fn().mockRejectedValue(new Error("network down"));
     const result = await validateAnthropicKey("sk-ant-abc", fetchImpl);
+    expect(result.ok).toBe(false);
+    if (!result.ok) expect(result.error).toMatch(/network down/i);
+  });
+});
+
+describe("sendAnthropicChat", () => {
+  function fakeMessagesFetch(body: unknown, status = 200) {
+    return vi.fn().mockResolvedValue({
+      status,
+      json: () => Promise.resolve(body),
+    } as unknown as Response);
+  }
+
+  it("posts the message history to the messages endpoint with auth headers", async () => {
+    const fetchImpl = fakeMessagesFetch({ content: [{ type: "text", text: "hi there" }] });
+
+    await sendAnthropicChat("sk-ant-abc", [{ role: "user", content: "hello" }], fetchImpl);
+
+    expect(fetchImpl).toHaveBeenCalledWith(
+      "https://api.anthropic.com/v1/messages",
+      expect.objectContaining({
+        method: "POST",
+        headers: expect.objectContaining({
+          "x-api-key": "sk-ant-abc",
+          "anthropic-dangerous-direct-browser-access": "true",
+          "content-type": "application/json",
+        }),
+      }),
+    );
+    const body = JSON.parse(fetchImpl.mock.calls[0]![1]!.body as string);
+    expect(body.messages).toEqual([{ role: "user", content: "hello" }]);
+  });
+
+  it("extracts the assistant's text from the response content blocks", async () => {
+    const fetchImpl = fakeMessagesFetch({ content: [{ type: "text", text: "42" }] });
+    const result = await sendAnthropicChat("sk-ant-abc", [{ role: "user", content: "?" }], fetchImpl);
+    expect(result).toEqual({ ok: true, text: "42" });
+  });
+
+  it("reports an error on a 401 response", async () => {
+    const fetchImpl = fakeMessagesFetch({ error: { message: "invalid x-api-key" } }, 401);
+    const result = await sendAnthropicChat("sk-ant-bad", [{ role: "user", content: "?" }], fetchImpl);
+    expect(result.ok).toBe(false);
+    if (!result.ok) expect(result.error).toMatch(/invalid/i);
+  });
+
+  it("reports an error when the network call throws", async () => {
+    const fetchImpl = vi.fn().mockRejectedValue(new Error("network down"));
+    const result = await sendAnthropicChat("sk-ant-abc", [{ role: "user", content: "?" }], fetchImpl);
     expect(result.ok).toBe(false);
     if (!result.ok) expect(result.error).toMatch(/network down/i);
   });
