@@ -1,3 +1,5 @@
+import { assembleContext } from "./context/assembleContext";
+import type { RawGamedatas } from "./gameState/types";
 import { maskKey } from "./maskKey";
 import type {
   GetSettingsResponse,
@@ -14,6 +16,7 @@ export interface MessageHandlerDeps {
   saveSettings: (settings: Settings) => Promise<void>;
   validators: Record<Provider, KeyValidator>;
   chatSenders: Record<Provider, ChatSender>;
+  extractGameState: (tabId: number) => Promise<RawGamedatas | null>;
 }
 
 export async function handleMessage(
@@ -54,7 +57,10 @@ export async function handleMessage(
       const key = settings.keys[provider];
       if (!key) return { ok: false, error: `No API key configured for ${provider}.` };
 
-      return deps.chatSenders[provider](key, message.messages);
+      const gamedatas = message.tabId !== undefined ? await deps.extractGameState(message.tabId) : null;
+      const contextualMessages = assembleContext({ gamedatas, history: message.messages });
+
+      return deps.chatSenders[provider](key, contextualMessages);
     }
   }
 }

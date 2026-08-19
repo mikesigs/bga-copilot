@@ -5,7 +5,9 @@ export type Message =
   | { type: "GET_SETTINGS" }
   | { type: "SAVE_KEY"; provider: Provider; key: string }
   | { type: "SET_ACTIVE_PROVIDER"; provider: Provider }
-  | { type: "SEND_CHAT_MESSAGE"; messages: ChatMessage[] };
+  // tabId identifies which BGA tab's game state to extract as context — omitted
+  // (or unresolvable) falls back to context-free chat rather than failing.
+  | { type: "SEND_CHAT_MESSAGE"; messages: ChatMessage[]; tabId?: number };
 
 export interface GetSettingsResponse {
   activeProvider: Provider;

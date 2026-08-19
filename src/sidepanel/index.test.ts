@@ -60,6 +60,7 @@ function mockChrome(responses: Record<string, unknown>): { type: string }[] {
   });
   (globalThis as unknown as { chrome: unknown }).chrome = {
     runtime: { sendMessage, lastError: undefined },
+    tabs: { query: (_info: unknown, callback: (tabs: { id: number }[]) => void) => callback([{ id: 7 }]) },
   };
   return calls;
 }
@@ -105,6 +106,7 @@ describe("sidepanel chat", () => {
     expect(calls).toContainEqual({
       type: "SEND_CHAT_MESSAGE",
       messages: [{ role: "user", content: "what's my score?" }],
+      tabId: 7,
     });
   });
 

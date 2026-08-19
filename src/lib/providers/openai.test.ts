@@ -66,6 +66,25 @@ describe("sendOpenAIChat", () => {
     expect(body.messages).toEqual([{ role: "user", content: "hello" }]);
   });
 
+  it("passes a system-role message through unchanged, unlike Anthropic's separate top-level field", async () => {
+    const fetchImpl = fakeChatFetch({ choices: [{ message: { content: "hi" } }] });
+
+    await sendOpenAIChat(
+      "sk-oai-abc",
+      [
+        { role: "system", content: "You are a helpful assistant." },
+        { role: "user", content: "hello" },
+      ],
+      fetchImpl,
+    );
+
+    const body = JSON.parse(fetchImpl.mock.calls[0]![1]!.body as string);
+    expect(body.messages).toEqual([
+      { role: "system", content: "You are a helpful assistant." },
+      { role: "user", content: "hello" },
+    ]);
+  });
+
   it("extracts the assistant's text from the first choice", async () => {
     const fetchImpl = fakeChatFetch({ choices: [{ message: { content: "42" } }] });
     const result = await sendOpenAIChat("sk-oai-abc", [{ role: "user", content: "?" }], fetchImpl);

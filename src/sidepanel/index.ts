@@ -181,6 +181,15 @@ for (const card of providerCards) {
 const chatHistory: ChatMessage[] = [];
 let isSending = false;
 
+// The panel's own script isn't tied to a specific tab, so the currently
+// active tab (in the panel's window) is looked up fresh on every send —
+// this is also the tab whose game-state context the panel is showing.
+function getActiveTabId(): Promise<number | undefined> {
+  return new Promise((resolve) => {
+    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => resolve(tabs[0]?.id));
+  });
+}
+
 function appendMessage(role: "user" | "assistant" | "error", text: string): HTMLElement {
   emptyState.hidden = true;
   const el = document.createElement("p");
@@ -203,9 +212,11 @@ async function sendChat(text: string): Promise<void> {
   pending.classList.add("msg-pending");
 
   try {
+    const tabId = await getActiveTabId();
     const response = await sendMessage<SendChatMessageResponse>({
       type: "SEND_CHAT_MESSAGE",
       messages: chatHistory,
+      tabId,
     });
 
     pending.remove();

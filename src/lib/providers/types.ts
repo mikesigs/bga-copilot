@@ -3,7 +3,7 @@ export type ValidationResult = { ok: true } | { ok: false; error: string };
 export type KeyValidator = (apiKey: string, fetchImpl?: typeof fetch) => Promise<ValidationResult>;
 
 export interface ChatMessage {
-  role: "user" | "assistant";
+  role: "system" | "user" | "assistant";
   content: string;
 }
 

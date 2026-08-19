@@ -1,3 +1,4 @@
+import { extractGameState } from "./lib/gameState/extract";
 import { isBgaUrl } from "./lib/isBgaUrl";
 import { handleMessage } from "./lib/messageHandler";
 import type { Message } from "./lib/messages";
@@ -32,6 +33,8 @@ chrome.sidePanel
   .catch((error) => console.error("Failed to set side panel behavior:", error));
 
 chrome.runtime.onMessage.addListener((message: Message, _sender, sendResponse) => {
-  handleMessage(message, { loadSettings, saveSettings, validators, chatSenders }).then(sendResponse);
+  handleMessage(message, { loadSettings, saveSettings, validators, chatSenders, extractGameState }).then(
+    sendResponse,
+  );
   return true; // keep the message channel open for the async response
 });

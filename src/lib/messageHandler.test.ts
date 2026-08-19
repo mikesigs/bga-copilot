@@ -17,6 +17,7 @@ function makeDeps(initial: Settings, overrides: Partial<MessageHandlerDeps> = {}
       anthropic: vi.fn(async () => ({ ok: true, text: "anthropic reply" }) as const),
       openai: vi.fn(async () => ({ ok: true, text: "openai reply" }) as const),
     },
+    extractGameState: vi.fn(async () => null),
     ...overrides,
   };
 }
@@ -75,7 +76,7 @@ describe("handleMessage", () => {
 });
 
 describe("handleMessage SEND_CHAT_MESSAGE", () => {
-  it("sends the message history to the active provider's chat sender using its stored key", async () => {
+  it("sends the message history (prefixed with an assembled system prompt) to the active provider's chat sender using its stored key", async () => {
     const settings = setKey(defaultSettings(), "anthropic", "sk-ant-abc");
     const deps = makeDeps(settings);
 
@@ -85,6 +86,7 @@ describe("handleMessage SEND_CHAT_MESSAGE", () => {
     );
 
     expect(deps.chatSenders.anthropic).toHaveBeenCalledWith("sk-ant-abc", [
+      expect.objectContaining({ role: "system" }),
       { role: "user", content: "hello" },
     ]);
     expect(response).toEqual({ ok: true, text: "anthropic reply" });
@@ -117,5 +119,43 @@ describe("handleMessage SEND_CHAT_MESSAGE", () => {
     );
 
     expect(response).toEqual({ ok: false, error: "Could not reach Anthropic: network down" });
+  });
+
+  it("extracts game state for the given tabId and folds it into the system prompt sent to the provider", async () => {
+    const settings = setKey(defaultSettings(), "anthropic", "sk-ant-abc");
+    const deps = makeDeps(settings, {
+      extractGameState: vi.fn(async (tabId: number) =>
+        tabId === 7 ? { gamestate: { name: "playerTurn", active_player: "1" }, players: { "1": { name: "Alice" } } } : null,
+      ),
+    });
+
+    await handleMessage({ type: "SEND_CHAT_MESSAGE", messages: [{ role: "user", content: "whose turn?" }], tabId: 7 }, deps);
+
+    expect(deps.extractGameState).toHaveBeenCalledWith(7);
+    const sentMessages = (deps.chatSenders.anthropic as ReturnType<typeof vi.fn>).mock.calls[0]![1];
+    expect(sentMessages[0].content).toContain("Current turn: Alice");
+  });
+
+  it("re-extracts game state on every call rather than reusing a prior result", async () => {
+    const settings = setKey(defaultSettings(), "anthropic", "sk-ant-abc");
+    const deps = makeDeps(settings);
+
+    await handleMessage({ type: "SEND_CHAT_MESSAGE", messages: [{ role: "user", content: "a" }], tabId: 7 }, deps);
+    await handleMessage({ type: "SEND_CHAT_MESSAGE", messages: [{ role: "user", content: "b" }], tabId: 7 }, deps);
+
+    expect(deps.extractGameState).toHaveBeenCalledTimes(2);
+  });
+
+  it("falls back to context-free chat without crashing when no tabId is given", async () => {
+    const settings = setKey(defaultSettings(), "anthropic", "sk-ant-abc");
+    const deps = makeDeps(settings);
+
+    const response = await handleMessage(
+      { type: "SEND_CHAT_MESSAGE", messages: [{ role: "user", content: "hello" }] },
+      deps,
+    );
+
+    expect(deps.extractGameState).not.toHaveBeenCalled();
+    expect(response).toEqual({ ok: true, text: "anthropic reply" });
   });
 });

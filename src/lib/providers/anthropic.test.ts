@@ -68,6 +68,32 @@ describe("sendAnthropicChat", () => {
     expect(body.messages).toEqual([{ role: "user", content: "hello" }]);
   });
 
+  it("pulls a system-role message out into the top-level `system` field, excluding it from `messages`", async () => {
+    const fetchImpl = fakeMessagesFetch({ content: [{ type: "text", text: "hi" }] });
+
+    await sendAnthropicChat(
+      "sk-ant-abc",
+      [
+        { role: "system", content: "You are a helpful assistant." },
+        { role: "user", content: "hello" },
+      ],
+      fetchImpl,
+    );
+
+    const body = JSON.parse(fetchImpl.mock.calls[0]![1]!.body as string);
+    expect(body.system).toBe("You are a helpful assistant.");
+    expect(body.messages).toEqual([{ role: "user", content: "hello" }]);
+  });
+
+  it("omits the `system` field entirely when no system-role message is present", async () => {
+    const fetchImpl = fakeMessagesFetch({ content: [{ type: "text", text: "hi" }] });
+
+    await sendAnthropicChat("sk-ant-abc", [{ role: "user", content: "hello" }], fetchImpl);
+
+    const body = JSON.parse(fetchImpl.mock.calls[0]![1]!.body as string);
+    expect(body.system).toBeUndefined();
+  });
+
   it("extracts the assistant's text from the response content blocks", async () => {
     const fetchImpl = fakeMessagesFetch({ content: [{ type: "text", text: "42" }] });
     const result = await sendAnthropicChat("sk-ant-abc", [{ role: "user", content: "?" }], fetchImpl);

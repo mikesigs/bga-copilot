@@ -36,11 +36,21 @@ export function sendAnthropicChat(
   messages: ChatMessage[],
   fetchImpl: typeof fetch = fetch,
 ): Promise<ChatResult> {
+  // Anthropic's Messages API takes the system prompt as a top-level field,
+  // not as a "system"-role entry in `messages` (unlike OpenAI) — pull it out.
+  const systemPrompt = messages.find((message) => message.role === "system")?.content;
+  const conversation = messages.filter((message) => message.role !== "system");
+
   return sendChatViaRequest(
     fetchImpl,
     "https://api.anthropic.com/v1/messages",
     authHeaders(apiKey),
-    { model: CHAT_MODEL, max_tokens: MAX_TOKENS, messages },
+    {
+      model: CHAT_MODEL,
+      max_tokens: MAX_TOKENS,
+      ...(systemPrompt ? { system: systemPrompt } : {}),
+      messages: conversation,
+    },
     "Anthropic",
     extractText,
   );
