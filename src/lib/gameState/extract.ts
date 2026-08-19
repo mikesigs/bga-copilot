@@ -8,23 +8,14 @@ import type { RawGamedatas } from "./types";
 // isolated world) since `gameui` is a page global. JSON round-tripping inside
 // the injected function keeps the result structured-clone-safe regardless of
 // what shape `gamedatas` actually is.
-// `gameui.scoreCtrl` is BGA's shared animated-score-counter framework
-// widget (one Counter per player, keyed by player id) — confirmed live that
-// it stays genuinely up to date via BGA's own notification handling, unlike
-// `gamedatas.players[id].score` which is a load-time snapshot never patched
-// in place as a game progresses. Defensive about shape since it's an
-// internal BGA implementation detail, not documented API.
-function readLiveScores(scoreCtrl: unknown): Record<string, number> | undefined {
-  if (!scoreCtrl || typeof scoreCtrl !== "object") return undefined;
-
-  const liveScores: Record<string, number> = {};
-  for (const [id, counter] of Object.entries(scoreCtrl as Record<string, unknown>)) {
-    const getValue = (counter as { getValue?: unknown } | null)?.getValue;
-    if (typeof getValue === "function") liveScores[id] = getValue.call(counter);
-  }
-  return Object.keys(liveScores).length > 0 ? liveScores : undefined;
-}
-
+//
+// IMPORTANT: `chrome.scripting.executeScript({ func })` serializes and
+// injects only this one function's own source — it does NOT carry along
+// other module-scope helper functions via closure. Everything this function
+// needs must be inlined directly inside it (confirmed live: splitting the
+// scoreCtrl-reading logic into a separate `readLiveScores` helper and
+// calling it from here threw "readLiveScores is not defined" in the page,
+// since only `readGamedatasJson` itself gets sent over).
 export function readGamedatasJson(): string | null {
   const gameui = (
     window as unknown as {
@@ -40,20 +31,35 @@ export function readGamedatasJson(): string | null {
   ).gameui;
   if (!gameui?.gamedatas) return null;
 
-  // `player_id`, `game_name_displayed`, `game_name`, `table_id`, and
-  // `scoreCtrl` are siblings of `gamedatas` on `gameui`, not fields within
-  // it. Bundled onto the returned object here since extraction and
-  // summarizing/persisting all treat "the current game-state snapshot" as
-  // one value. `table_id` is the spec's documented primary source for
-  // chat-persistence keying, ahead of the URL's `table=` query param (a
-  // fallback for before `gameui` loads).
+  // `gameui.scoreCtrl` is BGA's shared animated-score-counter framework
+  // widget (one Counter per player, keyed by player id) — confirmed live
+  // that it stays genuinely up to date via BGA's own notification handling,
+  // unlike `gamedatas.players[id].score`, which is a load-time snapshot
+  // never patched in place as a game progresses. Defensive about shape
+  // since it's an internal BGA implementation detail, not documented API.
+  let liveScores: Record<string, number> | undefined;
+  if (gameui.scoreCtrl && typeof gameui.scoreCtrl === "object") {
+    const collected: Record<string, number> = {};
+    for (const [id, counter] of Object.entries(gameui.scoreCtrl as Record<string, unknown>)) {
+      const getValue = (counter as { getValue?: unknown } | null)?.getValue;
+      if (typeof getValue === "function") collected[id] = (getValue as () => number).call(counter);
+    }
+    if (Object.keys(collected).length > 0) liveScores = collected;
+  }
+
+  // `player_id`, `game_name_displayed`, `game_name`, and `table_id` are
+  // siblings of `gamedatas` on `gameui`, not fields within it. Bundled onto
+  // the returned object here since extraction and summarizing/persisting all
+  // treat "the current game-state snapshot" as one value. `table_id` is the
+  // spec's documented primary source for chat-persistence keying, ahead of
+  // the URL's `table=` query param (a fallback for before `gameui` loads).
   return JSON.stringify({
     ...gameui.gamedatas,
     viewerPlayerId: gameui.player_id !== undefined ? String(gameui.player_id) : undefined,
     gameName: gameui.game_name_displayed,
     gameSlug: gameui.game_name,
     tableId: gameui.table_id !== undefined ? String(gameui.table_id) : undefined,
-    liveScores: readLiveScores(gameui.scoreCtrl),
+    liveScores,
   });
 }
 
