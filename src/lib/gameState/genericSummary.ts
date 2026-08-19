@@ -37,7 +37,14 @@ export function summarizeGenericState(gamedatas: RawGamedatas | null): string | 
     .join(", ");
   if (playerList) lines.push(`Players: ${playerList}`);
 
-  const recentLog = (gamedatas.notifications ?? [])
+  // Confirmed live against a real Ark Nova table: `gamedatas.notifications`
+  // is not a log array in practice — it's `{ last_packet_id, move_nbr }`
+  // polling metadata. The actual move/notification log comes from a
+  // different BGA endpoint entirely, out of reach of this generic core (a
+  // later ticket). Only treat it as a log if it's actually an array, so a
+  // shape mismatch degrades to "no log line" instead of throwing.
+  const notifications = Array.isArray(gamedatas.notifications) ? gamedatas.notifications : [];
+  const recentLog = notifications
     .slice(-MAX_LOG_LINES)
     .map(renderLogLine)
     .filter((line): line is string => Boolean(line));

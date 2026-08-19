@@ -67,4 +67,21 @@ describe("summarizeGenericState", () => {
     expect(() => summarizeGenericState({})).not.toThrow();
     expect(summarizeGenericState({})).toBeNull();
   });
+
+  // Regression: confirmed live against a real Ark Nova table (2026-08-18)
+  // that `notifications` is actually `{ last_packet_id, move_nbr }` polling
+  // metadata, not a log array — the array-only assumption above crashed on
+  // this real shape (`.slice is not a function`) before this fix.
+  it("does not throw when notifications is real-world polling metadata rather than a log array", () => {
+    const liveShapedFixture: RawGamedatas = {
+      gamestate: { name: "chooseActionCard", active_player: "88257314", possibleactions: ["actChooseActionCard"] },
+      players: { "88257314": { id: "88257314", name: "Sigzy", score: 21 } },
+      notifications: { last_packet_id: "1234", move_nbr: "316" },
+    };
+
+    expect(() => summarizeGenericState(liveShapedFixture)).not.toThrow();
+    const summary = summarizeGenericState(liveShapedFixture)!;
+    expect(summary).toContain("Current turn: Sigzy");
+    expect(summary).not.toContain("Recent log");
+  });
 });

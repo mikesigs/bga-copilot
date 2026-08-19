@@ -21,5 +21,10 @@ export interface RawGamestate {
 export interface RawGamedatas {
   gamestate?: RawGamestate;
   players?: Record<string, RawPlayer>;
-  notifications?: RawNotification[];
+  // Confirmed live (Ark Nova, 2026-08-18) that this is NOT a log array in
+  // practice — it's `{ last_packet_id, move_nbr }` polling metadata. Typed
+  // loosely and checked with Array.isArray at the one call site, since a
+  // future BGA version or a different game could plausibly shape it either
+  // way and this generic core shouldn't assume either without re-verifying.
+  notifications?: RawNotification[] | unknown;
 }
