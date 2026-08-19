@@ -196,4 +196,47 @@ describe("summarizeGenericState", () => {
       expect(summary).toContain("Turn order: Alice, 9999999");
     });
   });
+
+  // Regression: confirmed live (Can't Stop, 2026-08-19) that at gameEnd,
+  // `gamestate.active_player` is just left over from whoever was active
+  // right before the game-ending transition — it doesn't mean anything
+  // anymore. Showing "Current turn: X" (and legal actions/turn order framed
+  // as if play continues) directly caused the assistant to keep telling the
+  // user to "wait for your turn" even after the game had already ended.
+  describe("gameEnd", () => {
+    const liveGameEndFixture: RawGamedatas = {
+      gamestate: {
+        name: "gameEnd",
+        active_player: "93802076",
+        possibleactions: ["actSomeLeftoverAction"],
+        description: "End of game",
+        type: "manager",
+      },
+      players: {
+        "88257314": { id: "88257314", name: "Sigzy", score: 0 },
+        "93802076": { id: "93802076", name: "NymeriaTheWolf", score: 0 },
+      },
+      playerorder: ["88257314", "93802076"],
+      viewerPlayerId: "88257314",
+    };
+
+    it("omits the stale Current turn line", () => {
+      expect(summarizeGenericState(liveGameEndFixture)).not.toContain("Current turn:");
+    });
+
+    it("omits legal actions and turn order, which are no longer meaningful", () => {
+      const summary = summarizeGenericState(liveGameEndFixture)!;
+      expect(summary).not.toContain("Legal actions:");
+      expect(summary).not.toContain("Turn order:");
+    });
+
+    it("still reports the game state name, its description, players, and who the viewer is", () => {
+      const summary = summarizeGenericState(liveGameEndFixture)!;
+      expect(summary).toContain("Game state: gameEnd");
+      expect(summary).toContain("End of game");
+      expect(summary).toContain("You are playing as: Sigzy");
+      expect(summary).toContain("NymeriaTheWolf (score: 0)");
+      expect(summary).toContain("Sigzy (score: 0, you)");
+    });
+  });
 });

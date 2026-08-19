@@ -66,11 +66,20 @@ export function summarizeGenericState(gamedatas: RawGamedatas | null): string | 
   const viewerName = viewerPlayerId ? players[viewerPlayerId]?.name : undefined;
   if (viewerName) lines.push(`You are playing as: ${viewerName}`);
 
-  const activePlayerId = gamedatas.gamestate?.active_player;
-  const activePlayerName = activePlayerId ? players[activePlayerId]?.name : undefined;
-  if (activePlayerName) {
-    const isViewer = viewerPlayerId !== undefined && activePlayerId === viewerPlayerId;
-    lines.push(`Current turn: ${activePlayerName}${isViewer ? " (you)" : ""}`);
+  // Once the game has ended, `active_player`/`possibleactions`/turn order are
+  // all just leftovers from whatever they were right before the ending
+  // transition — not meaningful anymore. Confirmed live (Can't Stop,
+  // 2026-08-19): showing them anyway caused the assistant to keep telling
+  // the player to "wait for your turn" after the game had already ended.
+  const hasEnded = gamedatas.gamestate?.name === "gameEnd";
+
+  if (!hasEnded) {
+    const activePlayerId = gamedatas.gamestate?.active_player;
+    const activePlayerName = activePlayerId ? players[activePlayerId]?.name : undefined;
+    if (activePlayerName) {
+      const isViewer = viewerPlayerId !== undefined && activePlayerId === viewerPlayerId;
+      lines.push(`Current turn: ${activePlayerName}${isViewer ? " (you)" : ""}`);
+    }
   }
 
   if (gamedatas.gamestate) {
@@ -83,13 +92,15 @@ export function summarizeGenericState(gamedatas: RawGamedatas | null): string | 
   const stateType = gamedatas.gamestate?.type;
   if (stateType) lines.push(`Turn type: ${STATE_TYPE_LABELS[stateType] ?? stateType}`);
 
-  const actions = gamedatas.gamestate?.possibleactions;
-  if (actions?.length) lines.push(`Legal actions: ${actions.join(", ")}`);
+  if (!hasEnded) {
+    const actions = gamedatas.gamestate?.possibleactions;
+    if (actions?.length) lines.push(`Legal actions: ${actions.join(", ")}`);
 
-  const playerorder = gamedatas.playerorder;
-  if (playerorder?.length) {
-    const order = playerorder.map((id) => players[String(id)]?.name ?? String(id)).join(", ");
-    lines.push(`Turn order: ${order}`);
+    const playerorder = gamedatas.playerorder;
+    if (playerorder?.length) {
+      const order = playerorder.map((id) => players[String(id)]?.name ?? String(id)).join(", ");
+      lines.push(`Turn order: ${order}`);
+    }
   }
 
   const playerList = Object.entries(players)
