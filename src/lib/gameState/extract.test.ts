@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { extractGameState } from "./extract";
+import { extractGameState, readGamedatasJson } from "./extract";
 
 const BGA_TAB = { url: "https://boardgamearena.com/table?table=123" };
 
@@ -72,5 +72,39 @@ describe("extractGameState", () => {
     };
 
     expect(await extractGameState(42)).toBeNull();
+  });
+});
+
+describe("readGamedatasJson (the MAIN-world injected function)", () => {
+  afterEach(() => {
+    delete (window as unknown as { gameui?: unknown }).gameui;
+  });
+
+  it("bundles gameui.player_id and gameui.game_name_displayed onto the returned gamedatas", () => {
+    (window as unknown as { gameui: unknown }).gameui = {
+      gamedatas: { gamestate: { name: "playerTurn" } },
+      player_id: 88257314,
+      game_name_displayed: "Ark Nova",
+    };
+
+    const parsed = JSON.parse(readGamedatasJson()!);
+    expect(parsed).toEqual({
+      gamestate: { name: "playerTurn" },
+      viewerPlayerId: "88257314",
+      gameName: "Ark Nova",
+    });
+  });
+
+  it("returns null when there's no gameui.gamedatas at all", () => {
+    (window as unknown as { gameui: unknown }).gameui = { player_id: 88257314 };
+    expect(readGamedatasJson()).toBeNull();
+  });
+
+  it("omits viewerPlayerId and gameName when their gameui source fields are absent", () => {
+    (window as unknown as { gameui: unknown }).gameui = { gamedatas: { gamestate: { name: "playerTurn" } } };
+
+    const parsed = JSON.parse(readGamedatasJson()!);
+    expect(parsed.viewerPlayerId).toBeUndefined();
+    expect(parsed.gameName).toBeUndefined();
   });
 });

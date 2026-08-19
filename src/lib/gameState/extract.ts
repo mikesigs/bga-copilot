@@ -8,9 +8,23 @@ import type { RawGamedatas } from "./types";
 // isolated world) since `gameui` is a page global. JSON round-tripping inside
 // the injected function keeps the result structured-clone-safe regardless of
 // what shape `gamedatas` actually is.
-function readGamedatasJson(): string | null {
-  const gameui = (window as unknown as { gameui?: { gamedatas?: unknown } }).gameui;
-  return gameui?.gamedatas ? JSON.stringify(gameui.gamedatas) : null;
+export function readGamedatasJson(): string | null {
+  const gameui = (
+    window as unknown as {
+      gameui?: { gamedatas?: unknown; player_id?: unknown; game_name_displayed?: unknown };
+    }
+  ).gameui;
+  if (!gameui?.gamedatas) return null;
+
+  // `player_id` and `game_name_displayed` are siblings of `gamedatas` on
+  // `gameui`, not fields within it. Bundled onto the returned object here
+  // since extraction and summarizing both treat "the current game-state
+  // snapshot" as one value.
+  return JSON.stringify({
+    ...gameui.gamedatas,
+    viewerPlayerId: gameui.player_id !== undefined ? String(gameui.player_id) : undefined,
+    gameName: gameui.game_name_displayed,
+  });
 }
 
 /**

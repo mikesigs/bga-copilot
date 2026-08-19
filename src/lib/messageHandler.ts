@@ -59,6 +59,7 @@ export async function handleMessage(
 
       const gamedatas = message.tabId !== undefined ? await deps.extractGameState(message.tabId) : null;
       const contextualMessages = assembleContext({ gamedatas, history: message.messages });
+      console.log("BGA Copilot: prompt sent to provider", { provider, messages: contextualMessages });
 
       return deps.chatSenders[provider](key, contextualMessages);
     }
