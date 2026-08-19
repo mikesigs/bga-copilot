@@ -335,7 +335,7 @@ describe("handleMessage SEND_CHAT_MESSAGE", () => {
       expect((await deps.chatPersistence.loadChatRecord("12345"))?.status).toBe("finished");
     });
 
-    it("rejects a new message server-side once a table is finished, even without relying on the panel disabling its composer", async () => {
+    it("still accepts new messages once a table is finished, for post-game discussion", async () => {
       const settings = setKey(defaultSettings(), "anthropic", "sk-ant-abc");
       const deps = makeDeps(settings, { chatPersistence: { resolveTableId: vi.fn(async () => "12345") } });
       await deps.chatPersistence.saveChatRecord({
@@ -348,14 +348,18 @@ describe("handleMessage SEND_CHAT_MESSAGE", () => {
       });
 
       const response = await handleMessage(
-        { type: "SEND_CHAT_MESSAGE", message: "one more move?", tabId: 7 },
+        { type: "SEND_CHAT_MESSAGE", message: "great game, want a rematch?", tabId: 7 },
         deps,
       );
 
-      expect(response).toEqual({ ok: false, error: "This game has ended — chat is read-only." });
-      expect(deps.chatSenders.anthropic).not.toHaveBeenCalled();
+      expect(response).toEqual({ ok: true, text: "anthropic reply" });
       const saved = await deps.chatPersistence.loadChatRecord("12345");
-      expect(saved?.messages).toEqual([expect.objectContaining({ content: "gg" })]);
+      expect(saved?.messages.map((m) => m.content)).toEqual([
+        "gg",
+        "great game, want a rematch?",
+        "anthropic reply",
+      ]);
+      expect(saved?.status).toBe("finished");
     });
 
     it("keeps two different tables' histories from mixing", async () => {

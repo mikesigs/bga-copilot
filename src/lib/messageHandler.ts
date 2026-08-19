@@ -30,8 +30,6 @@ export interface MessageHandlerDeps {
   chatPersistence: ChatPersistenceDeps;
 }
 
-const READ_ONLY_ERROR = "This game has ended — chat is read-only.";
-
 // `gamedatas.tableId` (from `gameui.table_id`, the spec's documented primary
 // source) takes priority when available; the URL-based resolver is the
 // documented fallback for before `gameui` has finished loading.
@@ -98,14 +96,11 @@ export async function handleMessage(
       // Persisted history is the source of truth for a recognized table; an
       // unresolvable table (not on a BGA table page) falls back to a
       // single-turn, unpersisted exchange rather than failing.
+      // A finished table stays chattable — a player may want to keep
+      // discussing the game (a post-mortem) after it ends.
       let record: ChatRecord | null = null;
       if (tableId) {
         const existing = await deps.chatPersistence.loadChatRecord(tableId);
-        // Enforced server-side, not just by the panel disabling its composer
-        // — a finished table stays read-only even if a stale UI somehow
-        // still lets a message through.
-        if (existing?.status === "finished") return { ok: false, error: READ_ONLY_ERROR };
-
         record = existing ?? createChatRecord(tableId, gamedatas?.gameSlug, deps.chatPersistence.now());
         record = appendMessage(record, { role: "user", content: message.message }, deps.chatPersistence.now());
       }

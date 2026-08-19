@@ -239,7 +239,7 @@ describe("sidepanel chat", () => {
       expect(document.getElementById("msg-list")!.textContent).not.toContain("hello from A");
     });
 
-    it("renders a finished table read-only: banner shown, composer and chips disabled", async () => {
+    it("shows a finished banner but keeps the composer and chips usable for post-game chat", async () => {
       mockChrome({
         GET_SETTINGS: defaultSettingsResponse,
         GET_CHAT_HISTORY: {
@@ -253,10 +253,10 @@ describe("sidepanel chat", () => {
       await flushMicrotasks();
 
       expect((document.getElementById("finished-banner") as HTMLElement).hidden).toBe(false);
-      expect((document.getElementById("composer-input") as HTMLInputElement).disabled).toBe(true);
-      expect((document.getElementById("composer-send") as HTMLButtonElement).disabled).toBe(true);
+      expect((document.getElementById("composer-input") as HTMLInputElement).disabled).toBe(false);
+      expect((document.getElementById("composer-send") as HTMLButtonElement).disabled).toBe(false);
       for (const chip of document.querySelectorAll<HTMLButtonElement>(".quick-action")) {
-        expect(chip.disabled).toBe(true);
+        expect(chip.disabled).toBe(false);
       }
     });
 

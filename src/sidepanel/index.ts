@@ -89,7 +89,7 @@ function render(): void {
   keyPrompt.hidden = settings.hasKey[settings.activeProvider];
   finishedBanner.hidden = chatStatus !== "finished";
 
-  const canChat = settings.hasKey[settings.activeProvider] && !isSending && chatStatus !== "finished";
+  const canChat = settings.hasKey[settings.activeProvider] && !isSending;
   composerInput.disabled = !canChat;
   composerSend.disabled = !canChat;
   for (const chip of quickActions.querySelectorAll("button")) {
@@ -241,7 +241,7 @@ async function loadChatForActiveTab(): Promise<void> {
 }
 
 async function sendChat(text: string): Promise<void> {
-  if (isSending || !text.trim() || chatStatus === "finished") return;
+  if (isSending || !text.trim()) return;
 
   appendMessage("user", text);
 
