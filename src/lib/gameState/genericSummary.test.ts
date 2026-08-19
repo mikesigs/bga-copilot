@@ -56,6 +56,25 @@ describe("summarizeGenericState", () => {
     expect(summary).toContain("Bob (score: 9)");
   });
 
+  // Regression: confirmed live (Can't Stop, 2026-08-20) that
+  // `players[id].score` is a load-time snapshot BGA never patches in place
+  // as a game progresses — re-extracting fresh every message doesn't help,
+  // since it just re-reads the same stale field. `gameui.scoreCtrl` (BGA's
+  // shared animated-score-counter widget) stays genuinely live instead.
+  it("prefers liveScores (from scoreCtrl) over the plain, possibly-stale players[id].score", () => {
+    const summary = summarizeGenericState({ ...flatGameFixture, liveScores: { "2343202": 1 } })!;
+    expect(summary).toContain("Bob (score: 1)");
+    expect(summary).not.toContain("Bob (score: 9)");
+    // Alice has no liveScores entry, so her plain score field is still used.
+    expect(summary).toContain("Alice (score: 12)");
+  });
+
+  it("falls back to players[id].score entirely when liveScores is absent", () => {
+    const summary = summarizeGenericState(flatGameFixture)!;
+    expect(summary).toContain("Alice (score: 12)");
+    expect(summary).toContain("Bob (score: 9)");
+  });
+
   it("renders the notification log, substituting templated args", () => {
     expect(summarizeGenericState(flatGameFixture)).toContain("Alice drew a card.");
     const richSummary = summarizeGenericState(richGameFixture)!;

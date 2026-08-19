@@ -59,4 +59,11 @@ export interface RawGamedatas {
   // ahead of the URL's `table=` query param (a fallback for before `gameui`
   // has loaded).
   tableId?: string;
+  // Sourced from `gameui.scoreCtrl` (BGA's shared animated-score-counter
+  // framework widget, keyed by player id) — confirmed live (Can't Stop,
+  // 2026-08-20) that `players[id].score` is a load-time snapshot BGA never
+  // patches in place as a game progresses, while `scoreCtrl`'s counters are
+  // kept genuinely live by BGA's own notification handling. Preferred over
+  // `players[id].score` wherever available.
+  liveScores?: Record<string, number>;
 }

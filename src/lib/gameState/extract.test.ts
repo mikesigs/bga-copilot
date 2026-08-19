@@ -113,4 +113,44 @@ describe("readGamedatasJson (the MAIN-world injected function)", () => {
     expect(parsed.gameSlug).toBeUndefined();
     expect(parsed.tableId).toBeUndefined();
   });
+
+  // Regression: confirmed live (Can't Stop, 2026-08-20) that
+  // gamedatas.players[id].score is a load-time snapshot never patched as
+  // the game progresses, while gameui.scoreCtrl's counters (BGA's shared
+  // animated-score-counter widget) stay genuinely live.
+  describe("liveScores (from gameui.scoreCtrl)", () => {
+    it("bundles each player's live value by calling counter.getValue()", () => {
+      (window as unknown as { gameui: unknown }).gameui = {
+        gamedatas: { gamestate: { name: "diceChoice" } },
+        scoreCtrl: {
+          "88257314": { getValue: () => 0 },
+          "96898932": { getValue: () => 1 },
+        },
+      };
+
+      const parsed = JSON.parse(readGamedatasJson()!);
+      expect(parsed.liveScores).toEqual({ "88257314": 0, "96898932": 1 });
+    });
+
+    it("omits liveScores entirely when scoreCtrl is absent", () => {
+      (window as unknown as { gameui: unknown }).gameui = { gamedatas: { gamestate: { name: "playerTurn" } } };
+
+      const parsed = JSON.parse(readGamedatasJson()!);
+      expect(parsed.liveScores).toBeUndefined();
+    });
+
+    it("skips a counter entry that doesn't expose getValue, without throwing", () => {
+      (window as unknown as { gameui: unknown }).gameui = {
+        gamedatas: { gamestate: { name: "playerTurn" } },
+        scoreCtrl: {
+          "88257314": { getValue: () => 5 },
+          "96898932": { notACounter: true },
+        },
+      };
+
+      expect(() => readGamedatasJson()).not.toThrow();
+      const parsed = JSON.parse(readGamedatasJson()!);
+      expect(parsed.liveScores).toEqual({ "88257314": 5 });
+    });
+  });
 });

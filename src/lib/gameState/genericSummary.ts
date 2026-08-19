@@ -103,12 +103,16 @@ export function summarizeGenericState(gamedatas: RawGamedatas | null): string | 
     }
   }
 
+  // `liveScores` (from `gameui.scoreCtrl`) is preferred over the plain
+  // `players[id].score` field: confirmed live (Can't Stop, 2026-08-20) that
+  // the latter is a load-time snapshot BGA never patches in place as a game
+  // progresses, while scoreCtrl's counters are kept genuinely live.
   const playerList = Object.entries(players)
     .map(([id, player]) => {
-      const details = [
-        player.score !== undefined ? `score: ${player.score}` : null,
-        id === viewerPlayerId ? "you" : null,
-      ].filter(Boolean);
+      const score = gamedatas.liveScores?.[id] ?? player.score;
+      const details = [score !== undefined ? `score: ${score}` : null, id === viewerPlayerId ? "you" : null].filter(
+        Boolean,
+      );
       return `${player.name}${details.length ? ` (${details.join(", ")})` : ""}`;
     })
     .join(", ");
