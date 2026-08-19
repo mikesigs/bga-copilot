@@ -39,4 +39,65 @@ describe("assembleContext", () => {
     expect(result[0]!.content).toMatch(/no live game.state/i);
     expect(result[1]).toEqual({ role: "user", content: "hi" });
   });
+
+  it("drops the oldest history messages first once the token budget is exceeded", () => {
+    // A long-running game's chat log, growing turn by turn; the earliest
+    // turns should fall off once history grows past a reasonable budget,
+    // while recent turns and the newest message survive.
+    const rulesDiscussion =
+      "Can you remind me what happens if I land on that space again? I want to make sure I'm not missing a scoring opportunity here. ".repeat(
+        3,
+      );
+    const oldTurns = Array.from({ length: 2000 }, (_, i) => ({
+      role: i % 2 === 0 ? ("user" as const) : ("assistant" as const),
+      content: `Turn ${i}: ${rulesDiscussion}`,
+    }));
+    const recentMessage = { role: "assistant" as const, content: "a small recent reply" };
+    const newestMessage = { role: "user" as const, content: "what's my move?" };
+
+    const result = assembleContext({
+      gamedatas: null,
+      history: [...oldTurns, recentMessage, newestMessage],
+    });
+
+    expect(result).not.toContainEqual(oldTurns[0]);
+    expect(result).toContainEqual(recentMessage);
+    expect(result[result.length - 1]).toEqual(newestMessage);
+  });
+
+  it("never drops the newest message, even if it alone exceeds the budget", () => {
+    const rulesDiscussion =
+      "Can you remind me what happens if I land on that space again? I want to make sure I'm not missing a scoring opportunity here. ";
+    const oversizedNewest = { role: "user" as const, content: rulesDiscussion.repeat(10_000) };
+
+    const result = assembleContext({ gamedatas: null, history: [oversizedNewest] });
+
+    expect(result[result.length - 1]).toEqual(oversizedNewest);
+  });
+
+  it("keeps history untrimmed when it fits comfortably within the budget", () => {
+    const history = [
+      { role: "user" as const, content: "hello" },
+      { role: "assistant" as const, content: "hi there" },
+      { role: "user" as const, content: "what now?" },
+    ];
+
+    const result = assembleContext({ gamedatas: null, history });
+
+    expect(result.slice(1)).toEqual(history);
+  });
+
+  it("leaves the caller's history array untouched when trimming", () => {
+    const rulesDiscussion = "A recap of the last few turns, for context. ";
+    const oldTurns = Array.from({ length: 2000 }, (_, i) => ({
+      role: i % 2 === 0 ? ("user" as const) : ("assistant" as const),
+      content: `Turn ${i}: ${rulesDiscussion.repeat(20)}`,
+    }));
+    const history = [...oldTurns, { role: "user" as const, content: "what's my move?" }];
+    const historyCopy = history.map((m) => ({ ...m }));
+
+    assembleContext({ gamedatas: null, history });
+
+    expect(history).toEqual(historyCopy);
+  });
 });
