@@ -1,5 +1,11 @@
-import type { GetSettingsResponse, Message, SaveKeyResponse, SendChatMessageResponse } from "../lib/messages";
-import type { ChatMessage } from "../lib/providers/types";
+import type { ChatMessageRecord, ChatStatus } from "../lib/chat/types";
+import type {
+  GetChatHistoryResponse,
+  GetSettingsResponse,
+  Message,
+  SaveKeyResponse,
+  SendChatMessageResponse,
+} from "../lib/messages";
 import type { Provider } from "../lib/settings";
 
 function sendMessage<T>(message: Message): Promise<T> {
@@ -24,6 +30,7 @@ const chatView = document.getElementById("chat-view") as HTMLElement;
 const settingsView = document.getElementById("settings-view") as HTMLElement;
 const keyPrompt = document.getElementById("key-prompt") as HTMLElement;
 const openSettingsFromPrompt = document.getElementById("key-prompt-open-settings") as HTMLButtonElement;
+const finishedBanner = document.getElementById("finished-banner") as HTMLElement;
 const msgList = document.getElementById("msg-list") as HTMLElement;
 const emptyState = document.getElementById("empty-state") as HTMLElement;
 const quickActions = document.getElementById("quick-actions") as HTMLElement;
@@ -80,8 +87,9 @@ function collapseToStatus(card: ProviderCard): void {
 
 function render(): void {
   keyPrompt.hidden = settings.hasKey[settings.activeProvider];
+  finishedBanner.hidden = chatStatus !== "finished";
 
-  const canChat = settings.hasKey[settings.activeProvider] && !isSending;
+  const canChat = settings.hasKey[settings.activeProvider] && !isSending && chatStatus !== "finished";
   composerInput.disabled = !canChat;
   composerSend.disabled = !canChat;
   for (const chip of quickActions.querySelectorAll("button")) {
@@ -178,12 +186,16 @@ for (const card of providerCards) {
   });
 }
 
-const chatHistory: ChatMessage[] = [];
 let isSending = false;
+// Which table's chat is currently displayed — null when the active tab
+// isn't a recognizable BGA table (chat still works, just isn't persisted).
+let currentTableId: string | null = null;
+let chatStatus: ChatStatus | null = null;
 
 // The panel's own script isn't tied to a specific tab, so the currently
-// active tab (in the panel's window) is looked up fresh on every send —
-// this is also the tab whose game-state context the panel is showing.
+// active tab (in the panel's window) is looked up fresh whenever needed —
+// this is also the tab whose game-state context and persisted chat history
+// the panel is showing.
 function getActiveTabId(): Promise<number | undefined> {
   return new Promise((resolve) => {
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => resolve(tabs[0]?.id));
@@ -200,11 +212,38 @@ function appendMessage(role: "user" | "assistant" | "error", text: string): HTML
   return el;
 }
 
+function clearMessageList(): void {
+  msgList.innerHTML = "";
+  emptyState.hidden = false;
+  msgList.appendChild(emptyState);
+}
+
+function renderMessageList(messages: ChatMessageRecord[]): void {
+  clearMessageList();
+  for (const message of messages) appendMessage(message.role, message.content);
+}
+
+// Hydrates the panel with whichever table's chat is currently active —
+// called on initial load and whenever the active tab/table changes, so
+// switching tabs always shows the correct table's history and two tables'
+// chats never mix (a stale in-memory array was the bug before this existed).
+async function loadChatForActiveTab(): Promise<void> {
+  try {
+    const tabId = await getActiveTabId();
+    const response = await sendMessage<GetChatHistoryResponse>({ type: "GET_CHAT_HISTORY", tabId });
+    currentTableId = response.tableId;
+    chatStatus = response.status;
+    renderMessageList(response.messages);
+    render();
+  } catch (error) {
+    console.error("BGA Copilot: failed to load chat history", error);
+  }
+}
+
 async function sendChat(text: string): Promise<void> {
-  if (isSending || !text.trim()) return;
+  if (isSending || !text.trim() || chatStatus === "finished") return;
 
   appendMessage("user", text);
-  chatHistory.push({ role: "user", content: text });
 
   isSending = true;
   render();
@@ -215,14 +254,13 @@ async function sendChat(text: string): Promise<void> {
     const tabId = await getActiveTabId();
     const response = await sendMessage<SendChatMessageResponse>({
       type: "SEND_CHAT_MESSAGE",
-      messages: chatHistory,
+      message: text,
       tabId,
     });
 
     pending.remove();
     if (response.ok) {
       appendMessage("assistant", response.text);
-      chatHistory.push({ role: "assistant", content: response.text });
     } else {
       appendMessage("error", response.error);
     }
@@ -232,7 +270,11 @@ async function sendChat(text: string): Promise<void> {
     console.error("BGA Copilot: failed to send chat message", error);
   } finally {
     isSending = false;
-    render();
+    // The message just sent may have pushed the game into gameEnd (marking
+    // the table finished server-side) — re-sync status so the composer
+    // disables itself without waiting for a tab switch or reload.
+    if (currentTableId) void loadChatForActiveTab();
+    else render();
   }
 }
 
@@ -255,4 +297,14 @@ for (const chip of quickActions.querySelectorAll<HTMLButtonElement>(".quick-acti
   });
 }
 
+// Reflects whichever BGA tab/table is currently active — mirrors the same
+// per-tab scoping background.ts uses for enabling/disabling the panel
+// itself, so switching tabs (or navigating within one, e.g. via BGA's own
+// lobby links) always shows the correct table's chat.
+chrome.tabs.onActivated.addListener(() => void loadChatForActiveTab());
+chrome.tabs.onUpdated.addListener((_tabId, changeInfo) => {
+  if (changeInfo.url !== undefined) void loadChatForActiveTab();
+});
+
 void refreshSettings();
+void loadChatForActiveTab();

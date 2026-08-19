@@ -10,6 +10,7 @@ const FIXTURE_HTML = `
     <div id="key-prompt" hidden>
       <button id="key-prompt-open-settings" type="button">Open settings</button>
     </div>
+    <div id="finished-banner" hidden></div>
     <main id="msg-list"><p id="empty-state">No messages yet.</p></main>
     <div id="quick-actions">
       <button type="button" class="quick-action" data-prompt="Suggest my next move.">Suggest my next move</button>
@@ -47,22 +48,47 @@ function setupDom(): void {
   document.body.innerHTML = FIXTURE_HTML;
 }
 
-// `message` (specifically its `messages` chat-history array) is mutated by
-// the panel after this call returns, so recording the live reference (vi.fn's
-// default) would let later assertions see later mutations. Each call is
-// snapshotted with structuredClone before returning, capturing the value as
-// of the call.
-function mockChrome(responses: Record<string, unknown>): { type: string }[] {
+type Responder = unknown | ((message: { type: string; tabId?: number }) => unknown);
+
+interface MockChrome {
+  calls: { type: string }[];
+  setActiveTabId: (id: number) => void;
+  triggerTabActivated: () => void;
+}
+
+// `message` is mutated by the panel after this call returns (in earlier
+// versions it carried a live chat-history array), so recording the live
+// reference (vi.fn's default) could see later mutations. Snapshotting with
+// structuredClone captures the value as of the call, which is now moot for
+// the current message shape but kept for safety.
+function mockChrome(responses: Record<string, Responder>, initialTabId = 7): MockChrome {
   const calls: { type: string }[] = [];
-  const sendMessage = vi.fn((message: { type: string }, callback: (response: unknown) => void) => {
+  let activeTabId = initialTabId;
+  const activatedListeners: (() => void)[] = [];
+
+  const sendMessage = vi.fn((message: { type: string; tabId?: number }, callback: (response: unknown) => void) => {
     calls.push(structuredClone(message));
-    callback(responses[message.type]);
+    const responder = responses[message.type];
+    const response = typeof responder === "function" ? responder(message) : responder;
+    callback(response);
   });
+
   (globalThis as unknown as { chrome: unknown }).chrome = {
     runtime: { sendMessage, lastError: undefined },
-    tabs: { query: (_info: unknown, callback: (tabs: { id: number }[]) => void) => callback([{ id: 7 }]) },
+    tabs: {
+      query: (_info: unknown, callback: (tabs: { id: number }[]) => void) => callback([{ id: activeTabId }]),
+      onActivated: { addListener: (fn: () => void) => activatedListeners.push(fn) },
+      onUpdated: { addListener: () => {} },
+    },
   };
-  return calls;
+
+  return {
+    calls,
+    setActiveTabId: (id: number) => {
+      activeTabId = id;
+    },
+    triggerTabActivated: () => activatedListeners.forEach((fn) => fn()),
+  };
 }
 
 async function flushMicrotasks(): Promise<void> {
@@ -75,6 +101,8 @@ const defaultSettingsResponse = {
   keyPreview: { anthropic: "sk-...abcd", openai: null },
 };
 
+const noHistory = { tableId: null, status: null, messages: [] };
+
 describe("sidepanel chat", () => {
   beforeEach(() => {
     vi.resetModules();
@@ -86,8 +114,9 @@ describe("sidepanel chat", () => {
   });
 
   it("sends the typed message and renders the provider's reply", async () => {
-    const calls = mockChrome({
+    const chrome = mockChrome({
       GET_SETTINGS: defaultSettingsResponse,
+      GET_CHAT_HISTORY: noHistory,
       SEND_CHAT_MESSAGE: { ok: true, text: "42" },
     });
 
@@ -103,16 +132,13 @@ describe("sidepanel chat", () => {
     const listText = document.getElementById("msg-list")!.textContent ?? "";
     expect(listText).toContain("what's my score?");
     expect(listText).toContain("42");
-    expect(calls).toContainEqual({
-      type: "SEND_CHAT_MESSAGE",
-      messages: [{ role: "user", content: "what's my score?" }],
-      tabId: 7,
-    });
+    expect(chrome.calls).toContainEqual({ type: "SEND_CHAT_MESSAGE", message: "what's my score?", tabId: 7 });
   });
 
   it("sends a quick-action chip's canned prompt", async () => {
     mockChrome({
       GET_SETTINGS: defaultSettingsResponse,
+      GET_CHAT_HISTORY: noHistory,
       SEND_CHAT_MESSAGE: { ok: true, text: "Try building an engine." },
     });
 
@@ -131,6 +157,7 @@ describe("sidepanel chat", () => {
   it("renders a provider error as a chat message instead of throwing", async () => {
     mockChrome({
       GET_SETTINGS: defaultSettingsResponse,
+      GET_CHAT_HISTORY: noHistory,
       SEND_CHAT_MESSAGE: { ok: false, error: "Could not reach Anthropic: network down" },
     });
 
@@ -154,6 +181,7 @@ describe("sidepanel chat", () => {
         hasKey: { anthropic: false, openai: false },
         keyPreview: { anthropic: null, openai: null },
       },
+      GET_CHAT_HISTORY: noHistory,
     });
 
     await import("./index");
@@ -164,5 +192,86 @@ describe("sidepanel chat", () => {
     for (const chip of document.querySelectorAll<HTMLButtonElement>(".quick-action")) {
       expect(chip.disabled).toBe(true);
     }
+  });
+
+  describe("per-table persistence", () => {
+    it("restores a table's prior chat history on load", async () => {
+      mockChrome({
+        GET_SETTINGS: defaultSettingsResponse,
+        GET_CHAT_HISTORY: {
+          tableId: "12345",
+          status: "active",
+          messages: [
+            { role: "user", content: "earlier question", timestamp: 1 },
+            { role: "assistant", content: "earlier answer", timestamp: 2 },
+          ],
+        },
+      });
+
+      await import("./index");
+      await flushMicrotasks();
+
+      const listText = document.getElementById("msg-list")!.textContent ?? "";
+      expect(listText).toContain("earlier question");
+      expect(listText).toContain("earlier answer");
+      expect((document.getElementById("empty-state") as HTMLElement).hidden).toBe(true);
+    });
+
+    it("switches to the newly active tab's own chat history when the active tab changes", async () => {
+      const chrome = mockChrome({
+        GET_SETTINGS: defaultSettingsResponse,
+        GET_CHAT_HISTORY: (message: { tabId?: number }) =>
+          message.tabId === 7
+            ? { tableId: "table-a", status: "active", messages: [{ role: "user", content: "hello from A" }] }
+            : { tableId: "table-b", status: "active", messages: [{ role: "user", content: "hello from B" }] },
+      });
+
+      await import("./index");
+      await flushMicrotasks();
+      expect(document.getElementById("msg-list")!.textContent).toContain("hello from A");
+      expect(document.getElementById("msg-list")!.textContent).not.toContain("hello from B");
+
+      chrome.setActiveTabId(9);
+      chrome.triggerTabActivated();
+      await flushMicrotasks();
+
+      expect(document.getElementById("msg-list")!.textContent).toContain("hello from B");
+      expect(document.getElementById("msg-list")!.textContent).not.toContain("hello from A");
+    });
+
+    it("renders a finished table read-only: banner shown, composer and chips disabled", async () => {
+      mockChrome({
+        GET_SETTINGS: defaultSettingsResponse,
+        GET_CHAT_HISTORY: {
+          tableId: "12345",
+          status: "finished",
+          messages: [{ role: "assistant", content: "gg" }],
+        },
+      });
+
+      await import("./index");
+      await flushMicrotasks();
+
+      expect((document.getElementById("finished-banner") as HTMLElement).hidden).toBe(false);
+      expect((document.getElementById("composer-input") as HTMLInputElement).disabled).toBe(true);
+      expect((document.getElementById("composer-send") as HTMLButtonElement).disabled).toBe(true);
+      for (const chip of document.querySelectorAll<HTMLButtonElement>(".quick-action")) {
+        expect(chip.disabled).toBe(true);
+      }
+    });
+
+    it("shows the empty state (not a stale finished banner) for an active table with no prior messages", async () => {
+      mockChrome({
+        GET_SETTINGS: defaultSettingsResponse,
+        GET_CHAT_HISTORY: { tableId: "12345", status: null, messages: [] },
+      });
+
+      await import("./index");
+      await flushMicrotasks();
+
+      expect((document.getElementById("empty-state") as HTMLElement).hidden).toBe(false);
+      expect((document.getElementById("finished-banner") as HTMLElement).hidden).toBe(true);
+      expect((document.getElementById("composer-input") as HTMLInputElement).disabled).toBe(false);
+    });
   });
 });

@@ -1,9 +1,18 @@
+import { loadChatRecord, saveChatRecord, sweepExpiredChatRecords } from "./lib/chat/chatStore";
 import { extractGameState } from "./lib/gameState/extract";
+import { resolveTableId } from "./lib/gameState/tableId";
 import { isBgaUrl } from "./lib/isBgaUrl";
 import { handleMessage } from "./lib/messageHandler";
 import type { Message } from "./lib/messages";
 import { chatSenders, validators } from "./lib/providers";
 import { loadSettings, saveSettings } from "./lib/settingsStore";
+
+// A backstop for tables that never reach `gameEnd` — run once whenever the
+// service worker (re)starts, rather than on a recurring alarm, since a
+// worker that's been asleep for a while gets a fresh start anyway.
+void sweepExpiredChatRecords(Date.now()).catch((error) =>
+  console.error("BGA Copilot: chat-record sweep failed", error),
+);
 
 // The side panel is only meaningful on BoardGameArena tabs — keep it enabled
 // exclusively there so switching to any other tab reflects "no active game"
@@ -33,8 +42,13 @@ chrome.sidePanel
   .catch((error) => console.error("Failed to set side panel behavior:", error));
 
 chrome.runtime.onMessage.addListener((message: Message, _sender, sendResponse) => {
-  handleMessage(message, { loadSettings, saveSettings, validators, chatSenders, extractGameState }).then(
-    sendResponse,
-  );
+  handleMessage(message, {
+    loadSettings,
+    saveSettings,
+    validators,
+    chatSenders,
+    extractGameState,
+    chatPersistence: { resolveTableId, loadChatRecord, saveChatRecord, now: () => Date.now() },
+  }).then(sendResponse);
   return true; // keep the message channel open for the async response
 });

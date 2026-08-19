@@ -50,4 +50,13 @@ export interface RawGamedatas {
   // Sourced from `gameui.game_name_displayed`, a sibling of `gamedatas`
   // rather than a field within it. Confirmed live on both games checked.
   gameName?: string;
+  // Sourced from `gameui.game_name`, the internal slug (e.g. "arknova"),
+  // also a sibling of `gamedatas`. Used to tag a persisted chat record with
+  // which game it belongs to.
+  gameSlug?: string;
+  // Sourced from `gameui.table_id`, also a sibling of `gamedatas` — the
+  // spec's documented primary source for keying a persisted chat record,
+  // ahead of the URL's `table=` query param (a fallback for before `gameui`
+  // has loaded).
+  tableId?: string;
 }

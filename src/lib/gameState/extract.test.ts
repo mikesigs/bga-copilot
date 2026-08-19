@@ -80,11 +80,13 @@ describe("readGamedatasJson (the MAIN-world injected function)", () => {
     delete (window as unknown as { gameui?: unknown }).gameui;
   });
 
-  it("bundles gameui.player_id and gameui.game_name_displayed onto the returned gamedatas", () => {
+  it("bundles gameui.player_id, game_name_displayed, game_name, and table_id onto the returned gamedatas", () => {
     (window as unknown as { gameui: unknown }).gameui = {
       gamedatas: { gamestate: { name: "playerTurn" } },
       player_id: 88257314,
       game_name_displayed: "Ark Nova",
+      game_name: "arknova",
+      table_id: 900372479,
     };
 
     const parsed = JSON.parse(readGamedatasJson()!);
@@ -92,6 +94,8 @@ describe("readGamedatasJson (the MAIN-world injected function)", () => {
       gamestate: { name: "playerTurn" },
       viewerPlayerId: "88257314",
       gameName: "Ark Nova",
+      gameSlug: "arknova",
+      tableId: "900372479",
     });
   });
 
@@ -100,11 +104,13 @@ describe("readGamedatasJson (the MAIN-world injected function)", () => {
     expect(readGamedatasJson()).toBeNull();
   });
 
-  it("omits viewerPlayerId and gameName when their gameui source fields are absent", () => {
+  it("omits viewerPlayerId, gameName, gameSlug, and tableId when their gameui source fields are absent", () => {
     (window as unknown as { gameui: unknown }).gameui = { gamedatas: { gamestate: { name: "playerTurn" } } };
 
     const parsed = JSON.parse(readGamedatasJson()!);
     expect(parsed.viewerPlayerId).toBeUndefined();
     expect(parsed.gameName).toBeUndefined();
+    expect(parsed.gameSlug).toBeUndefined();
+    expect(parsed.tableId).toBeUndefined();
   });
 });

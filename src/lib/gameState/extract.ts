@@ -11,19 +11,29 @@ import type { RawGamedatas } from "./types";
 export function readGamedatasJson(): string | null {
   const gameui = (
     window as unknown as {
-      gameui?: { gamedatas?: unknown; player_id?: unknown; game_name_displayed?: unknown };
+      gameui?: {
+        gamedatas?: unknown;
+        player_id?: unknown;
+        game_name_displayed?: unknown;
+        game_name?: unknown;
+        table_id?: unknown;
+      };
     }
   ).gameui;
   if (!gameui?.gamedatas) return null;
 
-  // `player_id` and `game_name_displayed` are siblings of `gamedatas` on
-  // `gameui`, not fields within it. Bundled onto the returned object here
-  // since extraction and summarizing both treat "the current game-state
-  // snapshot" as one value.
+  // `player_id`, `game_name_displayed`, `game_name`, and `table_id` are
+  // siblings of `gamedatas` on `gameui`, not fields within it. Bundled onto
+  // the returned object here since extraction and summarizing/persisting all
+  // treat "the current game-state snapshot" as one value. `table_id` is the
+  // spec's documented primary source for chat-persistence keying, ahead of
+  // the URL's `table=` query param (a fallback for before `gameui` loads).
   return JSON.stringify({
     ...gameui.gamedatas,
     viewerPlayerId: gameui.player_id !== undefined ? String(gameui.player_id) : undefined,
     gameName: gameui.game_name_displayed,
+    gameSlug: gameui.game_name,
+    tableId: gameui.table_id !== undefined ? String(gameui.table_id) : undefined,
   });
 }
 
