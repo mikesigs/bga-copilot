@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { assembleContext } from "./assembleContext";
 import type { RawGamedatas } from "../gameState/types";
+import liveArkNovaGamedatas from "../gameState/plugins/arkNova/fixtures/liveGamedatas.json";
 
 const gamedatas: RawGamedatas = {
   gamestate: { name: "playerTurn", active_player: "1", possibleactions: ["playCard"] },
@@ -85,6 +86,37 @@ describe("assembleContext", () => {
     const result = assembleContext({ gamedatas: null, history });
 
     expect(result.slice(1)).toEqual(history);
+  });
+
+  it("includes the per-game plugin's summary alongside the generic-core summary, when a plugin is registered for the game's slug", () => {
+    const fixture = liveArkNovaGamedatas as unknown as RawGamedatas;
+
+    const result = assembleContext({ gamedatas: fixture, history: [] });
+
+    expect(result[0]!.content).toContain("Current turn:");
+    expect(result[0]!.content).toContain("Your hand (6 cards)");
+    expect(result[0]!.content).toContain("Cheetah (animal, cost 17, appeal 6)");
+  });
+
+  it("still works with only the generic-core summary, for a game with no registered plugin", () => {
+    const noPluginGamedatas: RawGamedatas = { ...gamedatas, gameSlug: "someUnregisteredGame" };
+
+    const result = assembleContext({ gamedatas: noPluginGamedatas, history: [] });
+
+    expect(result[0]!.content).toContain("Current turn: Alice");
+  });
+
+  it("degrades to the generic-core summary alone when the per-game plugin throws on malformed data", () => {
+    const malformedGamedatas = {
+      ...(liveArkNovaGamedatas as unknown as RawGamedatas),
+      // Corrupt the shape the Ark Nova plugin expects to iterate over.
+      cards: "not an array" as unknown,
+    } as RawGamedatas;
+
+    const result = assembleContext({ gamedatas: malformedGamedatas, history: [] });
+
+    expect(result[0]!.content).toContain("Current turn:");
+    expect(result[0]!.content).not.toContain("Your hand");
   });
 
   it("leaves the caller's history array untouched when trimming", () => {

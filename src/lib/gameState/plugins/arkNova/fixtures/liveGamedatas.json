@@ -1,0 +1,5058 @@
+{
+  "prefs": [
+    {
+      "id": "2",
+      "player_id": "88257314",
+      "pref_id": "103",
+      "pref_value": "2"
+    },
+    {
+      "id": "5",
+      "player_id": "88257314",
+      "pref_id": "104",
+      "pref_value": "0"
+    }
+  ],
+  "players": {
+    "85789300": {
+      "id": 85789300,
+      "no": 1,
+      "name": "Player2",
+      "color": "b91b1b",
+      "eliminated": 0,
+      "score": 30,
+      "scoreAux": 0,
+      "zombie": 0,
+      "money": 22,
+      "reputation": 6,
+      "appeal": 34,
+      "conservation": 5,
+      "mapId": "T1",
+      "hand": [],
+      "handCount": 6,
+      "scoringHand": [],
+      "scoringHandCount": 2,
+      "actionCards": [
+        {
+          "id": 1,
+          "strength": 2,
+          "pId": "85789300",
+          "extraDatas": null,
+          "type": "Build2",
+          "status": 0,
+          "level": 1,
+          "actionType": "Build",
+          "number": 2,
+          "name": "Build",
+          "descI": [
+            "Build **1 building** with a maximum size of <STRENGTH:X>.",
+            "Pay <MONEY:2> per space.",
+            "Available: **Kiosk, pavilion, aquariums, standard enclosures** and **petting zoo**.",
+            "You may pay <MONEY:3> to build 1 additional kiosk."
+          ],
+          "descII": [
+            "Build **1 or more different buildings** with a total maximum size of <STRENGTH:X>.",
+            "Pay <MONEY:2> per space.",
+            "Newly available: **Large Bird Aviary** and **Reptile House**.",
+            "You may pay <MONEY:2> to build 1 additional kiosk."
+          ],
+          "tooltip": [
+            "<SIDE_I> You may build 1 additional kiosk. You may do this even if you build a kiosk as part of your regular build action and even if you exceed the strength of your build action by 1 by building this kiosk. Pay a total cost of 3 money for the additional kiosk (the regular cost of 2 plus an extra cost of 1). You may build all buildings (including the additional kiosk) in an order of your choice.",
+            "<SIDE_II> Same as Side I, but the cost for the additional kiosk is reduced to 2 money (the regular cost)."
+          ]
+        },
+        {
+          "id": 2,
+          "strength": 1,
+          "pId": "85789300",
+          "extraDatas": null,
+          "type": "Cards",
+          "status": 0,
+          "level": 2,
+          "actionType": "Cards",
+          "number": 0,
+          "name": "Cards",
+          "descI": [
+            "**BREAK** <BREAK:2>",
+            "Draw cards from the **deck** OR snap.",
+            "CARDS-I"
+          ],
+          "descII": [
+            "**BREAK** <BREAK:2>",
+            "Draw cards from within **reputation range** or from the **deck** OR snap.",
+            "CARDS-II"
+          ],
+          "tooltip": [
+            "At level I, you can draw cards only from the deck <TAKE-IN-DECK>. At level II, you can draw either from the deck or in reputation range <TAKE-IN-DECK> <TAKE-IN-RANGE>."
+          ]
+        },
+        {
+          "id": 3,
+          "strength": 5,
+          "pId": "85789300",
+          "extraDatas": null,
+          "type": "Animals",
+          "status": 0,
+          "level": 2,
+          "actionType": "Animals",
+          "number": 0,
+          "name": "Animals",
+          "descI": [
+            "Play animals cards from your **hand**.",
+            "ANIMALS-I"
+          ],
+          "descII": [
+            "Play animals cards from your **hand** or from within **reputation range** (with additional costs).",
+            "ANIMALS-II"
+          ],
+          "tooltip": [
+            "At level I, you can play animal cards only from your hand <HAND-CARDS>. At level II, you can play cards either from your hand or in your reputation range by paying **the folder number as additional cost** <HAND-CARDS> <TAKE-IN-RANGE-FOLDER-COST>."
+          ]
+        },
+        {
+          "id": 4,
+          "strength": 4,
+          "pId": "85789300",
+          "extraDatas": null,
+          "type": "Association",
+          "status": 0,
+          "level": 2,
+          "actionType": "Association",
+          "number": 0,
+          "name": "Association",
+          "descI": [
+            "Perform **1 association task** with a maximum value of <STRENGTH:X>."
+          ],
+          "descII": [
+            "Perform **1 or more different association tasks** with a total maximum value of <STRENGTH:X>.",
+            "In addition, you may make 1 **donation**.",
+            "You may play **Conservation project** cards from within **reputation range** (with additional costs)."
+          ],
+          "tooltip": [
+            "At level I, you can support conservation projects either on the board or from your hand <HAND-CARDS>. At level II, you can also support conservation project in your reputation range by paying **the folder number as additional cost** <HAND-CARDS> <TAKE-IN-RANGE-FOLDER-COST>."
+          ]
+        },
+        {
+          "id": 5,
+          "strength": 3,
+          "pId": "85789300",
+          "extraDatas": null,
+          "type": "Sponsors1",
+          "status": 0,
+          "level": 1,
+          "actionType": "Sponsors",
+          "number": 1,
+          "name": "Sponsors",
+          "descI": [
+            "Play **1** sponsors card with a maximum level of <STRENGTH:X>.",
+            "SPONSORS",
+            "Break <STRBREAK:X>, gain <MONEY:X>.",
+            "SEPARATOR",
+            "Additionally, you may trade 1 <XTOKEN> marker for <MONEY:5> or vice versa."
+          ],
+          "descII": [
+            "Play **1 or more** sponsors cards with a total maximum level of <STRENGTH:X>** + 1**.",
+            "SPONSORS",
+            "Break <STRBREAK:X>, gain **2x**<MONEY:X>.",
+            "SEPARATOR",
+            "Additionally, you may trade 1 <XTOKEN> marker for <MONEY:5> or vice versa **or** pay either for <REPUTATION:1>."
+          ],
+          "tooltip": [
+            "At level I, you can play sponsor cards only from your hand <HAND-CARDS>. At level II, you can play cards either from your hand or in your reputation range by paying **the folder number as additional cost** <HAND-CARDS> <TAKE-IN-RANGE-FOLDER-COST>.",
+            "<SIDE_I> In addition to your action, you may pay 1 X-token to gain 5 money or pay 5 money to gain 1 X-token. You may do this before or after your Sponsors action. You may do this no matter whether you play a Sponsor card or choose the Break option. You may not use the new X-token to increase the strength of this Sponsors action.",
+            "<SIDE_II> As Side I OR you may pay 1 X-token or 5 money to gain 1 reputation."
+          ]
+        }
+      ],
+      "icons": {
+        "Bird": 0,
+        "Predator": 1,
+        "Herbivore": 0,
+        "Bear": 0,
+        "Reptile": 1,
+        "Pet": 3,
+        "Primate": 0,
+        "Africa": 0,
+        "Europe": 0,
+        "Asia": 1,
+        "Americas": 0,
+        "Australia": 2,
+        "Partner-Zoo": 0,
+        "AnimalsII": 0,
+        "CardsII": 0,
+        "Science": 5,
+        "Fac": 0,
+        "Rock": 0,
+        "Water": 2,
+        "SeaAnimal": 2
+      },
+      "sizes": {
+        "small": 4,
+        "medium": 1,
+        "large": 0
+      },
+      "income": 31,
+      "newScore": 30,
+      "mapStatus": null,
+      "handStatus": [
+        5,
+        true
+      ],
+      "projectStrength": 4,
+      "xtoken": 2,
+      "is_ai": "0",
+      "beginner": false,
+      "avatar": "anon",
+      "order": 2,
+      "ack": "ack"
+    },
+    "85794027": {
+      "id": 85794027,
+      "no": 3,
+      "name": "Player3",
+      "color": "d1c81c",
+      "eliminated": 0,
+      "score": 22,
+      "scoreAux": 0,
+      "zombie": 0,
+      "money": 4,
+      "reputation": 9,
+      "appeal": 32,
+      "conservation": 2,
+      "mapId": "T1",
+      "hand": [],
+      "handCount": 4,
+      "scoringHand": [],
+      "scoringHandCount": 1,
+      "actionCards": [
+        {
+          "id": 11,
+          "strength": 3,
+          "pId": "85794027",
+          "extraDatas": null,
+          "type": "Build4",
+          "status": 0,
+          "level": 1,
+          "actionType": "Build",
+          "number": 4,
+          "name": "Build",
+          "descI": [
+            "Build **1 building** with a maximum size of <STRENGTH:X>.",
+            "Pay <MONEY:2> per space.",
+            "Available: **Kiosk, pavilion, aquariums, standard enclosures** and **petting zoo**.",
+            "You may pay <MONEY:2> to **cover 1 rock** or **water** space."
+          ],
+          "descII": [
+            "Build **1 or more different buildings** with a total maximum size of <STRENGTH:X>.",
+            "Pay <MONEY:2> per space.",
+            "Newly available: **Large Bird Aviary** and **Reptile House**.",
+            "You may **cover 1 rock** or **water** space. Gain <MONEY:2> if you do."
+          ],
+          "tooltip": [
+            "<SIDE_I> You may pay 2 money to cover 1 water or rock space as if it were a building space. This only applies when using this action, not when building in any other way or when placing a unique building.",
+            "<SIDE_II> Same as Side I, but instead of having to pay 2 money, you gain 2 money when you cover a water or rock space. You may still only build on 1 water or rock space per action."
+          ]
+        },
+        {
+          "id": 12,
+          "strength": 5,
+          "pId": "85794027",
+          "extraDatas": null,
+          "type": "Cards2",
+          "status": 0,
+          "level": 1,
+          "actionType": "Cards",
+          "number": 2,
+          "name": "Cards",
+          "descI": [
+            "**First: <DIGGING:1> (Digging 1)**",
+            "**BREAK** <BREAK:2>",
+            "CARDS-I"
+          ],
+          "descII": [
+            "First: <DIGGING:2> (Digging 2)",
+            "**BREAK** <BREAK:2>",
+            "CARDS-II"
+          ],
+          "tooltip": [
+            "At level I, you can draw cards only from the deck <TAKE-IN-DECK>. At level II, you can draw either from the deck or in reputation range <TAKE-IN-DECK> <TAKE-IN-RANGE>.",
+            "Choose up to X times: Discard 1 card from the display and replenish OR discard 1 card from your hand to draw 1 from the deck (Animal ability __Digging X__). Do this before drawing new cards. (<SIDE_I> X=1; <SIDE_II> X=2)"
+          ]
+        },
+        {
+          "id": 13,
+          "strength": 2,
+          "pId": "85794027",
+          "extraDatas": null,
+          "type": "Animals",
+          "status": 0,
+          "level": 2,
+          "actionType": "Animals",
+          "number": 0,
+          "name": "Animals",
+          "descI": [
+            "Play animals cards from your **hand**.",
+            "ANIMALS-I"
+          ],
+          "descII": [
+            "Play animals cards from your **hand** or from within **reputation range** (with additional costs).",
+            "ANIMALS-II"
+          ],
+          "tooltip": [
+            "At level I, you can play animal cards only from your hand <HAND-CARDS>. At level II, you can play cards either from your hand or in your reputation range by paying **the folder number as additional cost** <HAND-CARDS> <TAKE-IN-RANGE-FOLDER-COST>."
+          ]
+        },
+        {
+          "id": 14,
+          "strength": 4,
+          "pId": "85794027",
+          "extraDatas": null,
+          "type": "Association",
+          "status": 0,
+          "level": 2,
+          "actionType": "Association",
+          "number": 0,
+          "name": "Association",
+          "descI": [
+            "Perform **1 association task** with a maximum value of <STRENGTH:X>."
+          ],
+          "descII": [
+            "Perform **1 or more different association tasks** with a total maximum value of <STRENGTH:X>.",
+            "In addition, you may make 1 **donation**.",
+            "You may play **Conservation project** cards from within **reputation range** (with additional costs)."
+          ],
+          "tooltip": [
+            "At level I, you can support conservation projects either on the board or from your hand <HAND-CARDS>. At level II, you can also support conservation project in your reputation range by paying **the folder number as additional cost** <HAND-CARDS> <TAKE-IN-RANGE-FOLDER-COST>."
+          ]
+        },
+        {
+          "id": 15,
+          "strength": 1,
+          "pId": "85794027",
+          "extraDatas": null,
+          "type": "Sponsors",
+          "status": 0,
+          "level": 2,
+          "actionType": "Sponsors",
+          "number": 0,
+          "name": "Sponsors",
+          "descI": [
+            "Play **1** sponsors card with a maximum level of <STRENGTH:X> from your hand.",
+            "SPONSORS",
+            "Break <STRBREAK:X>, gain <MONEY:X>."
+          ],
+          "descII": [
+            "Play **1 or more** sponsors cards with a total maximum level of <STRENGTH:X>** + 1** from your **hand** or from within **reputation range** (with additional costs).",
+            "SPONSORS",
+            "Break <STRBREAK:X>, gain **2x**<MONEY:X>."
+          ],
+          "tooltip": [
+            "At level I, you can play sponsor cards only from your hand <HAND-CARDS>. At level II, you can play cards either from your hand or in your reputation range by paying **the folder number as additional cost** <HAND-CARDS> <TAKE-IN-RANGE-FOLDER-COST>."
+          ]
+        }
+      ],
+      "icons": {
+        "Bird": 0,
+        "Predator": 0,
+        "Herbivore": 3,
+        "Bear": 0,
+        "Reptile": 1,
+        "Pet": 0,
+        "Primate": 0,
+        "Africa": 2,
+        "Europe": 2,
+        "Asia": 1,
+        "Americas": 0,
+        "Australia": 2,
+        "Partner-Zoo": 0,
+        "AnimalsII": 0,
+        "CardsII": 0,
+        "Science": 5,
+        "Fac": 0,
+        "Rock": 1,
+        "Water": 1,
+        "SeaAnimal": 1
+      },
+      "sizes": {
+        "small": 3,
+        "medium": 0,
+        "large": 2
+      },
+      "income": 28,
+      "newScore": 22,
+      "mapStatus": null,
+      "handStatus": [
+        3,
+        true
+      ],
+      "projectStrength": 5,
+      "xtoken": 2,
+      "is_ai": "0",
+      "beginner": false,
+      "avatar": "anon",
+      "order": 1,
+      "ack": "ack"
+    },
+    "88257314": {
+      "id": 88257314,
+      "no": 2,
+      "name": "Sigzy",
+      "color": "30a638",
+      "eliminated": 0,
+      "score": 33,
+      "scoreAux": 0,
+      "zombie": 0,
+      "money": 21,
+      "reputation": 6,
+      "appeal": 27,
+      "conservation": 10,
+      "mapId": "T1",
+      "hand": [
+        {
+          "id": "A401_Cheetah",
+          "location": "hand",
+          "state": 0,
+          "pId": 88257314,
+          "extraDatas": null,
+          "supported": [
+            "bg",
+            "mw"
+          ],
+          "type": "animal",
+          "name": "Cheetah",
+          "latin": "Acinonyx jubatus - Vulnerable",
+          "number": 401,
+          "cost": 17,
+          "appeal": 6,
+          "conservation": 0,
+          "reputation": 0,
+          "enclosureSize": 5,
+          "enclosureRequirements": [],
+          "specialEnclosure": [],
+          "categories": [
+            "Predator",
+            "Predator"
+          ],
+          "prerequisites": [],
+          "continents": [
+            "Africa"
+          ],
+          "ability": {
+            "Sprint": 3
+          },
+          "soloAbility": {
+            "Sprint": 3
+          },
+          "wave": false,
+          "reefAbility": [],
+          "noRegularEnclosure": false
+        },
+        {
+          "id": "S228_WazaSmallAnimalProgram",
+          "location": "hand",
+          "state": 2,
+          "pId": 88257314,
+          "extraDatas": null,
+          "supported": [
+            "bg",
+            "mw"
+          ],
+          "type": "sponsor",
+          "name": "Waza Small Animal Program",
+          "number": 228,
+          "lvl": 5,
+          "appeal": 0,
+          "conservation": 0,
+          "reputation": 0,
+          "enclosureRequirements": [],
+          "specialEnclosure": [],
+          "categories": [],
+          "prerequisites": {
+            "reputation": 3
+          },
+          "continents": [],
+          "effects": {
+            "immediate": [
+              "Gain 2 money for each small animal in your zoo"
+            ],
+            "passive": [
+              "Every time you play only small animals during the Animals action, you may play 1 additional small animal from your hand at the normal cost. The normal rules for playing Animal cards apply.",
+              "After that, add 1 small animal from the display to your hand, if available (even if you did not play 1 additional small animal from your hand).",
+              "The Small Animal card does not have to be within reputation range.",
+              "Small animals are animals that require a standard enclosure of 1 or 2 spaces, as well as Petting Zoo animals."
+            ]
+          },
+          "wave": false,
+          "person": false
+        },
+        {
+          "id": "A555_GoldenSnubnosedMonkey",
+          "location": "hand",
+          "state": 47,
+          "pId": 88257314,
+          "extraDatas": null,
+          "supported": [
+            "mw"
+          ],
+          "type": "animal",
+          "name": "Golden Snub-nosed Monkey",
+          "latin": "Rhinopithecus roxellana - Endangered",
+          "number": 555,
+          "cost": 18,
+          "appeal": 6,
+          "conservation": 1,
+          "reputation": 0,
+          "enclosureSize": 3,
+          "enclosureRequirements": {
+            "Rock": 1
+          },
+          "specialEnclosure": [],
+          "categories": [
+            "Primate"
+          ],
+          "prerequisites": {
+            "Science": 1
+          },
+          "continents": [
+            "Asia"
+          ],
+          "ability": {
+            "Pilfering": 1
+          },
+          "soloAbility": {
+            "Sprint": 1
+          },
+          "wave": false,
+          "reefAbility": [],
+          "noRegularEnclosure": false
+        },
+        {
+          "id": "A403_Leopard",
+          "location": "hand",
+          "state": 56,
+          "pId": 88257314,
+          "extraDatas": null,
+          "supported": [
+            "bg",
+            "mw"
+          ],
+          "type": "animal",
+          "name": "Leopard",
+          "latin": "Panthera pardus - Vunerable",
+          "number": 403,
+          "cost": 20,
+          "appeal": 7,
+          "conservation": 1,
+          "reputation": 0,
+          "enclosureSize": 3,
+          "enclosureRequirements": {
+            "Rock": 1
+          },
+          "specialEnclosure": [],
+          "categories": [
+            "Predator"
+          ],
+          "prerequisites": {
+            "Partner-Zoo": 1
+          },
+          "continents": [
+            "Africa"
+          ],
+          "ability": {
+            "Hunter": 4
+          },
+          "soloAbility": {
+            "Hunter": 4
+          },
+          "wave": false,
+          "reefAbility": [],
+          "noRegularEnclosure": false
+        },
+        {
+          "id": "P121_ReleaseSeacave",
+          "location": "hand",
+          "state": 57,
+          "pId": 88257314,
+          "extraDatas": null,
+          "supported": [
+            "bg",
+            "mw"
+          ],
+          "type": "project",
+          "name": "Sea Cave",
+          "number": 121,
+          "desc": "**Release 1 reptile** into the wild.",
+          "icon": "Reptile",
+          "category": "release",
+          "slots": [
+            {
+              "condition": {
+                "size": 4
+              },
+              "gain": {
+                "conservation": 5
+              }
+            },
+            {
+              "condition": {
+                "size": 3
+              },
+              "gain": {
+                "conservation": 4
+              }
+            },
+            {
+              "condition": {
+                "size": 2
+              },
+              "gain": {
+                "conservation": 3
+              }
+            }
+          ],
+          "wave": false,
+          "playedBonus": {
+            "reputation": 1
+          },
+          "asset": ""
+        },
+        {
+          "id": "A435_MalayanTapir",
+          "location": "hand",
+          "state": 58,
+          "pId": 88257314,
+          "extraDatas": null,
+          "supported": [
+            "bg",
+            "mw"
+          ],
+          "type": "animal",
+          "name": "Malayan Tapir",
+          "latin": "Tapirus indicus - Endangered",
+          "number": 435,
+          "cost": 17,
+          "appeal": 5,
+          "conservation": 0,
+          "reputation": 1,
+          "enclosureSize": 2,
+          "enclosureRequirements": [],
+          "specialEnclosure": [],
+          "categories": [
+            "Herbivore"
+          ],
+          "prerequisites": [],
+          "continents": [
+            "Asia"
+          ],
+          "ability": {
+            "Digging": 3
+          },
+          "soloAbility": {
+            "Digging": 3
+          },
+          "wave": false,
+          "reefAbility": [],
+          "noRegularEnclosure": false
+        }
+      ],
+      "handCount": 6,
+      "scoringHand": [
+        {
+          "id": "F007_FavoriteZoo",
+          "location": "scoringHand",
+          "state": 4,
+          "pId": 88257314,
+          "extraDatas": null,
+          "supported": [
+            "bg",
+            "mw"
+          ],
+          "type": "scoring",
+          "name": "Favorite Zoo",
+          "number": 7,
+          "desc": "Gain <CONSERVATION> for **reputation** in your zoo",
+          "icon": "reputation",
+          "scoreMap": {
+            "6": 1,
+            "9": 2,
+            "12": 3,
+            "15": 4
+          },
+          "wave": false,
+          "asset": ""
+        }
+      ],
+      "scoringHandCount": 1,
+      "actionCards": [
+        {
+          "id": 6,
+          "strength": 1,
+          "pId": "88257314",
+          "extraDatas": null,
+          "type": "Build",
+          "status": 0,
+          "level": 1,
+          "actionType": "Build",
+          "number": 0,
+          "name": "Build",
+          "descI": [
+            "Build **1 building** with a maximum size of <STRENGTH:X>.",
+            "Pay <MONEY:2> per space.",
+            "Available: **Kiosk, pavilion, aquariums, standard enclosures** and **petting zoo**."
+          ],
+          "descII": [
+            "Build **1 or more different buildings** with a total maximum size of <STRENGTH:X>.",
+            "Pay <MONEY:2> per space.",
+            "Newly available: **Large Bird Aviary** and **Reptile House**."
+          ],
+          "tooltip": []
+        },
+        {
+          "id": 7,
+          "strength": 3,
+          "pId": "88257314",
+          "extraDatas": null,
+          "type": "Cards4",
+          "status": 0,
+          "level": 2,
+          "actionType": "Cards",
+          "number": 4,
+          "name": "Cards",
+          "descI": [
+            "**BREAK** <BREAK:2>",
+            "CARDS-I",
+            "<MONEY:2> : <CLEVER:1>"
+          ],
+          "descII": [
+            "**BREAK** <BREAK:2>",
+            "CARDS-II",
+            "<CLEVER:1>"
+          ],
+          "tooltip": [
+            "At level I, you can draw cards only from the deck <TAKE-IN-DECK>. At level II, you can draw either from the deck or in reputation range <TAKE-IN-DECK> <TAKE-IN-RANGE>.",
+            "<SIDE_I> After finishing this action, you may pay 2 money to place any Action card on card slot 1 (Animal ability Clever).",
+            "<SIDE_II> Same as Side I, but you do not have to pay money to place an Action card on card slot 1."
+          ]
+        },
+        {
+          "id": 8,
+          "strength": 2,
+          "pId": "88257314",
+          "extraDatas": null,
+          "type": "Animals",
+          "status": 0,
+          "level": 2,
+          "actionType": "Animals",
+          "number": 0,
+          "name": "Animals",
+          "descI": [
+            "Play animals cards from your **hand**.",
+            "ANIMALS-I"
+          ],
+          "descII": [
+            "Play animals cards from your **hand** or from within **reputation range** (with additional costs).",
+            "ANIMALS-II"
+          ],
+          "tooltip": [
+            "At level I, you can play animal cards only from your hand <HAND-CARDS>. At level II, you can play cards either from your hand or in your reputation range by paying **the folder number as additional cost** <HAND-CARDS> <TAKE-IN-RANGE-FOLDER-COST>."
+          ]
+        },
+        {
+          "id": 9,
+          "strength": 4,
+          "pId": "88257314",
+          "extraDatas": null,
+          "type": "Association3",
+          "status": 1,
+          "level": 2,
+          "actionType": "Association",
+          "number": 3,
+          "name": "Association",
+          "descI": [
+            "Perform **1 association task** with a maximum value of <STRENGTH:X>.",
+            "Gain 1 <XTOKEN>-marker if <STRENGTH:X> if higher than the value of the task performed."
+          ],
+          "descII": [
+            "Perform **1 or more different association tasks** with a total maximum value of <STRENGTH:X>.",
+            "In addition, you may make 1 **donation**, for which you pay <MONEY:1> less for each <XTOKEN>-marker you have."
+          ],
+          "tooltip": [
+            "At level I, you can support conservation projects either on the board or from your hand <HAND-CARDS>. At level II, you can also support conservation project in your reputation range by paying **the folder number as additional cost** <HAND-CARDS> <TAKE-IN-RANGE-FOLDER-COST>.",
+            "<SIDE_I> If the strength of your action is higher than required for the task you carry out (not merely equal), gain 1 X-token.",
+            "<SIDE_II> Every time you use this action to make a donation, pay 1 money less for each X-token on your notepad (to a minimum of 0 money). You don't have to discard the X-tokens."
+          ]
+        },
+        {
+          "id": 10,
+          "strength": 5,
+          "pId": "88257314",
+          "extraDatas": null,
+          "type": "Sponsors",
+          "status": 0,
+          "level": 1,
+          "actionType": "Sponsors",
+          "number": 0,
+          "name": "Sponsors",
+          "descI": [
+            "Play **1** sponsors card with a maximum level of <STRENGTH:X> from your hand.",
+            "SPONSORS",
+            "Break <STRBREAK:X>, gain <MONEY:X>."
+          ],
+          "descII": [
+            "Play **1 or more** sponsors cards with a total maximum level of <STRENGTH:X>** + 1** from your **hand** or from within **reputation range** (with additional costs).",
+            "SPONSORS",
+            "Break <STRBREAK:X>, gain **2x**<MONEY:X>."
+          ],
+          "tooltip": [
+            "At level I, you can play sponsor cards only from your hand <HAND-CARDS>. At level II, you can play cards either from your hand or in your reputation range by paying **the folder number as additional cost** <HAND-CARDS> <TAKE-IN-RANGE-FOLDER-COST>."
+          ]
+        }
+      ],
+      "icons": {
+        "Bird": 1,
+        "Predator": 2,
+        "Herbivore": 0,
+        "Bear": 0,
+        "Reptile": 1,
+        "Pet": 0,
+        "Primate": 0,
+        "Africa": 3,
+        "Europe": 3,
+        "Asia": 2,
+        "Americas": 0,
+        "Australia": 0,
+        "Partner-Zoo": 0,
+        "AnimalsII": 0,
+        "CardsII": 0,
+        "Science": 3,
+        "Fac": 0,
+        "Rock": 1,
+        "Water": 3,
+        "SeaAnimal": 5
+      },
+      "sizes": {
+        "small": 4,
+        "medium": 0,
+        "large": 1
+      },
+      "income": 27,
+      "newScore": 33,
+      "mapStatus": null,
+      "handStatus": [
+        3,
+        true
+      ],
+      "projectStrength": 5,
+      "xtoken": 2,
+      "is_ai": "0",
+      "beginner": false,
+      "avatar": "anon",
+      "order": 0,
+      "ack": "ack"
+    }
+  },
+  "cards": [
+    {
+      "id": "A419_EuropeanBadger",
+      "location": "pool-6",
+      "state": 0,
+      "pId": null,
+      "extraDatas": null,
+      "supported": [
+        "bg",
+        "mw"
+      ],
+      "type": "animal",
+      "name": "European Badger",
+      "latin": "Meles meles",
+      "number": 419,
+      "cost": 5,
+      "appeal": 3,
+      "conservation": 0,
+      "reputation": 0,
+      "enclosureSize": 2,
+      "enclosureRequirements": [],
+      "specialEnclosure": [],
+      "categories": [
+        "Predator"
+      ],
+      "prerequisites": [],
+      "continents": [
+        "Europe"
+      ],
+      "ability": {
+        "Boost": "Animals"
+      },
+      "soloAbility": {
+        "Boost": "Animals"
+      },
+      "wave": false,
+      "reefAbility": [],
+      "noRegularEnclosure": false
+    },
+    {
+      "id": "A421_NewZealandFurSeal",
+      "location": "pool-4",
+      "state": 0,
+      "pId": null,
+      "extraDatas": null,
+      "supported": [
+        "bg",
+        "mw"
+      ],
+      "type": "animal",
+      "name": "New Zealand Fur Seal",
+      "latin": "Arctocephalus forsteri",
+      "number": 421,
+      "cost": 17,
+      "appeal": 8,
+      "conservation": 0,
+      "reputation": 0,
+      "enclosureSize": 5,
+      "enclosureRequirements": {
+        "Water": 1,
+        "Rock": 1
+      },
+      "specialEnclosure": [],
+      "categories": [
+        "Predator"
+      ],
+      "prerequisites": {
+        "AnimalsII": 1
+      },
+      "continents": [
+        "Australia"
+      ],
+      "ability": {
+        "FullThroated": null
+      },
+      "soloAbility": {
+        "FullThroated": null
+      },
+      "wave": false,
+      "reefAbility": [],
+      "noRegularEnclosure": false
+    },
+    {
+      "id": "A456_BarbaryMacaque",
+      "location": "pool-5",
+      "state": 0,
+      "pId": null,
+      "extraDatas": null,
+      "supported": [
+        "bg",
+        "mw"
+      ],
+      "type": "animal",
+      "name": "Barbary Macaque",
+      "latin": "Macaca sylvanus - Endangered",
+      "number": 456,
+      "cost": 13,
+      "appeal": 6,
+      "conservation": 0,
+      "reputation": 0,
+      "enclosureSize": 2,
+      "enclosureRequirements": [],
+      "specialEnclosure": [],
+      "categories": [
+        "Primate"
+      ],
+      "prerequisites": {
+        "Partner-Zoo": 1
+      },
+      "continents": [
+        "Africa"
+      ],
+      "ability": {
+        "Pilfering": 1
+      },
+      "soloAbility": {
+        "Sprint": 1
+      },
+      "wave": false,
+      "reefAbility": [],
+      "noRegularEnclosure": false
+    },
+    {
+      "id": "A480_BroadsnoutedCaiman",
+      "location": "pool-1",
+      "state": 0,
+      "pId": null,
+      "extraDatas": null,
+      "supported": [
+        "bg",
+        "mw"
+      ],
+      "type": "animal",
+      "name": "Broad-snouted Caiman",
+      "latin": "Caiman latirostris",
+      "number": 480,
+      "cost": 16,
+      "appeal": 6,
+      "conservation": 0,
+      "reputation": 0,
+      "enclosureSize": 4,
+      "enclosureRequirements": {
+        "Water": 1
+      },
+      "specialEnclosure": {
+        "types": [
+          "reptile-house"
+        ],
+        "cubes": 2
+      },
+      "categories": [
+        "Reptile"
+      ],
+      "prerequisites": [],
+      "continents": [
+        "Americas"
+      ],
+      "ability": {
+        "Snapping": 1
+      },
+      "soloAbility": {
+        "Snapping": 1
+      },
+      "wave": false,
+      "reefAbility": [],
+      "noRegularEnclosure": false
+    },
+    {
+      "id": "S235_SponsorshipElephants",
+      "location": "pool-3",
+      "state": 0,
+      "pId": null,
+      "extraDatas": null,
+      "supported": [
+        "bg",
+        "mw"
+      ],
+      "type": "sponsor",
+      "name": "Sponsorship: Elephants",
+      "number": 235,
+      "lvl": 3,
+      "appeal": 0,
+      "conservation": 0,
+      "reputation": 0,
+      "enclosureRequirements": [],
+      "specialEnclosure": [],
+      "categories": [],
+      "prerequisites": {
+        "Herbivore": 1
+      },
+      "continents": [],
+      "effects": {
+        "immediate": [
+          "Gain 1 appeal for each herbivore icon in your zoo."
+        ],
+        "income": [
+          "Gain 3 money for 1 to 2 herbivore icons, 6 money for 3 to 4 herbivore icons or 9 money for 5 or more herbivore icons in your zoo in the income phase of each break."
+        ]
+      },
+      "wave": false,
+      "person": false
+    },
+    {
+      "id": "S238_Ornithologist",
+      "location": "pool-2",
+      "state": 0,
+      "pId": null,
+      "extraDatas": null,
+      "supported": [
+        "bg",
+        "mw"
+      ],
+      "type": "sponsor",
+      "name": "Ornithologist",
+      "number": 238,
+      "lvl": 4,
+      "appeal": 0,
+      "conservation": 0,
+      "reputation": 0,
+      "enclosureRequirements": [],
+      "specialEnclosure": [],
+      "categories": [
+        "Bird"
+      ],
+      "prerequisites": [],
+      "continents": [],
+      "effects": {
+        "passive": [
+          "For each bird icon that is played in any zoo, gain 3 money (per icon)."
+        ]
+      },
+      "wave": false,
+      "person": true
+    },
+    {
+      "id": "A442_Moose",
+      "location": "inPlay",
+      "state": 0,
+      "pId": 85794027,
+      "extraDatas": null,
+      "supported": [
+        "bg",
+        "mw"
+      ],
+      "type": "animal",
+      "name": "Moose",
+      "latin": "Alces alces",
+      "number": 442,
+      "cost": 19,
+      "appeal": 7,
+      "conservation": 0,
+      "reputation": 0,
+      "enclosureSize": 4,
+      "enclosureRequirements": [],
+      "specialEnclosure": [],
+      "categories": [
+        "Herbivore"
+      ],
+      "prerequisites": {
+        "Herbivore": 2
+      },
+      "continents": [
+        "Europe"
+      ],
+      "ability": {
+        "Multiplier": "Sponsors",
+        "FlockAnimal": 4
+      },
+      "soloAbility": {
+        "Multiplier": "Sponsors",
+        "FlockAnimal": 4
+      },
+      "wave": false,
+      "reefAbility": [],
+      "noRegularEnclosure": false
+    },
+    {
+      "id": "A477_VeiledChameleon",
+      "location": "inPlay",
+      "state": 0,
+      "pId": 85794027,
+      "extraDatas": null,
+      "supported": [
+        "bg",
+        "mw"
+      ],
+      "type": "animal",
+      "name": "Veiled Chameleon",
+      "latin": "Chamaeleo calyptratus",
+      "number": 477,
+      "cost": 14,
+      "appeal": 4,
+      "conservation": 0,
+      "reputation": 0,
+      "enclosureSize": 1,
+      "enclosureRequirements": [],
+      "specialEnclosure": {
+        "types": [
+          "reptile-house"
+        ],
+        "cubes": 0
+      },
+      "categories": [
+        "Reptile"
+      ],
+      "prerequisites": [],
+      "continents": [
+        "Asia"
+      ],
+      "ability": {
+        "Snapping": 1
+      },
+      "soloAbility": {
+        "Snapping": 1
+      },
+      "wave": false,
+      "reefAbility": [],
+      "noRegularEnclosure": false
+    },
+    {
+      "id": "A534_SouthernBlueringedOctopus",
+      "location": "inPlay",
+      "state": 0,
+      "pId": 85794027,
+      "extraDatas": null,
+      "supported": [
+        "mw"
+      ],
+      "type": "animal",
+      "name": "Southern Blue-ringed Octopus",
+      "latin": "Hapalochlaena maculosa",
+      "number": 534,
+      "cost": 12,
+      "appeal": 4,
+      "conservation": 0,
+      "reputation": 0,
+      "enclosureSize": 2,
+      "enclosureRequirements": [],
+      "specialEnclosure": {
+        "types": [
+          "aquarium"
+        ],
+        "cubes": 1
+      },
+      "categories": [
+        "SeaAnimal"
+      ],
+      "prerequisites": [],
+      "continents": [
+        "Australia"
+      ],
+      "ability": {
+        "Venom": 1
+      },
+      "soloAbility": {
+        "Inventive": 1
+      },
+      "wave": true,
+      "reefAbility": {
+        "money": 3
+      },
+      "noRegularEnclosure": true
+    },
+    {
+      "id": "A538_DevilFirefish",
+      "location": "inPlay",
+      "state": 0,
+      "pId": 85789300,
+      "extraDatas": null,
+      "supported": [
+        "mw"
+      ],
+      "type": "animal",
+      "name": "Devil Firefish",
+      "latin": "Pterois miles",
+      "number": 538,
+      "cost": 16,
+      "appeal": 6,
+      "conservation": 0,
+      "reputation": 0,
+      "enclosureSize": 2,
+      "enclosureRequirements": [],
+      "specialEnclosure": {
+        "types": [
+          "aquarium"
+        ],
+        "cubes": 1
+      },
+      "categories": [
+        "SeaAnimal"
+      ],
+      "prerequisites": {
+        "Science": 1
+      },
+      "continents": [
+        "Asia"
+      ],
+      "ability": {
+        "Venom": 1
+      },
+      "soloAbility": {
+        "Inventive": 1
+      },
+      "wave": true,
+      "reefAbility": {
+        "Inventive": 1
+      },
+      "noRegularEnclosure": true
+    },
+    {
+      "id": "A545_LongcombSawfish",
+      "location": "inPlay",
+      "state": 0,
+      "pId": 88257314,
+      "extraDatas": null,
+      "supported": [
+        "mw"
+      ],
+      "type": "animal",
+      "name": "Longcomb Sawfish",
+      "latin": "Pristis zijsron - critically endangered",
+      "number": 545,
+      "cost": 21,
+      "appeal": 9,
+      "conservation": 1,
+      "reputation": 0,
+      "enclosureSize": 4,
+      "enclosureRequirements": [],
+      "specialEnclosure": {
+        "types": [
+          "aquarium"
+        ],
+        "cubes": 3
+      },
+      "categories": [
+        "SeaAnimal",
+        "SeaAnimal"
+      ],
+      "prerequisites": {
+        "SeaAnimal": 1
+      },
+      "continents": [
+        "Africa"
+      ],
+      "ability": {
+        "CutDown": null
+      },
+      "soloAbility": {
+        "CutDown": null
+      },
+      "wave": true,
+      "reefAbility": [],
+      "noRegularEnclosure": true
+    },
+    {
+      "id": "S201_ScienceLab",
+      "location": "inPlay",
+      "state": 0,
+      "pId": 85794027,
+      "extraDatas": null,
+      "supported": [
+        "bg",
+        "mw"
+      ],
+      "type": "sponsor",
+      "name": "Science Lab",
+      "number": 201,
+      "lvl": 5,
+      "appeal": 0,
+      "conservation": 0,
+      "reputation": 0,
+      "enclosureRequirements": [],
+      "specialEnclosure": [],
+      "categories": [
+        "Science"
+      ],
+      "prerequisites": {
+        "SponsorsII": 1
+      },
+      "continents": [],
+      "effects": {
+        "immediate": [
+          "Take 1 card from the deck or in reputation range"
+        ],
+        "income": [
+          "Take 1 card from the deck or in reputation range"
+        ],
+        "endgame": [
+          "Gain 1 conservation point for 3-5 research icons in your zoo; gain 2 for 6 or more."
+        ]
+      },
+      "wave": false,
+      "person": false
+    },
+    {
+      "id": "S203_Veterinarian",
+      "location": "inPlay",
+      "state": 0,
+      "pId": 85789300,
+      "extraDatas": null,
+      "supported": [
+        "bg",
+        "mw"
+      ],
+      "type": "sponsor",
+      "name": "Veterinarian",
+      "number": 203,
+      "lvl": 4,
+      "appeal": 0,
+      "conservation": 0,
+      "reputation": 0,
+      "enclosureRequirements": [],
+      "specialEnclosure": [],
+      "categories": [
+        "Science"
+      ],
+      "prerequisites": [],
+      "continents": [],
+      "effects": {
+        "immediate": [
+          "Gain 2/5/10 money for 1/2/3 universities in your zoo."
+        ],
+        "passive": [
+          "Supporting a conservation project with the Association action now only requires strength 4 (instead of 5)."
+        ],
+        "endgame": [
+          "Gain 1 conservation point if you have 3 universities in your zoo."
+        ]
+      },
+      "wave": false,
+      "person": true
+    },
+    {
+      "id": "S220_FederalGrants",
+      "location": "inPlay",
+      "state": 0,
+      "pId": 85794027,
+      "extraDatas": null,
+      "supported": [
+        "bg",
+        "mw"
+      ],
+      "type": "sponsor",
+      "name": "Federal Grants",
+      "number": 220,
+      "lvl": 4,
+      "appeal": 0,
+      "conservation": 0,
+      "reputation": 0,
+      "enclosureRequirements": [],
+      "specialEnclosure": [],
+      "categories": [
+        "Science"
+      ],
+      "prerequisites": [],
+      "continents": [],
+      "effects": {
+        "immediate": [
+          "Gain 3 money."
+        ],
+        "income": [
+          "Gain 3 money."
+        ],
+        "endgame": [
+          "Gain 1 conservation point if your zoo has 9 or more reputation."
+        ]
+      },
+      "wave": false,
+      "person": false
+    },
+    {
+      "id": "S265_FranchiseBusiness",
+      "location": "inPlay",
+      "state": 0,
+      "pId": 85789300,
+      "extraDatas": null,
+      "supported": [
+        "mw"
+      ],
+      "type": "sponsor",
+      "name": "Franchise Business",
+      "number": 265,
+      "lvl": 4,
+      "appeal": 0,
+      "conservation": 0,
+      "reputation": 0,
+      "enclosureRequirements": [],
+      "specialEnclosure": [],
+      "categories": [],
+      "prerequisites": {
+        "kiosk": 1
+      },
+      "continents": [],
+      "effects": {
+        "immediate": [
+          "You may place 1 kiosk on your zoo map for free.",
+          "The usual building rules apply, including the distance rule for kiosks."
+        ],
+        "passive": [
+          "In the income phase of each break, gain 1 money per kiosk all other players have on their zoo maps, no matter how much income these kiosks generate for their owners."
+        ],
+        "endgame": [
+          "Gain 1 conservation point if you have 5 or more kiosks in your zoo."
+        ]
+      },
+      "wave": false,
+      "person": false
+    },
+    {
+      "id": "A513_BarnOwl",
+      "location": "inPlay",
+      "state": 1,
+      "pId": 88257314,
+      "extraDatas": null,
+      "supported": [
+        "bg",
+        "mw"
+      ],
+      "type": "animal",
+      "name": "Barn Owl",
+      "latin": "Tyto alba",
+      "number": 513,
+      "cost": 12,
+      "appeal": 3,
+      "conservation": 0,
+      "reputation": 0,
+      "enclosureSize": 1,
+      "enclosureRequirements": [],
+      "specialEnclosure": [],
+      "categories": [
+        "Bird"
+      ],
+      "prerequisites": [],
+      "continents": [
+        "Europe"
+      ],
+      "ability": {
+        "Perception": 4
+      },
+      "soloAbility": {
+        "Perception": 4
+      },
+      "wave": false,
+      "reefAbility": [],
+      "noRegularEnclosure": false
+    },
+    {
+      "id": "S270_MarineResearchExpedition",
+      "location": "inPlay",
+      "state": 1,
+      "pId": 85789300,
+      "extraDatas": null,
+      "supported": [
+        "mw"
+      ],
+      "type": "sponsor",
+      "name": "Marine Research Expedition",
+      "number": 270,
+      "lvl": 5,
+      "appeal": 0,
+      "conservation": 0,
+      "reputation": 0,
+      "enclosureRequirements": [],
+      "specialEnclosure": [],
+      "categories": [
+        "Science",
+        "SeaAnimal"
+      ],
+      "prerequisites": [],
+      "continents": [],
+      "effects": {
+        "passive": [
+          "For each sea animal icon you play into your zoo, you may either do a) or b):",
+          "a) **Expedition**: discard 1 of your played person Sponsor cards (not from your hand) to gain 1 conservation point.",
+          "You lose all future benefits of the person Sponsor card and any icons on it, but you do not have to give back anything you gained from the person before.",
+          "b) **Scuba Dive 3**: reveal the 3 topmost cards of the deck. Choose 1 Sponsor card and add it to your hand. Discard the other cards."
+        ]
+      },
+      "wave": true,
+      "person": false
+    },
+    {
+      "id": "S273_Publications",
+      "location": "inPlay",
+      "state": 3,
+      "pId": 88257314,
+      "extraDatas": null,
+      "supported": [
+        "mw"
+      ],
+      "type": "sponsor",
+      "name": "Publications",
+      "number": 273,
+      "lvl": 4,
+      "appeal": 0,
+      "conservation": 0,
+      "reputation": 0,
+      "enclosureRequirements": [],
+      "specialEnclosure": [],
+      "categories": [
+        "Science"
+      ],
+      "prerequisites": {
+        "Science": 1
+      },
+      "continents": [],
+      "effects": {
+        "immediate": [
+          "You may make 1 donation.",
+          "You do not need to have your Association Action card upgraded to do this. The usual rules apply."
+        ],
+        "passive": [
+          "Every time you make a donation, pay 1 money less for each research icon in your zoo (to a minimum of 0 money)."
+        ]
+      },
+      "wave": false,
+      "person": false
+    },
+    {
+      "id": "A524_Mangalica",
+      "location": "inPlay",
+      "state": 4,
+      "pId": 85789300,
+      "extraDatas": null,
+      "supported": [
+        "bg",
+        "mw"
+      ],
+      "type": "animal",
+      "name": "Mangalica",
+      "latin": "Sus scrofa form. domestica",
+      "number": 524,
+      "cost": 7,
+      "appeal": 0,
+      "conservation": 0,
+      "reputation": 0,
+      "enclosureSize": 0,
+      "enclosureRequirements": [],
+      "specialEnclosure": {
+        "types": [
+          "petting-zoo"
+        ],
+        "cubes": 1
+      },
+      "categories": [
+        "Pet"
+      ],
+      "prerequisites": [],
+      "continents": [],
+      "ability": {
+        "PettingZooAnimal": null,
+        "Digging": 1
+      },
+      "soloAbility": {
+        "PettingZooAnimal": null,
+        "Digging": 1
+      },
+      "wave": false,
+      "reefAbility": [],
+      "noRegularEnclosure": true
+    },
+    {
+      "id": "A522_Donkey",
+      "location": "inPlay",
+      "state": 7,
+      "pId": 85789300,
+      "extraDatas": null,
+      "supported": [
+        "bg",
+        "mw"
+      ],
+      "type": "animal",
+      "name": "Donkey",
+      "latin": "Equus asinus asinus",
+      "number": 522,
+      "cost": 7,
+      "appeal": 0,
+      "conservation": 0,
+      "reputation": 0,
+      "enclosureSize": 0,
+      "enclosureRequirements": [],
+      "specialEnclosure": {
+        "types": [
+          "petting-zoo"
+        ],
+        "cubes": 1
+      },
+      "categories": [
+        "Pet"
+      ],
+      "prerequisites": [],
+      "continents": [],
+      "ability": {
+        "PettingZooAnimal": null,
+        "Inventive": 1
+      },
+      "soloAbility": {
+        "PettingZooAnimal": null,
+        "Inventive": 1
+      },
+      "wave": false,
+      "reefAbility": [],
+      "noRegularEnclosure": true
+    },
+    {
+      "id": "A523_DomesticRabbit",
+      "location": "inPlay",
+      "state": 8,
+      "pId": 85789300,
+      "extraDatas": null,
+      "supported": [
+        "bg",
+        "mw"
+      ],
+      "type": "animal",
+      "name": "Domestic Rabbit",
+      "latin": "Oryctolagus cuniculus d. dom.",
+      "number": 523,
+      "cost": 7,
+      "appeal": 0,
+      "conservation": 0,
+      "reputation": 0,
+      "enclosureSize": 0,
+      "enclosureRequirements": [],
+      "specialEnclosure": {
+        "types": [
+          "petting-zoo"
+        ],
+        "cubes": 1
+      },
+      "categories": [
+        "Pet"
+      ],
+      "prerequisites": [],
+      "continents": [],
+      "ability": {
+        "PettingZooAnimal": null
+      },
+      "soloAbility": {
+        "PettingZooAnimal": null
+      },
+      "wave": false,
+      "reefAbility": [],
+      "noRegularEnclosure": true
+    },
+    {
+      "id": "S229_ExpertInSmallAnimals",
+      "location": "inPlay",
+      "state": 9,
+      "pId": 88257314,
+      "extraDatas": null,
+      "supported": [
+        "bg",
+        "mw"
+      ],
+      "type": "sponsor",
+      "name": "Expert In Small Animals",
+      "number": 229,
+      "lvl": 5,
+      "appeal": 0,
+      "conservation": 0,
+      "reputation": 0,
+      "enclosureRequirements": [],
+      "specialEnclosure": [],
+      "categories": [],
+      "prerequisites": [],
+      "continents": [],
+      "effects": {
+        "immediate": [
+          "Gain 1 appeal for each small animal in your zoo."
+        ],
+        "passive": [
+          "Every time you play a small animal, pay 3 money less for the animal than indicated on the Animal card.",
+          "Small animals are animals that require a standard enclosure of 1 or 2 spaces, as well as Petting Zoo animals."
+        ]
+      },
+      "wave": false,
+      "person": true
+    },
+    {
+      "id": "S234_SponsorshipLions",
+      "location": "inPlay",
+      "state": 11,
+      "pId": 88257314,
+      "extraDatas": null,
+      "supported": [
+        "bg",
+        "mw"
+      ],
+      "type": "sponsor",
+      "name": "Sponsorship: Lions",
+      "number": 234,
+      "lvl": 3,
+      "appeal": 0,
+      "conservation": 0,
+      "reputation": 0,
+      "enclosureRequirements": [],
+      "specialEnclosure": [],
+      "categories": [],
+      "prerequisites": {
+        "Predator": 1
+      },
+      "continents": [],
+      "effects": {
+        "immediate": [
+          "Gain 1 appeal for each predator icon in your zoo."
+        ],
+        "income": [
+          "Gain 3 money for 1 to 2 predator icons, 6 money for 3 to 4 predator icons or 9 money for 5 or more predator icons in your zoo in the income phase of each break."
+        ]
+      },
+      "wave": false,
+      "person": false
+    },
+    {
+      "id": "A537_BlackbarTriggerfish",
+      "location": "inPlay",
+      "state": 12,
+      "pId": 88257314,
+      "extraDatas": null,
+      "supported": [
+        "mw"
+      ],
+      "type": "animal",
+      "name": "Blackbar Triggerfish",
+      "latin": "Rhinecanthus aculeatus",
+      "number": 537,
+      "cost": 14,
+      "appeal": 5,
+      "conservation": 0,
+      "reputation": 0,
+      "enclosureSize": 2,
+      "enclosureRequirements": [],
+      "specialEnclosure": {
+        "types": [
+          "aquarium"
+        ],
+        "cubes": 1
+      },
+      "categories": [
+        "SeaAnimal"
+      ],
+      "prerequisites": {
+        "Fac": 1
+      },
+      "continents": [
+        "Africa"
+      ],
+      "ability": {
+        "Constriction": null
+      },
+      "soloAbility": {
+        "Clever": null
+      },
+      "wave": true,
+      "reefAbility": {
+        "take-in-range-or-deck": 1
+      },
+      "noRegularEnclosure": true
+    },
+    {
+      "id": "A410_YellowthroatedMarten",
+      "location": "inPlay",
+      "state": 15,
+      "pId": 88257314,
+      "extraDatas": null,
+      "supported": [
+        "bg",
+        "mw"
+      ],
+      "type": "animal",
+      "name": "Yellow-throated Marten",
+      "latin": "Martes flavigula",
+      "number": 410,
+      "cost": 7,
+      "appeal": 3,
+      "conservation": 0,
+      "reputation": 0,
+      "enclosureSize": 1,
+      "enclosureRequirements": [],
+      "specialEnclosure": [],
+      "categories": [
+        "Predator"
+      ],
+      "prerequisites": [],
+      "continents": [
+        "Asia"
+      ],
+      "ability": {
+        "Hunter": 1
+      },
+      "soloAbility": {
+        "Hunter": 1
+      },
+      "wave": false,
+      "reefAbility": [],
+      "noRegularEnclosure": false
+    },
+    {
+      "id": "S257_SideEntrance",
+      "location": "inPlay",
+      "state": 20,
+      "pId": 85794027,
+      "extraDatas": null,
+      "supported": [
+        "bg",
+        "mw"
+      ],
+      "type": "sponsor",
+      "name": "Side Entrance",
+      "number": 257,
+      "lvl": 3,
+      "appeal": 0,
+      "conservation": 0,
+      "reputation": 0,
+      "enclosureRequirements": [],
+      "specialEnclosure": [],
+      "categories": [],
+      "prerequisites": [],
+      "continents": [],
+      "effects": {
+        "immediate": [
+          "Place the Side Entrance unique building on your zoo map on 2 border spaces. It does not have to be adjacent to existing buildings. Otherwise, the usual building rules apply. From now on, you may build buildings adjacent to the Side Entrance as well."
+        ],
+        "income": [
+          "Gain 2 money for each building (except empty standard enclosures), that is adjacent to the Side Entrance (similar to a kiosk, except that the Side Entrance itself can be adjacent to a kiosk)."
+        ],
+        "endgame": [
+          "Gain 5 appeal if you have completely covered your zoo map (all spaces except the rock and water spaces)."
+        ]
+      },
+      "wave": false,
+      "person": false
+    },
+    {
+      "id": "A427_WhiteRhinoceros",
+      "location": "inPlay",
+      "state": 21,
+      "pId": 85794027,
+      "extraDatas": null,
+      "supported": [
+        "bg",
+        "mw"
+      ],
+      "type": "animal",
+      "name": "White Rhinoceros",
+      "latin": "Ceratotherium simum - Near Threatened",
+      "number": 427,
+      "cost": 24,
+      "appeal": 9,
+      "conservation": 0,
+      "reputation": 0,
+      "enclosureSize": 4,
+      "enclosureRequirements": {
+        "Rock": 1
+      },
+      "specialEnclosure": [],
+      "categories": [
+        "Herbivore"
+      ],
+      "prerequisites": {
+        "Science": 1
+      },
+      "continents": [
+        "Africa"
+      ],
+      "ability": {
+        "Assertion": null
+      },
+      "soloAbility": {
+        "Assertion": null
+      },
+      "wave": false,
+      "reefAbility": [],
+      "noRegularEnclosure": false
+    },
+    {
+      "id": "S223_ScienceInstitute",
+      "location": "inPlay",
+      "state": 22,
+      "pId": 85794027,
+      "extraDatas": null,
+      "supported": [
+        "bg",
+        "mw"
+      ],
+      "type": "sponsor",
+      "name": "Science Institute",
+      "number": 223,
+      "lvl": 3,
+      "appeal": 0,
+      "conservation": 0,
+      "reputation": 0,
+      "enclosureRequirements": [],
+      "specialEnclosure": [],
+      "categories": [
+        "Science",
+        "Science"
+      ],
+      "prerequisites": [],
+      "continents": [],
+      "effects": [],
+      "wave": false,
+      "person": false
+    },
+    {
+      "id": "S259_NativeLizards",
+      "location": "inPlay",
+      "state": 31,
+      "pId": 85789300,
+      "extraDatas": null,
+      "supported": [
+        "bg",
+        "mw"
+      ],
+      "type": "sponsor",
+      "name": "Native Lizards",
+      "number": 259,
+      "lvl": 5,
+      "appeal": 0,
+      "conservation": 0,
+      "reputation": 0,
+      "enclosureRequirements": [],
+      "specialEnclosure": [],
+      "categories": [
+        "Reptile"
+      ],
+      "prerequisites": {
+        "Appeal": 1
+      },
+      "continents": [],
+      "effects": {
+        "immediate": [
+          "Gain 1 appeal for every connected rock space."
+        ],
+        "endgame": [
+          "Gain 1 conservation point for every 2 isolated rock spaces. Example: If you have 3 rock spaces that are isolated, you gain 1 conservation point."
+        ]
+      },
+      "wave": false,
+      "person": false
+    },
+    {
+      "id": "A450_CommonWombat",
+      "location": "inPlay",
+      "state": 32,
+      "pId": 85794027,
+      "extraDatas": {
+        "pouch": 1
+      },
+      "supported": [
+        "bg",
+        "mw"
+      ],
+      "type": "animal",
+      "name": "Common Wombat",
+      "latin": "Vombatus ursinus",
+      "number": 450,
+      "cost": 9,
+      "appeal": 4,
+      "conservation": 0,
+      "reputation": 0,
+      "enclosureSize": 2,
+      "enclosureRequirements": [],
+      "specialEnclosure": [],
+      "categories": [
+        "Herbivore"
+      ],
+      "prerequisites": [],
+      "continents": [
+        "Australia"
+      ],
+      "ability": {
+        "Pouch": 1
+      },
+      "soloAbility": {
+        "Pouch": 1
+      },
+      "wave": false,
+      "reefAbility": [],
+      "noRegularEnclosure": false
+    },
+    {
+      "id": "S205_GorillaFieldResearch",
+      "location": "inPlay",
+      "state": 39,
+      "pId": 85789300,
+      "extraDatas": null,
+      "supported": [
+        "bg",
+        "mw"
+      ],
+      "type": "sponsor",
+      "name": "Gorilla Field Research",
+      "number": 205,
+      "lvl": 3,
+      "appeal": 0,
+      "conservation": 1,
+      "reputation": 2,
+      "enclosureRequirements": [],
+      "specialEnclosure": [],
+      "categories": [
+        "Science"
+      ],
+      "prerequisites": {
+        "Science": 3
+      },
+      "continents": [],
+      "effects": [],
+      "wave": false,
+      "person": false
+    },
+    {
+      "id": "A423_NewZealandSeaLion",
+      "location": "inPlay",
+      "state": 40,
+      "pId": 85789300,
+      "extraDatas": null,
+      "supported": [
+        "bg",
+        "mw"
+      ],
+      "type": "animal",
+      "name": "New Zealand Sea Lion",
+      "latin": "Phocarctos hookeri - Endangered",
+      "number": 423,
+      "cost": 17,
+      "appeal": 6,
+      "conservation": 0,
+      "reputation": 0,
+      "enclosureSize": 3,
+      "enclosureRequirements": {
+        "Water": 1
+      },
+      "specialEnclosure": [],
+      "categories": [
+        "Predator"
+      ],
+      "prerequisites": [],
+      "continents": [
+        "Australia"
+      ],
+      "ability": {
+        "Pack": null
+      },
+      "soloAbility": {
+        "Pack": null
+      },
+      "wave": false,
+      "reefAbility": [],
+      "noRegularEnclosure": false
+    },
+    {
+      "id": "A548_ShortsnoutedSeahorse",
+      "location": "inPlay",
+      "state": 43,
+      "pId": 88257314,
+      "extraDatas": {
+        "pouch": 1
+      },
+      "supported": [
+        "mw"
+      ],
+      "type": "animal",
+      "name": "Short-snouted Seahorse",
+      "latin": "Hippocampus hippocampus",
+      "number": 548,
+      "cost": 7,
+      "appeal": 2,
+      "conservation": 0,
+      "reputation": 0,
+      "enclosureSize": 1,
+      "enclosureRequirements": {
+        "Rock": 1
+      },
+      "specialEnclosure": {
+        "types": [
+          "aquarium"
+        ],
+        "cubes": 1
+      },
+      "categories": [
+        "SeaAnimal"
+      ],
+      "prerequisites": [],
+      "continents": [
+        "Europe"
+      ],
+      "ability": {
+        "Camouflage": null,
+        "Pouch": 1
+      },
+      "soloAbility": {
+        "Camouflage": null,
+        "Pouch": 1
+      },
+      "wave": true,
+      "reefAbility": [],
+      "noRegularEnclosure": true
+    },
+    {
+      "id": "S250_SeaTurtleTank_MW",
+      "location": "inPlay",
+      "state": 44,
+      "pId": 88257314,
+      "extraDatas": null,
+      "supported": [
+        "mw"
+      ],
+      "type": "sponsor",
+      "name": "Sea Turtle Tank",
+      "number": 250,
+      "lvl": 5,
+      "appeal": 0,
+      "conservation": 0,
+      "reputation": 0,
+      "enclosureRequirements": {
+        "Water": 2
+      },
+      "specialEnclosure": [],
+      "categories": [
+        "Reptile",
+        "SeaAnimal"
+      ],
+      "prerequisites": [],
+      "continents": [],
+      "effects": {
+        "immediate": [
+          "Place the Sea Turtle Tank unique building on your zoo map (adjacent to at least 2 water space)."
+        ],
+        "passive": [
+          "For each reptile icon you play into your zoo, you may sell up to 2 cards from your hand for 4 money each (Sunbathing 2). Place the sold cards on the discard pile."
+        ]
+      },
+      "wave": false,
+      "person": false
+    },
+    {
+      "id": "P107_Europe",
+      "location": "base_2",
+      "state": 0,
+      "pId": null,
+      "extraDatas": null,
+      "supported": [
+        "bg",
+        "mw"
+      ],
+      "type": "baseProject",
+      "name": "Europe",
+      "number": 107,
+      "desc": "Requires **Europe** icons in your zoo.",
+      "icon": "Europe",
+      "category": "icons",
+      "slots": [
+        {
+          "condition": 5,
+          "gain": {
+            "conservation": 5
+          }
+        },
+        {
+          "condition": 4,
+          "gain": {
+            "conservation": 4
+          }
+        },
+        {
+          "condition": 2,
+          "gain": {
+            "conservation": 2
+          }
+        }
+      ],
+      "wave": false,
+      "playedBonus": [],
+      "asset": ""
+    },
+    {
+      "id": "P110_Predators",
+      "location": "base_1",
+      "state": 0,
+      "pId": null,
+      "extraDatas": null,
+      "supported": [
+        "bg",
+        "mw"
+      ],
+      "type": "baseProject",
+      "name": "Predators",
+      "number": 110,
+      "desc": "Requires **predator** icons in your zoo.",
+      "icon": "Predator",
+      "category": "icons",
+      "slots": [
+        {
+          "condition": 5,
+          "gain": {
+            "conservation": 5
+          }
+        },
+        {
+          "condition": 4,
+          "gain": {
+            "conservation": 4
+          }
+        },
+        {
+          "condition": 2,
+          "gain": {
+            "conservation": 2
+          }
+        }
+      ],
+      "wave": false,
+      "playedBonus": [],
+      "asset": ""
+    },
+    {
+      "id": "P133_SeaAnimals",
+      "location": "base_0",
+      "state": 0,
+      "pId": null,
+      "extraDatas": null,
+      "supported": [
+        "mw"
+      ],
+      "type": "baseProject",
+      "name": "Sea Animals",
+      "number": 133,
+      "desc": "Requires **sea animals** icons in your zoo.",
+      "icon": "SeaAnimal",
+      "category": "icons",
+      "slots": [
+        {
+          "condition": 5,
+          "gain": {
+            "conservation": 5
+          }
+        },
+        {
+          "condition": 4,
+          "gain": {
+            "conservation": 4
+          }
+        },
+        {
+          "condition": 2,
+          "gain": {
+            "conservation": 2
+          }
+        }
+      ],
+      "wave": false,
+      "playedBonus": [],
+      "asset": ""
+    }
+  ],
+  "deckCount": 170,
+  "discardCount": 46,
+  "buildings": [
+    {
+      "id": 1,
+      "location": "board",
+      "state": "5",
+      "pId": 88257314,
+      "type": "large-aquarium",
+      "x": 2,
+      "y": 3,
+      "rotation": 4
+    },
+    {
+      "id": 2,
+      "location": "board",
+      "state": "3",
+      "pId": 85789300,
+      "type": "petting-zoo",
+      "x": 7,
+      "y": 2,
+      "rotation": 0
+    },
+    {
+      "id": 3,
+      "location": "board",
+      "state": "0",
+      "pId": 85789300,
+      "type": "kiosk",
+      "x": 6,
+      "y": 3,
+      "rotation": 0
+    },
+    {
+      "id": 4,
+      "location": "board",
+      "state": "1",
+      "pId": 85794027,
+      "type": "size-4",
+      "x": 1,
+      "y": 10,
+      "rotation": 0
+    },
+    {
+      "id": 5,
+      "location": "board",
+      "state": "1",
+      "pId": 88257314,
+      "type": "size-1",
+      "x": 4,
+      "y": 1,
+      "rotation": 0
+    },
+    {
+      "id": 6,
+      "location": "board",
+      "state": "0",
+      "pId": 85794027,
+      "type": "entrance",
+      "x": 7,
+      "y": 0,
+      "rotation": 2
+    },
+    {
+      "id": 7,
+      "location": "board",
+      "state": "1",
+      "pId": 85794027,
+      "type": "size-2",
+      "x": 0,
+      "y": 5,
+      "rotation": 5
+    },
+    {
+      "id": 8,
+      "location": "board",
+      "state": "0",
+      "pId": 88257314,
+      "type": "kiosk",
+      "x": 3,
+      "y": 2,
+      "rotation": 0
+    },
+    {
+      "id": 9,
+      "location": "board",
+      "state": "1",
+      "pId": 88257314,
+      "type": "size-1",
+      "x": 3,
+      "y": 4,
+      "rotation": 0
+    },
+    {
+      "id": 10,
+      "location": "board",
+      "state": "1",
+      "pId": 85789300,
+      "type": "size-3",
+      "x": 6,
+      "y": 5,
+      "rotation": 1
+    },
+    {
+      "id": 11,
+      "location": "board",
+      "state": "0",
+      "pId": 85789300,
+      "type": "kiosk",
+      "x": 4,
+      "y": 7,
+      "rotation": 0
+    },
+    {
+      "id": 12,
+      "location": "board",
+      "state": "1",
+      "pId": 85794027,
+      "type": "size-1",
+      "x": 7,
+      "y": 2,
+      "rotation": 0
+    },
+    {
+      "id": 13,
+      "location": "board",
+      "state": "0",
+      "pId": 85789300,
+      "type": "kiosk",
+      "x": 7,
+      "y": 8,
+      "rotation": 0
+    },
+    {
+      "id": 15,
+      "location": "board",
+      "state": "1",
+      "pId": 85789300,
+      "type": "small-aquarium",
+      "x": 8,
+      "y": 7,
+      "rotation": 0
+    },
+    {
+      "id": 16,
+      "location": "board",
+      "state": "0",
+      "pId": 88257314,
+      "type": "sea-turtle",
+      "x": 5,
+      "y": 6,
+      "rotation": 5
+    },
+    {
+      "id": 17,
+      "location": "board",
+      "state": "0",
+      "pId": 85794027,
+      "type": "size-2",
+      "x": 1,
+      "y": 2,
+      "rotation": 1
+    },
+    {
+      "id": 18,
+      "location": "board",
+      "state": "0",
+      "pId": 88257314,
+      "type": "size-5",
+      "x": 7,
+      "y": 2,
+      "rotation": 1
+    },
+    {
+      "id": 19,
+      "location": "board",
+      "state": "1",
+      "pId": 85794027,
+      "type": "small-aquarium",
+      "x": 6,
+      "y": 5,
+      "rotation": 3
+    },
+    {
+      "id": 20,
+      "location": "board",
+      "state": "0",
+      "pId": 85789300,
+      "type": "size-3",
+      "x": 5,
+      "y": 8,
+      "rotation": 0
+    },
+    {
+      "id": 21,
+      "location": "board",
+      "state": "0",
+      "pId": 85789300,
+      "type": "kiosk",
+      "x": 5,
+      "y": 12,
+      "rotation": 0
+    },
+    {
+      "id": 22,
+      "location": "board",
+      "state": "0",
+      "pId": 85789300,
+      "type": "pavilion",
+      "x": 4,
+      "y": 11,
+      "rotation": 0
+    },
+    {
+      "id": 23,
+      "location": "board",
+      "state": "0",
+      "pId": 88257314,
+      "type": "size-3",
+      "x": 5,
+      "y": 10,
+      "rotation": 0
+    },
+    {
+      "id": 24,
+      "location": "board",
+      "state": "0",
+      "pId": 88257314,
+      "type": "kiosk",
+      "x": 0,
+      "y": 5,
+      "rotation": 0
+    },
+    {
+      "id": 25,
+      "location": "board",
+      "state": "0",
+      "pId": 88257314,
+      "type": "kiosk",
+      "x": 7,
+      "y": 4,
+      "rotation": 0
+    },
+    {
+      "id": 26,
+      "location": "board",
+      "state": "0",
+      "pId": 88257314,
+      "type": "kiosk",
+      "x": 4,
+      "y": 11,
+      "rotation": 0
+    }
+  ],
+  "meeples": [
+    {
+      "id": 1,
+      "location": "partner_1",
+      "pId": "85794027",
+      "type": "partner-Africa",
+      "x": null,
+      "y": null,
+      "state": "0"
+    },
+    {
+      "id": 2,
+      "location": "partner_2",
+      "pId": "88257314",
+      "type": "partner-Africa",
+      "x": null,
+      "y": null,
+      "state": "0"
+    },
+    {
+      "id": 3,
+      "location": "association_3",
+      "pId": null,
+      "type": "partner-Africa",
+      "x": null,
+      "y": null,
+      "state": "0"
+    },
+    {
+      "id": 5,
+      "location": "partner_1",
+      "pId": "88257314",
+      "type": "partner-Europe",
+      "x": null,
+      "y": null,
+      "state": "0"
+    },
+    {
+      "id": 6,
+      "location": "partner_2",
+      "pId": "85794027",
+      "type": "partner-Europe",
+      "x": null,
+      "y": null,
+      "state": "0"
+    },
+    {
+      "id": 7,
+      "location": "association_3",
+      "pId": null,
+      "type": "partner-Europe",
+      "x": null,
+      "y": null,
+      "state": "0"
+    },
+    {
+      "id": 9,
+      "location": "partner_3",
+      "pId": "88257314",
+      "type": "partner-Asia",
+      "x": null,
+      "y": null,
+      "state": "0"
+    },
+    {
+      "id": 13,
+      "location": "association_3",
+      "pId": null,
+      "type": "partner-Americas",
+      "x": null,
+      "y": null,
+      "state": "0"
+    },
+    {
+      "id": 17,
+      "location": "partner_1",
+      "pId": "85789300",
+      "type": "partner-Australia",
+      "x": null,
+      "y": null,
+      "state": "0"
+    },
+    {
+      "id": 18,
+      "location": "association_3",
+      "pId": null,
+      "type": "partner-Australia",
+      "x": null,
+      "y": null,
+      "state": "0"
+    },
+    {
+      "id": 21,
+      "location": "university_1",
+      "pId": "85789300",
+      "type": "fac-rep-hand",
+      "x": null,
+      "y": null,
+      "state": "0"
+    },
+    {
+      "id": 22,
+      "location": "association_4",
+      "pId": null,
+      "type": "fac-rep-hand",
+      "x": null,
+      "y": null,
+      "state": "0"
+    },
+    {
+      "id": 25,
+      "location": "university_1",
+      "pId": "85794027",
+      "type": "fac-science-rep",
+      "x": null,
+      "y": null,
+      "state": "0"
+    },
+    {
+      "id": 26,
+      "location": "university_2",
+      "pId": "88257314",
+      "type": "fac-science-rep",
+      "x": null,
+      "y": null,
+      "state": "0"
+    },
+    {
+      "id": 27,
+      "location": "association_4",
+      "pId": null,
+      "type": "fac-science-rep",
+      "x": null,
+      "y": null,
+      "state": "0"
+    },
+    {
+      "id": 29,
+      "location": "university_2",
+      "pId": "85789300",
+      "type": "fac-science-science",
+      "x": null,
+      "y": null,
+      "state": "0"
+    },
+    {
+      "id": 30,
+      "location": "association_4",
+      "pId": null,
+      "type": "fac-science-science",
+      "x": null,
+      "y": null,
+      "state": "0"
+    },
+    {
+      "id": 33,
+      "location": "association_4",
+      "pId": null,
+      "type": "fac-generic",
+      "x": null,
+      "y": null,
+      "state": "0"
+    },
+    {
+      "id": 34,
+      "location": "association_side",
+      "pId": null,
+      "type": "fac-science-bird",
+      "x": null,
+      "y": null,
+      "state": "0"
+    },
+    {
+      "id": 35,
+      "location": "university_1",
+      "pId": "88257314",
+      "type": "fac-science-predator",
+      "x": null,
+      "y": null,
+      "state": "0"
+    },
+    {
+      "id": 36,
+      "location": "association_side",
+      "pId": null,
+      "type": "fac-science-primate",
+      "x": null,
+      "y": null,
+      "state": "0"
+    },
+    {
+      "id": 37,
+      "location": "association_side",
+      "pId": null,
+      "type": "fac-science-herbivore",
+      "x": null,
+      "y": null,
+      "state": "0"
+    },
+    {
+      "id": 38,
+      "location": "association_side",
+      "pId": null,
+      "type": "fac-science-reptile",
+      "x": null,
+      "y": null,
+      "state": "0"
+    },
+    {
+      "id": 39,
+      "location": "association_side",
+      "pId": null,
+      "type": "fac-science-marine",
+      "x": null,
+      "y": null,
+      "state": "0"
+    },
+    {
+      "id": 40,
+      "location": "bonus_0",
+      "pId": "85789300",
+      "type": "token",
+      "x": null,
+      "y": null,
+      "state": "0"
+    },
+    {
+      "id": 41,
+      "location": "bonus_1",
+      "pId": "85789300",
+      "type": "token",
+      "x": null,
+      "y": null,
+      "state": "0"
+    },
+    {
+      "id": 42,
+      "location": "bonus_2",
+      "pId": "85789300",
+      "type": "token",
+      "x": null,
+      "y": null,
+      "state": "0"
+    },
+    {
+      "id": 43,
+      "location": "bonus_3",
+      "pId": "85789300",
+      "type": "token",
+      "x": null,
+      "y": null,
+      "state": "0"
+    },
+    {
+      "id": 44,
+      "location": "P133_SeaAnimals_2",
+      "pId": "85789300",
+      "type": "token",
+      "x": null,
+      "y": null,
+      "state": "0"
+    },
+    {
+      "id": 45,
+      "location": "bonus_5",
+      "pId": "85789300",
+      "type": "token",
+      "x": null,
+      "y": null,
+      "state": "0"
+    },
+    {
+      "id": 46,
+      "location": "bonus_6",
+      "pId": "85789300",
+      "type": "token",
+      "x": null,
+      "y": null,
+      "state": "0"
+    },
+    {
+      "id": 47,
+      "location": "reserve",
+      "pId": "85789300",
+      "type": "worker",
+      "x": null,
+      "y": null,
+      "state": "0"
+    },
+    {
+      "id": 48,
+      "location": "supply_2",
+      "pId": "85789300",
+      "type": "worker",
+      "x": null,
+      "y": null,
+      "state": "0"
+    },
+    {
+      "id": 49,
+      "location": "supply_3",
+      "pId": "85789300",
+      "type": "worker",
+      "x": null,
+      "y": null,
+      "state": "0"
+    },
+    {
+      "id": 50,
+      "location": "association_5",
+      "pId": "85789300",
+      "type": "worker",
+      "x": null,
+      "y": null,
+      "state": "0"
+    },
+    {
+      "id": 51,
+      "location": "P133_SeaAnimals_0",
+      "pId": "88257314",
+      "type": "token",
+      "x": null,
+      "y": null,
+      "state": "0"
+    },
+    {
+      "id": 52,
+      "location": "bonus_1",
+      "pId": "88257314",
+      "type": "token",
+      "x": null,
+      "y": null,
+      "state": "0"
+    },
+    {
+      "id": 53,
+      "location": "bonus_2",
+      "pId": "88257314",
+      "type": "token",
+      "x": null,
+      "y": null,
+      "state": "0"
+    },
+    {
+      "id": 54,
+      "location": "bonus_3",
+      "pId": "88257314",
+      "type": "token",
+      "x": null,
+      "y": null,
+      "state": "0"
+    },
+    {
+      "id": 55,
+      "location": "bonus_4",
+      "pId": "88257314",
+      "type": "token",
+      "x": null,
+      "y": null,
+      "state": "0"
+    },
+    {
+      "id": 56,
+      "location": "bonus_5",
+      "pId": "88257314",
+      "type": "token",
+      "x": null,
+      "y": null,
+      "state": "0"
+    },
+    {
+      "id": 57,
+      "location": "bonus_6",
+      "pId": "88257314",
+      "type": "token",
+      "x": null,
+      "y": null,
+      "state": "0"
+    },
+    {
+      "id": 58,
+      "location": "association_3",
+      "pId": "88257314",
+      "type": "worker",
+      "x": null,
+      "y": null,
+      "state": "0"
+    },
+    {
+      "id": 59,
+      "location": "association_5",
+      "pId": "88257314",
+      "type": "worker",
+      "x": null,
+      "y": null,
+      "state": "0"
+    },
+    {
+      "id": 60,
+      "location": "supply_3",
+      "pId": "88257314",
+      "type": "worker",
+      "x": null,
+      "y": null,
+      "state": "0"
+    },
+    {
+      "id": 61,
+      "location": "reserve",
+      "pId": "88257314",
+      "type": "worker",
+      "x": null,
+      "y": null,
+      "state": "0"
+    },
+    {
+      "id": 62,
+      "location": "bonus_0",
+      "pId": "85794027",
+      "type": "token",
+      "x": null,
+      "y": null,
+      "state": "0"
+    },
+    {
+      "id": 63,
+      "location": "bonus_1",
+      "pId": "85794027",
+      "type": "token",
+      "x": null,
+      "y": null,
+      "state": "0"
+    },
+    {
+      "id": 64,
+      "location": "bonus_2",
+      "pId": "85794027",
+      "type": "token",
+      "x": null,
+      "y": null,
+      "state": "0"
+    },
+    {
+      "id": 65,
+      "location": "P107_Europe_2",
+      "pId": "85794027",
+      "type": "token",
+      "x": null,
+      "y": null,
+      "state": "0"
+    },
+    {
+      "id": 66,
+      "location": "bonus_4",
+      "pId": "85794027",
+      "type": "token",
+      "x": null,
+      "y": null,
+      "state": "0"
+    },
+    {
+      "id": 67,
+      "location": "bonus_5",
+      "pId": "85794027",
+      "type": "token",
+      "x": null,
+      "y": null,
+      "state": "0"
+    },
+    {
+      "id": 68,
+      "location": "bonus_6",
+      "pId": "85794027",
+      "type": "token",
+      "x": null,
+      "y": null,
+      "state": "0"
+    },
+    {
+      "id": 69,
+      "location": "reserve",
+      "pId": "85794027",
+      "type": "worker",
+      "x": null,
+      "y": null,
+      "state": "0"
+    },
+    {
+      "id": 70,
+      "location": "supply_2",
+      "pId": "85794027",
+      "type": "worker",
+      "x": null,
+      "y": null,
+      "state": "0"
+    },
+    {
+      "id": 71,
+      "location": "supply_3",
+      "pId": "85794027",
+      "type": "worker",
+      "x": null,
+      "y": null,
+      "state": "0"
+    },
+    {
+      "id": 72,
+      "location": "association_5",
+      "pId": "85794027",
+      "type": "worker",
+      "x": null,
+      "y": null,
+      "state": "0"
+    },
+    {
+      "id": 75,
+      "location": "association_0_0",
+      "pId": "88257314",
+      "type": "token",
+      "x": null,
+      "y": null,
+      "state": "0"
+    },
+    {
+      "id": 76,
+      "location": "association_0_1",
+      "pId": "88257314",
+      "type": "token",
+      "x": null,
+      "y": null,
+      "state": "0"
+    },
+    {
+      "id": 77,
+      "location": "association_0_2",
+      "pId": "85789300",
+      "type": "token",
+      "x": null,
+      "y": null,
+      "state": "0"
+    },
+    {
+      "id": 79,
+      "location": "association_0_3",
+      "pId": "88257314",
+      "type": "token",
+      "x": null,
+      "y": null,
+      "state": "0"
+    },
+    {
+      "id": 80,
+      "location": "association_0_4",
+      "pId": "85789300",
+      "type": "token",
+      "x": null,
+      "y": null,
+      "state": "0"
+    },
+    {
+      "id": 81,
+      "location": "association_0_5",
+      "pId": "88257314",
+      "type": "token",
+      "x": null,
+      "y": null,
+      "state": "0"
+    },
+    {
+      "id": 82,
+      "location": "notepad",
+      "pId": "88257314",
+      "type": "bonus-extra-shift",
+      "x": null,
+      "y": null,
+      "state": "1"
+    },
+    {
+      "id": 84,
+      "location": "actionCard_8",
+      "pId": "88257314",
+      "type": "Venom",
+      "x": null,
+      "y": null,
+      "state": "0"
+    }
+  ],
+  "break": 4,
+  "maxBreak": 12,
+  "peaceful": false,
+  "conservationBonuses": {
+    "2": [
+      {
+        "bonus": {
+          "upgrade-card": 1
+        },
+        "permanent": true
+      },
+      {
+        "bonus": {
+          "add-worker": 1
+        },
+        "permanent": true
+      }
+    ],
+    "5": [
+      {
+        "bonus": {
+          "money": 5
+        },
+        "permanent": true
+      }
+    ],
+    "8": {
+      "0": {
+        "bonus": {
+          "money": 5
+        },
+        "permanent": true
+      },
+      "2": {
+        "bonus": {
+          "take-in-range-or-deck": 3
+        },
+        "permanent": false
+      }
+    },
+    "10": [],
+    "99": [
+      {
+        "bonus": {
+          "bonus-sponsor-gray": 1
+        },
+        "permanent": false
+      }
+    ]
+  },
+  "maxAppeal": 25,
+  "endOfGame": false,
+  "startingAppeal": 0,
+  "isMarine": true,
+  "gamestate": {
+    "id": 40,
+    "active_player": "88257314",
+    "args": {
+      "optionalAction": false,
+      "automaticAction": false,
+      "previousEngineChoices": 0,
+      "previousSteps": [
+        11625,
+        11613
+      ],
+      "anytimeActions": [],
+      "_private": {
+        "cardIds": [
+          "F007_FavoriteZoo"
+        ],
+        "statuses": {
+          "A401_Cheetah": {
+            "id": "A401_Cheetah",
+            "conditions": {
+              "ignored": 0,
+              "valid": true
+            },
+            "cost": true,
+            "baseCost": true,
+            "folder": 0,
+            "enclosures": {
+              "regular": true
+            },
+            "canFlock": false,
+            "enclosure": true,
+            "playable": true
+          },
+          "A555_GoldenSnubnosedMonkey": {
+            "id": "A555_GoldenSnubnosedMonkey",
+            "conditions": {
+              "Science": true,
+              "ignored": 0,
+              "valid": true
+            },
+            "cost": true,
+            "baseCost": true,
+            "folder": 0,
+            "enclosures": {
+              "regular": true
+            },
+            "canFlock": false,
+            "enclosure": true,
+            "playable": true
+          },
+          "A403_Leopard": {
+            "id": "A403_Leopard",
+            "conditions": {
+              "Partner-Zoo": true,
+              "ignored": 0,
+              "valid": true
+            },
+            "cost": true,
+            "baseCost": true,
+            "folder": 0,
+            "enclosures": {
+              "regular": true
+            },
+            "canFlock": false,
+            "enclosure": true,
+            "playable": true
+          },
+          "A435_MalayanTapir": {
+            "id": "A435_MalayanTapir",
+            "conditions": {
+              "ignored": 0,
+              "valid": true
+            },
+            "cost": true,
+            "baseCost": true,
+            "folder": 0,
+            "enclosures": {
+              "regular": true
+            },
+            "canFlock": false,
+            "enclosure": true,
+            "playable": true
+          },
+          "A419_EuropeanBadger": {
+            "id": "A419_EuropeanBadger",
+            "conditions": {
+              "ignored": 0,
+              "valid": true
+            },
+            "cost": true,
+            "baseCost": true,
+            "folder": 6,
+            "enclosures": {
+              "regular": true
+            },
+            "canFlock": false,
+            "enclosure": true,
+            "playable": true
+          },
+          "A421_NewZealandFurSeal": {
+            "id": "A421_NewZealandFurSeal",
+            "conditions": {
+              "AnimalsII": true,
+              "ignored": 0,
+              "valid": true
+            },
+            "cost": true,
+            "baseCost": true,
+            "folder": 4,
+            "enclosures": [],
+            "canFlock": false,
+            "enclosure": false,
+            "playable": false
+          },
+          "A456_BarbaryMacaque": {
+            "id": "A456_BarbaryMacaque",
+            "conditions": {
+              "Partner-Zoo": true,
+              "ignored": 0,
+              "valid": true
+            },
+            "cost": true,
+            "baseCost": true,
+            "folder": 5,
+            "enclosures": {
+              "regular": true
+            },
+            "canFlock": false,
+            "enclosure": true,
+            "playable": true
+          },
+          "A480_BroadsnoutedCaiman": {
+            "id": "A480_BroadsnoutedCaiman",
+            "conditions": {
+              "ignored": 0,
+              "valid": true
+            },
+            "cost": true,
+            "baseCost": true,
+            "folder": 1,
+            "enclosures": {
+              "regular": true
+            },
+            "canFlock": false,
+            "enclosure": true,
+            "playable": true
+          },
+          "F007_FavoriteZoo": {
+            "qty": 6,
+            "bonus": 1
+          }
+        }
+      }
+    },
+    "reflexion": {
+      "total": {
+        "85789300": 124374,
+        "85794027": "128870",
+        "88257314": "127711"
+      },
+      "initial": {
+        "85789300": 124613
+      },
+      "initial_ts": {
+        "85789300": 1787180343817
+      }
+    },
+    "multiactive": [
+      "85789300"
+    ],
+    "updateGameProgression": 41,
+    "name": "discardScoring",
+    "type": "multipleactiveplayer",
+    "description": "All players must discard 1 final scoring card",
+    "descriptionmyturn": "${you} must discard 1 final scoring card",
+    "action": "stAtomicAction",
+    "possibleactions": [
+      "actDiscardScoring"
+    ],
+    "transitions": {
+      "next": 90
+    },
+    "initialprivate": null
+  },
+  "tablespeed": "15",
+  "game_result_neutralized": "0",
+  "neutralized_player_id": "0",
+  "playerorder": [
+    88257314,
+    85794027,
+    85789300
+  ],
+  "gamestates": {
+    "1": {
+      "name": "gameSetup",
+      "description": "",
+      "type": "manager",
+      "action": "stGameSetup",
+      "transitions": {
+        "": 2
+      },
+      "descriptionmyturn": "",
+      "args": null,
+      "possibleactions": null,
+      "updateGameProgression": false,
+      "initialprivate": null
+    },
+    "2": {
+      "name": "setupBranch",
+      "description": "",
+      "type": "game",
+      "action": "stSetupBranch",
+      "transitions": {
+        "selection": 5,
+        "mapSelection": 3,
+        "cardSelection": 4
+      },
+      "descriptionmyturn": "",
+      "args": null,
+      "possibleactions": null,
+      "updateGameProgression": false,
+      "initialprivate": null
+    },
+    "3": {
+      "name": "initialMapSelection",
+      "description": "Waiting for others to choose the zoo map they want to play",
+      "descriptionmyturn": "${you} must select the zoo map you want to play",
+      "type": "multipleactiveplayer",
+      "args": "argsInitialMapSelection",
+      "possibleactions": [
+        "actSelectMap"
+      ],
+      "transitions": {
+        "done": 5,
+        "zombiePass": 5,
+        "cardSelection": 4
+      },
+      "action": null,
+      "updateGameProgression": false,
+      "initialprivate": null
+    },
+    "4": {
+      "name": "initialActionCardsSelection",
+      "description": "Waiting for others to choose the action card they want to keep",
+      "descriptionmyturn": "${you} must select the action card you want to keep",
+      "type": "multipleactiveplayer",
+      "args": "argsInitialActionCardsSelection",
+      "possibleactions": [
+        "actSelectActionCard",
+        "actCancelActionCardSelection"
+      ],
+      "transitions": {
+        "done": 4,
+        "finish": 8,
+        "zombiePass": 5
+      },
+      "action": null,
+      "updateGameProgression": false,
+      "initialprivate": null
+    },
+    "5": {
+      "name": "initialSelection",
+      "description": "Waiting for others to choose the cards they want to keep",
+      "descriptionmyturn": "${you} must select the ${_private.n} cards you want to keep",
+      "type": "multipleactiveplayer",
+      "args": "argsInitialSelection",
+      "possibleactions": [
+        "actSelect",
+        "actCancelSelection"
+      ],
+      "transitions": {
+        "done": 6
+      },
+      "action": null,
+      "updateGameProgression": false,
+      "initialprivate": null
+    },
+    "6": {
+      "name": "beforeStartOfTurn",
+      "description": "",
+      "type": "game",
+      "action": "stBeforeStartOfTurn",
+      "updateGameProgression": true,
+      "descriptionmyturn": "",
+      "args": null,
+      "possibleactions": null,
+      "transitions": null,
+      "initialprivate": null
+    },
+    "7": {
+      "name": "turnAction",
+      "description": "",
+      "type": "game",
+      "action": "stTurnAction",
+      "updateGameProgression": true,
+      "descriptionmyturn": "",
+      "args": null,
+      "possibleactions": null,
+      "transitions": null,
+      "initialprivate": null
+    },
+    "8": {
+      "name": "initialActionCardsKeep",
+      "description": "Waiting for others to choose the action cards they want to keep",
+      "descriptionmyturn": "${you} must select the two unique action cards you want to keep",
+      "type": "multipleactiveplayer",
+      "args": "argsInitialActionCardsKeep",
+      "possibleactions": [
+        "actKeepActionCards",
+        "actCancelActionCardsKeep"
+      ],
+      "transitions": {
+        "done": 5,
+        "zombiePass": 5
+      },
+      "action": null,
+      "updateGameProgression": false,
+      "initialprivate": null
+    },
+    "10": {
+      "name": "multiactiveBreak",
+      "type": "game",
+      "action": "stBreakPreCards",
+      "transitions": {
+        "discard": 11,
+        "refill": 12
+      },
+      "description": "",
+      "descriptionmyturn": "",
+      "args": null,
+      "possibleactions": null,
+      "updateGameProgression": false,
+      "initialprivate": null
+    },
+    "11": {
+      "name": "breakDiscard",
+      "type": "multipleactiveplayer",
+      "description": "<BREAK> Break: waiting for other players to discard some cards",
+      "descriptionmyturn": "",
+      "args": "argsBreakDiscard",
+      "possibleactions": [
+        "actBreakDiscardSelectCards",
+        "actCancelBreakDiscardSelection"
+      ],
+      "transitions": {
+        "done": 12,
+        "zombiePass": 12
+      },
+      "action": null,
+      "updateGameProgression": false,
+      "initialprivate": null
+    },
+    "12": {
+      "name": "breakRefill",
+      "type": "game",
+      "action": "stBreakRefill",
+      "transitions": {
+        "": 13
+      },
+      "description": "",
+      "descriptionmyturn": "",
+      "args": null,
+      "possibleactions": null,
+      "updateGameProgression": false,
+      "initialprivate": null
+    },
+    "13": {
+      "name": "breakIncome",
+      "description": "",
+      "type": "game",
+      "action": "stBreakIncome",
+      "transitions": {
+        "next": 14
+      },
+      "descriptionmyturn": "",
+      "args": null,
+      "possibleactions": null,
+      "updateGameProgression": false,
+      "initialprivate": null
+    },
+    "14": {
+      "name": "breakFinish",
+      "description": "",
+      "type": "game",
+      "action": "stBreakFinish",
+      "transitions": {
+        "next": 6
+      },
+      "descriptionmyturn": "",
+      "args": null,
+      "possibleactions": null,
+      "updateGameProgression": false,
+      "initialprivate": null
+    },
+    "20": {
+      "name": "chooseActionCard",
+      "description": "${actplayer} must choose an action card",
+      "descriptionmyturn": "${you} must choose an action card",
+      "descriptionaction": "${actplayer} may use the action card ${type}",
+      "descriptionmyturnaction": "${you} may use the action card ${type}",
+      "descriptionhypnosis": "Hypnosis: ${actplayer} must choose an action card",
+      "descriptionmyturnhypnosis": "Hypnosis: ${you} must choose an action card",
+      "args": "argsAtomicAction",
+      "action": "stAtomicAction",
+      "type": "activeplayer",
+      "possibleactions": [
+        "actChooseActionCard",
+        "actT1Effect",
+        "actPassOptionalAction",
+        "actRestart"
+      ],
+      "transitions": null,
+      "updateGameProgression": false,
+      "initialprivate": null
+    },
+    "21": {
+      "name": "gainResources",
+      "type": "game",
+      "action": "stAtomicAction",
+      "args": "argsAtomicAction",
+      "description": "",
+      "descriptionmyturn": "",
+      "possibleactions": null,
+      "transitions": null,
+      "updateGameProgression": false,
+      "initialprivate": null
+    },
+    "22": {
+      "name": "pay",
+      "type": "game",
+      "action": "stAtomicAction",
+      "args": "argsAtomicAction",
+      "description": "",
+      "descriptionmyturn": "",
+      "possibleactions": null,
+      "transitions": null,
+      "updateGameProgression": false,
+      "initialprivate": null
+    },
+    "23": {
+      "name": "activateCard",
+      "args": "argsAtomicAction",
+      "type": "game",
+      "action": "stAtomicAction",
+      "description": "",
+      "descriptionmyturn": "",
+      "possibleactions": null,
+      "transitions": null,
+      "updateGameProgression": false,
+      "initialprivate": null
+    },
+    "24": {
+      "name": "specialEffect",
+      "description": "",
+      "descriptionmyturn": "",
+      "action": "stAtomicAction",
+      "args": "argsAtomicAction",
+      "type": "activeplayer",
+      "possibleactions": [
+        "actPassOptionalAction",
+        "actRestart"
+      ],
+      "transitions": null,
+      "updateGameProgression": false,
+      "initialprivate": null
+    },
+    "25": {
+      "name": "takeBonus",
+      "type": "game",
+      "action": "stAtomicAction",
+      "args": "argsAtomicAction",
+      "description": "",
+      "descriptionmyturn": "",
+      "possibleactions": null,
+      "transitions": null,
+      "updateGameProgression": false,
+      "initialprivate": null
+    },
+    "26": {
+      "name": "moveAnimals",
+      "description": "${actplayer} can move animals to the ${specialEnclosure}",
+      "descriptionmyturn": "${you} can move animals to the ${specialEnclosure}",
+      "args": "argsAtomicAction",
+      "type": "activeplayer",
+      "possibleactions": [
+        "actMoveAnimals",
+        "actPassOptionalAction",
+        "actRestart"
+      ],
+      "action": null,
+      "transitions": null,
+      "updateGameProgression": false,
+      "initialprivate": null
+    },
+    "27": {
+      "name": "takeInRange",
+      "description": "${actplayer} must take 1 card from display in reputation range ${count}",
+      "descriptionmyturn": "${you} must take 1 card from display in reputation range ${count}",
+      "args": "argsAtomicAction",
+      "action": "stAtomicAction",
+      "type": "activeplayer",
+      "possibleactions": [
+        "actTakeInRange",
+        "actDrawCard",
+        "actRestart"
+      ],
+      "transitions": null,
+      "updateGameProgression": false,
+      "initialprivate": null
+    },
+    "28": {
+      "name": "useKeptBonus",
+      "action": "stAtomicAction",
+      "type": "game",
+      "description": "",
+      "descriptionmyturn": "",
+      "args": null,
+      "possibleactions": null,
+      "transitions": null,
+      "updateGameProgression": false,
+      "initialprivate": null
+    },
+    "30": {
+      "name": "build",
+      "description": "<ACTION-BUILD>${strength_icon} ${actplayer} must build a building of size at most ${maxSize}",
+      "descriptionmyturn": "<ACTION-BUILD>${strength_icon} ${you} must build a building of size at most ${maxSize}",
+      "descriptionskippable": "<ACTION-BUILD>${strength_icon} ${actplayer} may build a building of size at most ${maxSize}",
+      "descriptionmyturnskippable": "<ACTION-BUILD>${strength_icon} ${you} may build a building of size at most ${maxSize}",
+      "descriptionfree": "<ACTION-BUILD>${actplayer} may build a building for free",
+      "descriptionmyturnfree": "<ACTION-BUILD>${you} may build a building for free",
+      "descriptionunique": "<ACTION-BUILD>${actplayer} must build the unique building",
+      "descriptionmyturnunique": "<ACTION-BUILD>${you} must build the unique building",
+      "descriptionengineer": "<ACTION-BUILD>${strength_icon} ${actplayer} may build a building of size at most ${maxSize} and/or use engineer's power",
+      "descriptionmyturnengineer": "<ACTION-BUILD>${strength_icon} ${actplayer} may build a building of size at most ${maxSize} and/or use engineer's power",
+      "args": "argsAtomicAction",
+      "action": "stAtomicAction",
+      "type": "activeplayer",
+      "possibleactions": [
+        "actBuild",
+        "actPassBuild",
+        "actPassOptionalAction",
+        "actRestart"
+      ],
+      "transitions": null,
+      "updateGameProgression": false,
+      "initialprivate": null
+    },
+    "31": {
+      "name": "advanceBreak",
+      "description": "",
+      "descriptionmyturn": "",
+      "action": "stAtomicAction",
+      "type": "game",
+      "args": null,
+      "possibleactions": null,
+      "transitions": null,
+      "updateGameProgression": false,
+      "initialprivate": null
+    },
+    "32": {
+      "name": "animals",
+      "description": "<ACTION-ANIMALS>${strength_icon} ${actplayer} must play one card from ${source} ${count}",
+      "descriptionmyturn": "<ACTION-ANIMALS>${strength_icon} ${you} must play one card from ${source} ${count}",
+      "descriptionskippable": "<ACTION-ANIMALS>${strength_icon} ${actplayer} may play one card from ${source} ${count}",
+      "descriptionmyturnskippable": "<ACTION-ANIMALS>${strength_icon} ${you} may play one card from ${source} ${count}",
+      "descriptionwazaSmallskippable": "<ACTION-ANIMALS>${strength_icon} ${actplayer} may play one small animal from ${source} (Waza Small Animal Program)",
+      "descriptionmyturnwazaSmallskippable": "<ACTION-ANIMALS>${strength_icon} ${you} may play one small animal from ${source} (Waza Small Animal Program)",
+      "args": "argsAtomicAction",
+      "type": "activeplayer",
+      "possibleactions": [
+        "actAnimals",
+        "actPassOptionalAction",
+        "actRestart"
+      ],
+      "action": null,
+      "transitions": null,
+      "updateGameProgression": false,
+      "initialprivate": null
+    },
+    "33": {
+      "name": "association",
+      "description": "<ACTION-ASSOCIATION>${strength_icon} ${actplayer} must perform an association task",
+      "descriptionmyturn": "<ACTION-ASSOCIATION>${strength_icon} ${you} must perform an association task",
+      "descriptionskippable": "<ACTION-ASSOCIATION>${strength_icon} ${actplayer} may perform an association task (<STRENGTH:${strengthLeft}> left)",
+      "descriptionmyturnskippable": "<ACTION-ASSOCIATION>${strength_icon} ${you} may perform an association task (<STRENGTH:${strengthLeft}> left)",
+      "args": "argsAtomicAction",
+      "action": "stAtomicAction",
+      "type": "activeplayer",
+      "possibleactions": [
+        "actAssociation",
+        "actConservationProject",
+        "actPassOptionalAction",
+        "actRestart"
+      ],
+      "transitions": null,
+      "updateGameProgression": false,
+      "initialprivate": null
+    },
+    "34": {
+      "name": "cards",
+      "description": "<ACTION-CARDS>${strength_icon} ${actplayer} must take ${n} cards from ${source} ${discard}",
+      "descriptionmyturn": "<ACTION-CARDS>${strength_icon} ${you} must take ${n} cards from ${source} ${discard}",
+      "descriptionsnap": "<ACTION-CARDS>${strength_icon} ${actplayer} must take ${n} cards from ${source} ${discard} or snap ${nSnap} card(s)",
+      "descriptionmyturnsnap": "<ACTION-CARDS>${strength_icon} ${you} must take ${n} cards from ${source} ${discard} or snap ${nSnap} card(s)",
+      "descriptionsnaponly": "<ACTION-CARDS>${strength_icon} ${actplayer} may snap one card",
+      "descriptionmyturnsnaponly": "<ACTION-CARDS>${strength_icon} ${you} may snap one card",
+      "args": "argsAtomicAction",
+      "action": "stAtomicAction",
+      "type": "activeplayer",
+      "possibleactions": [
+        "actDrawCards",
+        "actTakeCard",
+        "actSnapCard",
+        "actPassOptionalAction",
+        "actRestart"
+      ],
+      "transitions": null,
+      "updateGameProgression": false,
+      "initialprivate": null
+    },
+    "35": {
+      "name": "sponsors",
+      "description": "<ACTION-SPONSORS>${strength_icon} ${actplayer} must play one sponsor card from ${source}",
+      "descriptionmyturn": "<ACTION-SPONSORS>${strength_icon} ${you} must play one sponsor card from ${source}",
+      "descriptioncanBreakForMoney": "<ACTION-SPONSORS>${strength_icon} ${actplayer} must play one sponsor card from ${source} or break for money",
+      "descriptionmyturncanBreakForMoney": "<ACTION-SPONSORS>${strength_icon} ${you} must play one sponsor card from ${source} or break for money",
+      "descriptionskippable": "<ACTION-SPONSORS>${strength_icon} ${actplayer} may play one card from ${source} (<STRENGTH:${strengthLeft}> left)",
+      "descriptionmyturnskippable": "<ACTION-SPONSORS>${strength_icon} ${you} may play one card from ${source} (<STRENGTH:${strengthLeft}> left)",
+      "args": "argsAtomicAction",
+      "action": "stAtomicAction",
+      "type": "activeplayer",
+      "possibleactions": [
+        "actSponsors",
+        "actBreakForMoney",
+        "actPassOptionalAction",
+        "actRestart"
+      ],
+      "transitions": null,
+      "updateGameProgression": false,
+      "initialprivate": null
+    },
+    "36": {
+      "name": "discard",
+      "description": "${actplayer} must discard ${n} card(s)",
+      "descriptionmyturn": "${you} must discard ${n} card(s)",
+      "args": "argsAtomicAction",
+      "action": "stAtomicAction",
+      "type": "activeplayer",
+      "possibleactions": [
+        "actDiscard",
+        "actPassOptionalAction",
+        "actRestart"
+      ],
+      "transitions": null,
+      "updateGameProgression": false,
+      "initialprivate": null
+    },
+    "37": {
+      "name": "upgradeCard",
+      "description": "${actplayer} must upgrade an action card",
+      "descriptionmyturn": "${you} must upgrade an action card",
+      "args": "argsAtomicAction",
+      "action": "stAtomicAction",
+      "type": "activeplayer",
+      "possibleactions": [
+        "actUpgradeCard",
+        "actPassOptionalAction",
+        "actRestart"
+      ],
+      "transitions": null,
+      "updateGameProgression": false,
+      "initialprivate": null
+    },
+    "38": {
+      "name": "release",
+      "description": "${actplayer} must select an enclosure to release ${card_name}",
+      "descriptionmyturn": "${you} must select an enclosure to release ${card_name}",
+      "args": "argsAtomicAction",
+      "type": "activeplayer",
+      "action": "stAtomicAction",
+      "possibleactions": [
+        "actRelease",
+        "actRestart"
+      ],
+      "transitions": null,
+      "updateGameProgression": false,
+      "initialprivate": null
+    },
+    "40": {
+      "name": "discardScoring",
+      "type": "multipleactiveplayer",
+      "description": "All players must discard 1 final scoring card",
+      "descriptionmyturn": "${you} must discard 1 final scoring card",
+      "action": "stAtomicAction",
+      "possibleactions": [
+        "actDiscardScoring"
+      ],
+      "transitions": {
+        "next": 90
+      },
+      "initialprivate": null
+    },
+    "50": {
+      "name": "effectSprint",
+      "action": "stAtomicAction",
+      "args": "argsAtomicAction",
+      "type": "game",
+      "description": "",
+      "descriptionmyturn": "",
+      "possibleactions": null,
+      "transitions": null,
+      "updateGameProgression": false,
+      "initialprivate": null
+    },
+    "51": {
+      "name": "effectHunter",
+      "description": "Hunter ${n}: ${actplayer} must keep 1 Animal card from the ${n} drawn cards",
+      "descriptionmyturn": "Hunter ${n}: ${you} must keep 1 Animal card from the ${n} drawn cards",
+      "action": "stAtomicAction",
+      "args": "argsAtomicAction",
+      "type": "activeplayer",
+      "possibleactions": [
+        "actHunter",
+        "actRestart"
+      ],
+      "transitions": null,
+      "updateGameProgression": false,
+      "initialprivate": null
+    },
+    "52": {
+      "name": "effectInventive",
+      "action": "stAtomicAction",
+      "args": "argsAtomicAction",
+      "type": "game",
+      "description": "",
+      "descriptionmyturn": "",
+      "possibleactions": null,
+      "transitions": null,
+      "updateGameProgression": false,
+      "initialprivate": null
+    },
+    "53": {
+      "name": "effectJumping",
+      "action": "stAtomicAction",
+      "args": "argsAtomicAction",
+      "type": "game",
+      "description": "",
+      "descriptionmyturn": "",
+      "possibleactions": null,
+      "transitions": null,
+      "updateGameProgression": false,
+      "initialprivate": null
+    },
+    "54": {
+      "name": "effectSunbathing",
+      "description": "Sunbathing: ${actplayer} can sell up to ${n} card(s) for <MONEY:4> each",
+      "descriptionmyturn": "Sunbathing: ${you} can sell up to ${n} card(s) for <MONEY:4> each",
+      "args": "argsAtomicAction",
+      "type": "activeplayer",
+      "possibleactions": [
+        "actSunbathing",
+        "actPassOptionalAction",
+        "actRestart"
+      ],
+      "action": null,
+      "transitions": null,
+      "updateGameProgression": false,
+      "initialprivate": null
+    },
+    "55": {
+      "name": "effectPouch",
+      "description": "Pouch: ${actplayer} may place up to ${n} card(s) under ${source} for <APPEAL:2> each",
+      "descriptionmyturn": "Pouch: ${you} may place up to ${n} card(s) under ${source} for <APPEAL:2> each",
+      "args": "argsAtomicAction",
+      "type": "activeplayer",
+      "possibleactions": [
+        "actPouch",
+        "actPassOptionalAction",
+        "actRestart"
+      ],
+      "action": null,
+      "transitions": null,
+      "updateGameProgression": false,
+      "initialprivate": null
+    },
+    "56": {
+      "name": "effectDigging",
+      "description": "Digging: ${actplayer} can discard 1 card from the display and replenish OR discard 1 card from hand to draw 1 card. (${n} remaining)",
+      "descriptionmyturn": "Digging: ${you} can discard 1 card from the display and replenish OR discard 1 card from hand to draw 1 card. (${n} remaining)",
+      "args": "argsAtomicAction",
+      "type": "activeplayer",
+      "possibleactions": [
+        "actDigging",
+        "actPassOptionalAction",
+        "actRestart"
+      ],
+      "action": null,
+      "transitions": null,
+      "updateGameProgression": false,
+      "initialprivate": null
+    },
+    "57": {
+      "name": "effectVenom",
+      "action": "stAtomicAction",
+      "args": "argsAtomicAction",
+      "type": "game",
+      "description": "",
+      "descriptionmyturn": "",
+      "possibleactions": null,
+      "transitions": null,
+      "updateGameProgression": false,
+      "initialprivate": null
+    },
+    "58": {
+      "name": "effectPilfering",
+      "description": "Pilfering: ${actplayer} must choose the player to pilfer",
+      "descriptionmyturn": "Pilfering: ${you} must choose the player to pilfer",
+      "descriptionmultiple": "Pilfering: ${actplayer} must choose the player(s) to pilfer",
+      "descriptionmyturnmultiple": "Pilfering: ${you} must choose the player(s) to pilfer",
+      "args": "argsAtomicAction",
+      "type": "activeplayer",
+      "action": "stAtomicAction",
+      "possibleactions": [
+        "actPilfering",
+        "actRestart"
+      ],
+      "transitions": null,
+      "updateGameProgression": false,
+      "initialprivate": null
+    },
+    "59": {
+      "name": "effectSnapping",
+      "description": "Snapping: ${actplayer} must snap one card (${n} remaining)",
+      "descriptionmyturn": "Snapping: ${you} must snap one card (${n} remaining)",
+      "descriptionswazaSmall": "${actplayer} must snap one small animal card",
+      "descriptionmyturnwazaSmall": "${you} must snap one small animal card",
+      "args": "argsAtomicAction",
+      "type": "activeplayer",
+      "possibleactions": [
+        "actSnapCard",
+        "actPassOptionalAction",
+        "actReplenish",
+        "actRestart"
+      ],
+      "action": null,
+      "transitions": null,
+      "updateGameProgression": false,
+      "initialprivate": null
+    },
+    "60": {
+      "name": "effectHypnosis",
+      "description": "Hypnosis: ${actplayer} must choose the player to hypnotize",
+      "descriptionmyturn": "Hypnosis: ${you} must choose the player to hypnotize",
+      "args": "argsAtomicAction",
+      "type": "activeplayer",
+      "action": "stAtomicAction",
+      "possibleactions": [
+        "actHypnosis",
+        "actRestart"
+      ],
+      "transitions": null,
+      "updateGameProgression": false,
+      "initialprivate": null
+    },
+    "61": {
+      "name": "effectScavenging",
+      "description": "Scavenging: ${actplayer} must pick one card to keep",
+      "descriptionmyturn": "Scavenging: ${you} must pick one card to keep",
+      "args": "argsAtomicAction",
+      "type": "activeplayer",
+      "possibleactions": [
+        "actScavenging",
+        "actRestart"
+      ],
+      "action": null,
+      "transitions": null,
+      "updateGameProgression": false,
+      "initialprivate": null
+    },
+    "62": {
+      "name": "effectPosturing",
+      "description": "Posturing: ${actplayer} may place a pavilion or a kiosk for free (${n} remaining)",
+      "descriptionmyturn": "Posturing: ${you} may place a pavilion or a kiosk for free (${n} remaining)",
+      "args": "argsAtomicAction",
+      "type": "activeplayer",
+      "possibleactions": [
+        "actBuild",
+        "actPassOptionalAction",
+        "actRestart"
+      ],
+      "action": null,
+      "transitions": null,
+      "updateGameProgression": false,
+      "initialprivate": null
+    },
+    "63": {
+      "name": "effectPerception",
+      "description": "Perception ${n}: ${actplayer} must keep ${m} cards from the ${n} drawn cards",
+      "descriptionmyturn": "Perception ${n}: ${you} must keep ${m} cards from the ${n} drawn cards",
+      "args": "argsAtomicAction",
+      "type": "activeplayer",
+      "possibleactions": [
+        "actPerception",
+        "actRestart"
+      ],
+      "action": null,
+      "transitions": null,
+      "updateGameProgression": false,
+      "initialprivate": null
+    },
+    "64": {
+      "name": "effectPack",
+      "action": "stAtomicAction",
+      "args": "argsAtomicAction",
+      "type": "game",
+      "description": "",
+      "descriptionmyturn": "",
+      "possibleactions": null,
+      "transitions": null,
+      "updateGameProgression": false,
+      "initialprivate": null
+    },
+    "65": {
+      "name": "effectClever",
+      "description": "Clever: ${actplayer} may move 1 action card to <STRENGTH:1>",
+      "descriptionmyturn": "Clever: ${you} may move 1 action card to <STRENGTH:1>",
+      "args": "argsAtomicAction",
+      "type": "activeplayer",
+      "possibleactions": [
+        "actClever",
+        "actPassOptionalAction",
+        "actRestart"
+      ],
+      "action": null,
+      "transitions": null,
+      "updateGameProgression": false,
+      "initialprivate": null
+    },
+    "66": {
+      "name": "effectBoost",
+      "description": "Boost: ${actplayer} may place the ${card_type} action card to <STRENGTH:1> or <STRENGTH:5>",
+      "descriptionmyturn": "Boost: ${you} may place the ${card_type} action card  to <STRENGTH:1> or <STRENGTH:5>",
+      "args": "argsAtomicAction",
+      "type": "activeplayer",
+      "possibleactions": [
+        "actBoost",
+        "actPassOptionalAction",
+        "actRestart"
+      ],
+      "action": null,
+      "transitions": null,
+      "updateGameProgression": false,
+      "initialprivate": null
+    },
+    "67": {
+      "name": "effectAction",
+      "action": "stAtomicAction",
+      "args": "argsAtomicAction",
+      "type": "game",
+      "description": "",
+      "descriptionmyturn": "",
+      "possibleactions": null,
+      "transitions": null,
+      "updateGameProgression": false,
+      "initialprivate": null
+    },
+    "68": {
+      "name": "effectMultiplier",
+      "description": "Multiplier: ${actplayer} must choose a card to put multiplier token",
+      "descriptionmyturn": "Multiplier: ${you} must choose a card to put multiplier token",
+      "action": "stAtomicAction",
+      "args": "argsAtomicAction",
+      "type": "activeplayer",
+      "possibleactions": [
+        "actMultiplier",
+        "actRestart"
+      ],
+      "transitions": null,
+      "updateGameProgression": false,
+      "initialprivate": null
+    },
+    "69": {
+      "name": "effectFullThroated",
+      "action": "stAtomicAction",
+      "args": "argsAtomicAction",
+      "type": "game",
+      "description": "",
+      "descriptionmyturn": "",
+      "possibleactions": null,
+      "transitions": null,
+      "updateGameProgression": false,
+      "initialprivate": null
+    },
+    "70": {
+      "name": "effectIconicAnimal",
+      "action": "stAtomicAction",
+      "args": "argsAtomicAction",
+      "type": "game",
+      "description": "",
+      "descriptionmyturn": "",
+      "possibleactions": null,
+      "transitions": null,
+      "updateGameProgression": false,
+      "initialprivate": null
+    },
+    "71": {
+      "name": "effectResistance",
+      "description": "Resistance: ${actplayer} must keep one final scoring card",
+      "descriptionmyturn": "Resistance: ${you} must keep one final scoring card",
+      "args": "argsAtomicAction",
+      "type": "activeplayer",
+      "possibleactions": [
+        "actResistance",
+        "actRestart"
+      ],
+      "action": null,
+      "transitions": null,
+      "updateGameProgression": false,
+      "initialprivate": null
+    },
+    "72": {
+      "name": "effectAssertion",
+      "description": "Assertion: ${actplayer} must keep one base project card",
+      "descriptionmyturn": "Assertion: ${you} must keep one base project card",
+      "args": "argsAtomicAction",
+      "type": "activeplayer",
+      "possibleactions": [
+        "actAssertion",
+        "actRestart"
+      ],
+      "action": null,
+      "transitions": null,
+      "updateGameProgression": false,
+      "initialprivate": null
+    },
+    "73": {
+      "name": "effectSponsorMagnet",
+      "action": "stAtomicAction",
+      "args": "argsAtomicAction",
+      "type": "game",
+      "description": "",
+      "descriptionmyturn": "",
+      "possibleactions": null,
+      "transitions": null,
+      "updateGameProgression": false,
+      "initialprivate": null
+    },
+    "74": {
+      "name": "effectConstriction",
+      "action": "stAtomicAction",
+      "args": "argsAtomicAction",
+      "type": "game",
+      "description": "",
+      "descriptionmyturn": "",
+      "possibleactions": null,
+      "transitions": null,
+      "updateGameProgression": false,
+      "initialprivate": null
+    },
+    "75": {
+      "name": "effectDetermination",
+      "action": "stAtomicAction",
+      "args": "argsAtomicAction",
+      "type": "game",
+      "description": "",
+      "descriptionmyturn": "",
+      "possibleactions": null,
+      "transitions": null,
+      "updateGameProgression": false,
+      "initialprivate": null
+    },
+    "76": {
+      "name": "effectPeacocking",
+      "description": "Peacocking: ${actplayer} may place a Large Bird Aviairy for free",
+      "descriptionmyturn": "Peacocking: ${you} may place a Large Bird Aviairy for free",
+      "args": "argsAtomicAction",
+      "type": "activeplayer",
+      "possibleactions": [
+        "actBuild",
+        "actPassOptionalAction",
+        "actRestart"
+      ],
+      "action": null,
+      "transitions": null,
+      "updateGameProgression": false,
+      "initialprivate": null
+    },
+    "77": {
+      "name": "effectPettingZooAnimal",
+      "action": "stAtomicAction",
+      "args": "argsAtomicAction",
+      "type": "game",
+      "description": "",
+      "descriptionmyturn": "",
+      "possibleactions": null,
+      "transitions": null,
+      "updateGameProgression": false,
+      "initialprivate": null
+    },
+    "78": {
+      "name": "effectDominance",
+      "action": "stAtomicAction",
+      "args": "argsAtomicAction",
+      "type": "game",
+      "description": "",
+      "descriptionmyturn": "",
+      "possibleactions": null,
+      "transitions": null,
+      "updateGameProgression": false,
+      "initialprivate": null
+    },
+    "79": {
+      "name": "effectPilferingExecute",
+      "description": "Pilfering: ${actplayer} must choose to give a random card or <MONEY:${n}> to ${player_name}",
+      "descriptionmyturn": "Pilfering: ${you} must choose to give a random card or <MONEY:${n}> to ${player_name}",
+      "descriptionnomoney": "Pilfering: ${actplayer} must give a random card to ${player_name}",
+      "descriptionmyturnnomoney": "Pilfering: ${you} must give a random card to ${player_name}",
+      "args": "argsAtomicAction",
+      "type": "activeplayer",
+      "action": "stAtomicAction",
+      "possibleactions": [
+        "actPilferingExecute",
+        "actRestart"
+      ],
+      "transitions": null,
+      "updateGameProgression": false,
+      "initialprivate": null
+    },
+    "80": {
+      "name": "gainPartnerZoo",
+      "description": "${actplayer} must choose the partner zoo they want to take",
+      "descriptionmyturn": "${you} must choose the partner zoo you want to take",
+      "args": "argsAtomicAction",
+      "type": "activeplayer",
+      "action": "stAtomicAction",
+      "possibleactions": [
+        "actGainPartnerZoo",
+        "actRestart",
+        "actPassOptionalAction"
+      ],
+      "transitions": null,
+      "updateGameProgression": false,
+      "initialprivate": null
+    },
+    "81": {
+      "name": "gainUniversity",
+      "description": "${actplayer} must choose the university they want to take",
+      "descriptionmyturn": "${you} must choose the university you want to take",
+      "args": "argsAtomicAction",
+      "type": "activeplayer",
+      "action": "stAtomicAction",
+      "possibleactions": [
+        "actGainUniversity",
+        "actRestart",
+        "actPassOptionalAction"
+      ],
+      "transitions": null,
+      "updateGameProgression": false,
+      "initialprivate": null
+    },
+    "82": {
+      "name": "buySponsor",
+      "description": "${actplayer} may pay money to play one Sponsor from their hand",
+      "descriptionmyturn": "${you} may pay money to play one Sponsor from your hand",
+      "args": "argsAtomicAction",
+      "type": "activeplayer",
+      "possibleactions": [
+        "actBuySponsor",
+        "actRestart",
+        "actPassOptionalAction"
+      ],
+      "action": null,
+      "transitions": null,
+      "updateGameProgression": false,
+      "initialprivate": null
+    },
+    "83": {
+      "name": "effectVenomPay",
+      "description": "${actplayer} must pay for venom",
+      "descriptionmyturn": "${you} must pay for venom",
+      "possibleactions": [
+        "actRestart"
+      ],
+      "action": "stAtomicAction",
+      "args": "argsAtomicAction",
+      "type": "activeplayer",
+      "transitions": null,
+      "updateGameProgression": false,
+      "initialprivate": null
+    },
+    "84": {
+      "name": "map4Effect",
+      "description": "Map 4 effect: ${actplayer} can sell 1 card for <MONEY:3>",
+      "descriptionmyturn": "Map 4 effect: ${you} can sell 1 card for <MONEY:3>",
+      "args": "argsAtomicAction",
+      "type": "activeplayer",
+      "possibleactions": [
+        "actMap4",
+        "actPassOptionalAction",
+        "actRestart"
+      ],
+      "action": null,
+      "transitions": null,
+      "updateGameProgression": false,
+      "initialprivate": null
+    },
+    "85": {
+      "name": "effectMap8",
+      "action": "stAtomicAction",
+      "args": "argsAtomicAction",
+      "type": "game",
+      "description": "",
+      "descriptionmyturn": "",
+      "possibleactions": null,
+      "transitions": null,
+      "updateGameProgression": false,
+      "initialprivate": null
+    },
+    "86": {
+      "name": "moneyIncome",
+      "type": "game",
+      "action": "stAtomicAction",
+      "args": "argsAtomicAction",
+      "description": "",
+      "descriptionmyturn": "",
+      "possibleactions": null,
+      "transitions": null,
+      "updateGameProgression": false,
+      "initialprivate": null
+    },
+    "87": {
+      "name": "wazaSpecial",
+      "description": "${actplayer} must chose to focus on small or large animals",
+      "descriptionmyturn": "${you} must chose to focus on small or large animals",
+      "args": "argsAtomicAction",
+      "type": "activeplayer",
+      "possibleactions": [
+        "actWazaSpecial",
+        "actRestart"
+      ],
+      "action": null,
+      "transitions": null,
+      "updateGameProgression": false,
+      "initialprivate": null
+    },
+    "88": {
+      "name": "cleanup",
+      "description": "",
+      "descriptionmyturn": "",
+      "action": "stAtomicAction",
+      "type": "game",
+      "args": null,
+      "possibleactions": null,
+      "transitions": null,
+      "updateGameProgression": false,
+      "initialprivate": null
+    },
+    "90": {
+      "name": "resolveStack",
+      "type": "game",
+      "action": "stResolveStack",
+      "transitions": [],
+      "description": "",
+      "descriptionmyturn": "",
+      "args": null,
+      "possibleactions": null,
+      "updateGameProgression": false,
+      "initialprivate": null
+    },
+    "91": {
+      "name": "resolveChoice",
+      "description": "${actplayer} must choose which effect to resolve",
+      "descriptionmyturn": "${you} must choose which effect to resolve",
+      "descriptionxor": "${actplayer} must choose exactly one effect",
+      "descriptionmyturnxor": "${you} must choose exactly one effect",
+      "type": "activeplayer",
+      "args": "argsResolveChoice",
+      "action": "stResolveChoice",
+      "possibleactions": [
+        "actChooseAction",
+        "actRestart"
+      ],
+      "transitions": [],
+      "updateGameProgression": false,
+      "initialprivate": null
+    },
+    "92": {
+      "name": "impossibleAction",
+      "description": "${actplayer} can't take the mandatory action and must restart his turn or exchange/cook",
+      "descriptionmyturn": "${you} can't take the mandatory action. Restart your turn or exchange/cook to make it possible",
+      "type": "activeplayer",
+      "args": "argsImpossibleAction",
+      "possibleactions": [
+        "actRestart"
+      ],
+      "action": null,
+      "transitions": null,
+      "updateGameProgression": false,
+      "initialprivate": null
+    },
+    "93": {
+      "name": "confirmTurn",
+      "description": "${actplayer} must confirm or restart their turn",
+      "descriptionmyturn": "${you} must confirm or restart your turn",
+      "type": "activeplayer",
+      "args": "argsConfirmTurn",
+      "action": "stConfirmTurn",
+      "possibleactions": [
+        "actConfirmTurn",
+        "actRestart"
+      ],
+      "transitions": {
+        "breakStart": 10
+      },
+      "updateGameProgression": false,
+      "initialprivate": null
+    },
+    "94": {
+      "name": "confirmPartialTurn",
+      "description": "${actplayer} must confirm the switch of player",
+      "descriptionmyturn": "${you} must confirm the switch of player. You will not be able to restart turn",
+      "type": "activeplayer",
+      "args": "argsConfirmTurn",
+      "possibleactions": [
+        "actConfirmPartialTurn",
+        "actRestart"
+      ],
+      "action": null,
+      "transitions": null,
+      "updateGameProgression": false,
+      "initialprivate": null
+    },
+    "97": {
+      "name": "genericNextPlayer",
+      "type": "game",
+      "args": "argsGenericNoNotify",
+      "description": "",
+      "descriptionmyturn": "",
+      "action": null,
+      "possibleactions": null,
+      "transitions": null,
+      "updateGameProgression": false,
+      "initialprivate": null
+    },
+    "98": {
+      "name": "preEndOfGame",
+      "type": "game",
+      "action": "stPreEndOfGame",
+      "transitions": {
+        "": 99
+      },
+      "description": "",
+      "descriptionmyturn": "",
+      "args": null,
+      "possibleactions": null,
+      "updateGameProgression": false,
+      "initialprivate": null
+    },
+    "99": {
+      "name": "gameEnd",
+      "description": "End of game",
+      "type": "manager",
+      "action": "stGameEnd",
+      "args": "argGameEnd",
+      "descriptionmyturn": "",
+      "possibleactions": null,
+      "transitions": null,
+      "updateGameProgression": false,
+      "initialprivate": null
+    },
+    "101": {
+      "name": "map9Effect",
+      "description": "${actplayer} may choose which continent marker to remove to gain 1 bonus",
+      "descriptionmyturn": "${you} may choose which continent marker to remove to gain 1 bonus",
+      "args": "argsAtomicAction",
+      "action": "stAtomicAction",
+      "type": "activeplayer",
+      "possibleactions": [
+        "actMap9",
+        "actPassOptionalAction",
+        "actRestart"
+      ],
+      "transitions": null,
+      "updateGameProgression": false,
+      "initialprivate": null
+    },
+    "102": {
+      "name": "map10Effect",
+      "description": "Map 10 Digging: ${actplayer} can discard 1 card from the display and replenish OR discard 1 card from hand to draw 1 card.",
+      "descriptionmyturn": "Map 10 Digging: ${you} can discard 1 card from the display and replenish OR discard 1 card from hand to draw 1 card.",
+      "args": "argsAtomicAction",
+      "type": "activeplayer",
+      "possibleactions": [
+        "actMap10",
+        "actPassOptionalAction",
+        "actRestart"
+      ],
+      "action": null,
+      "transitions": null,
+      "updateGameProgression": false,
+      "initialprivate": null
+    },
+    "103": {
+      "name": "effectMark",
+      "description": "Mark: ${actplayer} must place ${n} token(s) on animal card(s) on the display",
+      "descriptionmyturn": "Mark: ${you} must place ${n} token(s) on animal card(s) on the display",
+      "args": "argsAtomicAction",
+      "type": "activeplayer",
+      "action": "stAtomicAction",
+      "possibleactions": [
+        "actMark",
+        "actPassOptionalAction",
+        "actRestart"
+      ],
+      "transitions": null,
+      "updateGameProgression": false,
+      "initialprivate": null
+    },
+    "104": {
+      "name": "effectTrade",
+      "description": "Trade: ${actplayer} may trade 1 <XTOKEN> for <MONEY:5> or vice-versa",
+      "descriptionmyturn": "Trade: ${you} may trade 1 <XTOKEN> for <MONEY:5> or vice-versa",
+      "args": "argsAtomicAction",
+      "type": "activeplayer",
+      "possibleactions": [
+        "actTrade",
+        "actPassOptionalAction",
+        "actRestart"
+      ],
+      "action": null,
+      "transitions": null,
+      "updateGameProgression": false,
+      "initialprivate": null
+    },
+    "105": {
+      "name": "effectSeaAnimalMagnet",
+      "action": "stAtomicAction",
+      "args": "argsAtomicAction",
+      "type": "game",
+      "description": "",
+      "descriptionmyturn": "",
+      "possibleactions": null,
+      "transitions": null,
+      "updateGameProgression": false,
+      "initialprivate": null
+    },
+    "106": {
+      "name": "effectSymbiosis",
+      "description": "Symbiosis: ${actplayer} must select a sea animal to gain 1 effect",
+      "descriptionmyturn": "Symbiosis: ${you} must select a sea animal to gain 1 effect",
+      "args": "argsAtomicAction",
+      "action": "stAtomicAction",
+      "type": "activeplayer",
+      "possibleactions": [
+        "actSymbiosis",
+        "actPassOptionalAction",
+        "actRestart"
+      ],
+      "transitions": null,
+      "updateGameProgression": false,
+      "initialprivate": null
+    },
+    "107": {
+      "name": "searchCard",
+      "action": "stAtomicAction",
+      "args": "argsAtomicAction",
+      "type": "game",
+      "description": "",
+      "descriptionmyturn": "",
+      "possibleactions": null,
+      "transitions": null,
+      "updateGameProgression": false,
+      "initialprivate": null
+    },
+    "108": {
+      "name": "effectExtraShift",
+      "description": "Extra Shift: ${actplayer} must remove 1 <WORKER> from the Association Board",
+      "descriptionmyturn": "Extra Shift: ${you} must must remove 1 <WORKER> from the Association Board",
+      "args": "argsAtomicAction",
+      "type": "activeplayer",
+      "possibleactions": [
+        "actExtraShift",
+        "actPassOptionalAction",
+        "actRestart"
+      ],
+      "action": null,
+      "transitions": null,
+      "updateGameProgression": false,
+      "initialprivate": null
+    },
+    "109": {
+      "name": "gainResources",
+      "type": "game",
+      "args": "argsAtomicAction",
+      "action": "stAtomicAction",
+      "description": "",
+      "descriptionmyturn": "",
+      "possibleactions": null,
+      "transitions": null,
+      "updateGameProgression": false,
+      "initialprivate": null
+    },
+    "110": {
+      "name": "effectGlide",
+      "description": "Glide: ${actplayer} may discard up to ${n} card(s) from their hand to gain effects for each <SEAANIMAL>",
+      "descriptionmyturn": "Glide: ${you} may discard up to ${n} card(s) from your hand to gain effects for each <SEAANIMAL>",
+      "args": "argsAtomicAction",
+      "action": "stAtomicAction",
+      "type": "activeplayer",
+      "possibleactions": [
+        "actGlide",
+        "actPassOptionalAction",
+        "actRestart"
+      ],
+      "transitions": null,
+      "updateGameProgression": false,
+      "initialprivate": null
+    },
+    "111": {
+      "name": "effectSharkAttack",
+      "description": "Shark Attack: ${actplayer} may discard up to ${n} card(s) in reputation range to gain <APPEAL>",
+      "descriptionmyturn": "Shark Attack: ${you} may discard up to ${n} card(s) in reputation range to gain <APPEAL>",
+      "args": "argsAtomicAction",
+      "action": "stAtomicAction",
+      "type": "activeplayer",
+      "possibleactions": [
+        "actSharkAttack",
+        "actPassOptionalAction",
+        "actRestart"
+      ],
+      "transitions": null,
+      "updateGameProgression": false,
+      "initialprivate": null
+    },
+    "112": {
+      "name": "effectCutDown",
+      "description": "Cut Down: ${actplayer} may remove 1 empty standard enclosure and gain its cost",
+      "descriptionmyturn": "Cut Down: ${you} may remove 1 empty standard enclosure and gain its cost",
+      "args": "argsAtomicAction",
+      "action": "stAtomicAction",
+      "type": "activeplayer",
+      "possibleactions": [
+        "actCutDown",
+        "actPassOptionalAction",
+        "actRestart"
+      ],
+      "transitions": null,
+      "updateGameProgression": false,
+      "initialprivate": null
+    },
+    "113": {
+      "name": "effectCamouflage",
+      "type": "game",
+      "args": "argsAtomicAction",
+      "action": "stAtomicAction",
+      "description": "",
+      "descriptionmyturn": "",
+      "possibleactions": null,
+      "transitions": null,
+      "updateGameProgression": false,
+      "initialprivate": null
+    },
+    "114": {
+      "name": "effectScubaDive",
+      "description": "Scuba Dive ${n}: ${actplayer} must keep 1 Sponsor card from the ${n} drawn cards",
+      "descriptionmyturn": "Scuba Dive ${n}: ${you} must keep 1 Sponsor card from the ${n} drawn cards",
+      "action": "stAtomicAction",
+      "args": "argsAtomicAction",
+      "type": "activeplayer",
+      "possibleactions": [
+        "actScubaDive",
+        "actRestart"
+      ],
+      "transitions": null,
+      "updateGameProgression": false,
+      "initialprivate": null
+    },
+    "115": {
+      "name": "effectAdapt",
+      "description": "Adapt: ${actplayer} must discard ${n} final scoring card(s)",
+      "descriptionmyturn": "Adapt: ${you} must discard ${n} final scoring card(s)",
+      "args": "argsAtomicAction",
+      "type": "activeplayer",
+      "possibleactions": [
+        "actAdapt",
+        "actRestart"
+      ],
+      "action": null,
+      "transitions": null,
+      "updateGameProgression": false,
+      "initialprivate": null
+    },
+    "116": {
+      "name": "monkeyGang",
+      "type": "game",
+      "args": "argsAtomicAction",
+      "action": "stAtomicAction",
+      "description": "",
+      "descriptionmyturn": "",
+      "possibleactions": null,
+      "transitions": null,
+      "updateGameProgression": false,
+      "initialprivate": null
+    },
+    "117": {
+      "name": "donate",
+      "type": "game",
+      "args": "argsAtomicAction",
+      "action": "stAtomicAction",
+      "description": "",
+      "descriptionmyturn": "",
+      "possibleactions": null,
+      "transitions": null,
+      "updateGameProgression": false,
+      "initialprivate": null
+    },
+    "118": {
+      "name": "expedition",
+      "description": "${actplayer} must chose one person sponsor to discard",
+      "descriptionmyturn": "${you} must chose one person sponsor to discard",
+      "args": "argsAtomicAction",
+      "type": "activeplayer",
+      "possibleactions": [
+        "actExpedition",
+        "actRestart"
+      ],
+      "action": null,
+      "transitions": null,
+      "updateGameProgression": false,
+      "initialprivate": null
+    },
+    "119": {
+      "name": "searchPetDiscard",
+      "description": "${actplayer} must chose one Petting Zoo Animal in the discard",
+      "descriptionmyturn": "${you} must chose one Petting Zoo Animal in the discard",
+      "args": "argsAtomicAction",
+      "type": "activeplayer",
+      "possibleactions": [
+        "actSearchPetDiscard",
+        "actPassSearchPetDiscard",
+        "actRestart"
+      ],
+      "action": null,
+      "transitions": null,
+      "updateGameProgression": false,
+      "initialprivate": null
+    },
+    "120": {
+      "name": "reconstructionRemove",
+      "description": "${actplayer} may choose up to 3 buildings to reposition",
+      "descriptionmyturn": "${you} may choose up to 3 buildings to reposition",
+      "args": "argsAtomicAction",
+      "type": "activeplayer",
+      "possibleactions": [
+        "actReconstructionRemove",
+        "actPassOptionalAction",
+        "actRestart"
+      ],
+      "action": null,
+      "transitions": null,
+      "updateGameProgression": false,
+      "initialprivate": null
+    },
+    "121": {
+      "name": "reconstructionPlaceBack",
+      "description": "${actplayer} must reposition the building(s) they removed",
+      "descriptionmyturn": "${you} must reposition the building(s) you removed",
+      "args": "argsAtomicAction",
+      "type": "activeplayer",
+      "possibleactions": [
+        "actReconstructionPlaceBack",
+        "actRestart"
+      ],
+      "action": null,
+      "transitions": null,
+      "updateGameProgression": false,
+      "initialprivate": null
+    },
+    "123": {
+      "name": "effectAnimalMagnet",
+      "action": "stAtomicAction",
+      "args": "argsAtomicAction",
+      "type": "game",
+      "description": "",
+      "descriptionmyturn": "",
+      "possibleactions": null,
+      "transitions": null,
+      "updateGameProgression": false,
+      "initialprivate": null
+    },
+    "124": {
+      "name": "wave",
+      "type": "game",
+      "args": "argsAtomicAction",
+      "action": "stAtomicAction",
+      "description": "",
+      "descriptionmyturn": "",
+      "possibleactions": null,
+      "transitions": null,
+      "updateGameProgression": false,
+      "initialprivate": null
+    },
+    "125": {
+      "name": "freePersonSponsor",
+      "description": "${actplayer} may play one person Sponsor from their hand for free",
+      "descriptionmyturn": "${you} may play one person Sponsor from your hand for free",
+      "args": "argsAtomicAction",
+      "type": "activeplayer",
+      "possibleactions": [
+        "actFreePersonSponsor",
+        "actRestart",
+        "actPassOptionalAction"
+      ],
+      "action": null,
+      "transitions": null,
+      "updateGameProgression": false,
+      "initialprivate": null
+    },
+    "126": {
+      "name": "archeologistBonus",
+      "type": "game",
+      "args": "argsAtomicAction",
+      "action": "stAtomicAction",
+      "description": "",
+      "descriptionmyturn": "",
+      "possibleactions": null,
+      "transitions": null,
+      "updateGameProgression": false,
+      "initialprivate": null
+    },
+    "127": {
+      "name": "effectMap11Store",
+      "description": "Map 11 Effect: ${actplayer} must choose a card to store",
+      "descriptionmyturn": "Map 11 Effect: ${you} must choose a card to store",
+      "args": "argsAtomicAction",
+      "action": "stAtomicAction",
+      "type": "activeplayer",
+      "possibleactions": [
+        "actMap11EffectStore",
+        "actPassOptionalAction",
+        "actRestart"
+      ],
+      "transitions": null,
+      "updateGameProgression": false,
+      "initialprivate": null
+    },
+    "128": {
+      "name": "effectMap13",
+      "action": "stAtomicAction",
+      "args": "argsAtomicAction",
+      "type": "game",
+      "description": "",
+      "descriptionmyturn": "",
+      "possibleactions": null,
+      "transitions": null,
+      "updateGameProgression": false,
+      "initialprivate": null
+    },
+    "129": {
+      "name": "effectMap11Unstore",
+      "description": "Map 11 Effect: ${actplayer} must choose a stored card to put back into their hand",
+      "descriptionmyturn": "Map 11 Effect: ${you} must choose a stored card to put back into your hand",
+      "args": "argsAtomicAction",
+      "action": "stAtomicAction",
+      "type": "activeplayer",
+      "possibleactions": [
+        "actMap11EffectUnstore",
+        "actPassOptionalAction",
+        "actRestart"
+      ],
+      "transitions": null,
+      "updateGameProgression": false,
+      "initialprivate": null
+    },
+    "130": {
+      "name": "animals2Hunter",
+      "type": "game",
+      "args": "argsAtomicAction",
+      "action": "stAtomicAction",
+      "description": "",
+      "descriptionmyturn": "",
+      "possibleactions": null,
+      "transitions": null,
+      "updateGameProgression": false,
+      "initialprivate": null
+    },
+    "131": {
+      "name": "animals3PayGain",
+      "type": "game",
+      "args": "argsAtomicAction",
+      "action": "stAtomicAction",
+      "description": "",
+      "descriptionmyturn": "",
+      "possibleactions": null,
+      "transitions": null,
+      "updateGameProgression": false,
+      "initialprivate": null
+    },
+    "132": {
+      "name": "sponsorsDiscardCardGetBonus",
+      "description": "",
+      "descriptionmyturn": "",
+      "description3-1": "Sponsors 3: ${actplayer} can discard 1 Sponsor card to gain <MONEY:4>",
+      "descriptionmyturn3-1": "Sponsors 3: ${you} can discard 1 Sponsor card to gain <MONEY:4>",
+      "description3-2": "Sponsors 3: ${actplayer} can discard 1 card to gain <MONEY:4> or to <STRENGTH:+2>",
+      "descriptionmyturn3-2": "Sponsors 3: ${you} can discard 1 card to gain <MONEY:4> or to <STRENGTH:+2>",
+      "description3-2bis": "Sponsors 3: ${actplayer} can discard 1 card to gain <MONEY:4>",
+      "descriptionmyturn3-2bis": "Sponsors 3: ${you} can discard 1 card to gain <MONEY:4>",
+      "description4-1": "Sponsors 4: ${actplayer} can discard 1 Sponsor card to snap one Sponsor card",
+      "descriptionmyturn4-1": "Sponsors 3: ${you} can discard 1 Sponsor card to snap one Sponsor card",
+      "description4-2": "Sponsors 3: ${actplayer} can discard 1 card to play a Sponsor card for money",
+      "descriptionmyturn4-2": "Sponsors 3: ${you} can discard 1 card to play a Sponsor card for money",
+      "args": "argsAtomicAction",
+      "type": "activeplayer",
+      "possibleactions": [
+        "actSponsorsDiscardCardGetBonus",
+        "actPassOptionalAction",
+        "actRestart"
+      ],
+      "action": null,
+      "transitions": null,
+      "updateGameProgression": false,
+      "initialprivate": null
+    },
+    "133": {
+      "name": "increaseSize",
+      "description": "${actplayer} may increase the size of one regular enclosure by building over it",
+      "descriptionmyturn": "${you} may increase the size of one regular enclosure by building over it",
+      "args": "argsAtomicAction",
+      "type": "activeplayer",
+      "possibleactions": [
+        "actIncreaseSize",
+        "actPassOptionalAction",
+        "actRestart"
+      ],
+      "action": null,
+      "transitions": null,
+      "updateGameProgression": false,
+      "initialprivate": null
+    }
+  },
+  "notifications": {
+    "last_packet_id": "1570",
+    "move_nbr": "404"
+  },
+  "decision": {
+    "decision_type": "none"
+  },
+  "viewerPlayerId": "88257314",
+  "gameName": "Ark Nova",
+  "gameSlug": "arknova",
+  "tableId": "123456789"
+}
