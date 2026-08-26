@@ -11,6 +11,8 @@ const FIXTURE_HTML = `
       <button id="key-prompt-open-settings" type="button">Open settings</button>
     </div>
     <div id="finished-banner" hidden></div>
+    <div id="loading-banner" hidden></div>
+    <div id="no-table-banner" hidden></div>
     <main id="msg-list"><p id="empty-state">No messages yet.</p></main>
     <div id="quick-actions">
       <button type="button" class="quick-action" data-prompt="Suggest my next move.">Suggest my next move</button>
@@ -70,7 +72,9 @@ function mockChrome(responses: Record<string, Responder>, initialTabId = 7): Moc
     calls.push(structuredClone(message));
     const responder = responses[message.type];
     const response = typeof responder === "function" ? responder(message) : responder;
-    callback(response);
+    // Supports a responder returning a Promise (to test the panel's
+    // in-flight "loading" state), not just a plain value.
+    void Promise.resolve(response).then(callback);
   });
 
   (globalThis as unknown as { chrome: unknown }).chrome = {
@@ -102,6 +106,33 @@ const defaultSettingsResponse = {
 };
 
 const noHistory = { tableId: null, status: null, messages: [] };
+const hasTable = { tableId: "12345", status: "active", messages: [] };
+
+// Sending a message on a real table always re-syncs from GET_CHAT_HISTORY
+// afterward (to pick up e.g. a game-end status change) — a static
+// GET_CHAT_HISTORY response would wipe the just-rendered exchange back to
+// empty on that resync, so these mocks mirror the background's real
+// behavior of persisting each turn and serving it back.
+function mockChromeWithPersistedChat(
+  sendChatResponse: unknown | ((message: { message: string }) => unknown),
+): MockChrome {
+  let messages: { role: string; content: string }[] = [];
+  return mockChrome({
+    GET_SETTINGS: defaultSettingsResponse,
+    GET_CHAT_HISTORY: () => ({ tableId: "12345", status: "active", messages }),
+    SEND_CHAT_MESSAGE: (message: { message: string }) => {
+      messages = [...messages, { role: "user", content: message.message }];
+      const response =
+        typeof sendChatResponse === "function"
+          ? (sendChatResponse as (message: { message: string }) => { ok: boolean; text?: string })(message)
+          : sendChatResponse;
+      if ((response as { ok: boolean }).ok) {
+        messages = [...messages, { role: "assistant", content: (response as { text: string }).text }];
+      }
+      return response;
+    },
+  });
+}
 
 describe("sidepanel chat", () => {
   beforeEach(() => {
@@ -114,11 +145,7 @@ describe("sidepanel chat", () => {
   });
 
   it("sends the typed message and renders the provider's reply", async () => {
-    const chrome = mockChrome({
-      GET_SETTINGS: defaultSettingsResponse,
-      GET_CHAT_HISTORY: noHistory,
-      SEND_CHAT_MESSAGE: { ok: true, text: "42" },
-    });
+    const chrome = mockChromeWithPersistedChat({ ok: true, text: "42" });
 
     await import("./index");
     await flushMicrotasks();
@@ -136,11 +163,7 @@ describe("sidepanel chat", () => {
   });
 
   it("sends a quick-action chip's canned prompt", async () => {
-    mockChrome({
-      GET_SETTINGS: defaultSettingsResponse,
-      GET_CHAT_HISTORY: noHistory,
-      SEND_CHAT_MESSAGE: { ok: true, text: "Try building an engine." },
-    });
+    mockChromeWithPersistedChat({ ok: true, text: "Try building an engine." });
 
     await import("./index");
     await flushMicrotasks();
@@ -155,11 +178,7 @@ describe("sidepanel chat", () => {
   });
 
   it("renders a provider error as a chat message instead of throwing", async () => {
-    mockChrome({
-      GET_SETTINGS: defaultSettingsResponse,
-      GET_CHAT_HISTORY: noHistory,
-      SEND_CHAT_MESSAGE: { ok: false, error: "Could not reach Anthropic: network down" },
-    });
+    mockChromeWithPersistedChat({ ok: false, error: "Could not reach Anthropic: network down" });
 
     await import("./index");
     await flushMicrotasks();
@@ -174,6 +193,25 @@ describe("sidepanel chat", () => {
     expect(errorMsg?.textContent).toBe("Could not reach Anthropic: network down");
   });
 
+  it("renders a no-game-state rejection as a normal error bubble, not a silent self-heal like no-table (#32 follow-up)", async () => {
+    mockChromeWithPersistedChat({ ok: false, error: "No live game state available for this table.", code: "no-game-state" });
+
+    await import("./index");
+    await flushMicrotasks();
+
+    const input = document.getElementById("composer-input") as HTMLInputElement;
+    const send = document.getElementById("composer-send") as HTMLButtonElement;
+    input.value = "what's my score?";
+    send.click();
+    await flushMicrotasks();
+
+    const errorMsg = document.querySelector(".msg-error");
+    expect(errorMsg?.textContent).toBe("No live game state available for this table.");
+    // A real, resolvable table shouldn't get gated shut by a one-off
+    // extraction failure — the user should just be able to retry.
+    expect((document.getElementById("composer-input") as HTMLInputElement).disabled).toBe(false);
+  });
+
   it("disables the composer and quick actions while no key is configured for the active provider", async () => {
     mockChrome({
       GET_SETTINGS: {
@@ -181,7 +219,7 @@ describe("sidepanel chat", () => {
         hasKey: { anthropic: false, openai: false },
         keyPreview: { anthropic: null, openai: null },
       },
-      GET_CHAT_HISTORY: noHistory,
+      GET_CHAT_HISTORY: hasTable,
     });
 
     await import("./index");
@@ -272,6 +310,85 @@ describe("sidepanel chat", () => {
       expect((document.getElementById("empty-state") as HTMLElement).hidden).toBe(false);
       expect((document.getElementById("finished-banner") as HTMLElement).hidden).toBe(true);
       expect((document.getElementById("composer-input") as HTMLInputElement).disabled).toBe(false);
+    });
+  });
+
+  describe("no-table gate (#32)", () => {
+    it("shows a loading indicator (not the no-table banner) while GET_CHAT_HISTORY is still pending", async () => {
+      let resolveHistory!: (value: unknown) => void;
+      const historyPromise = new Promise((resolve) => {
+        resolveHistory = resolve;
+      });
+      mockChrome({
+        GET_SETTINGS: defaultSettingsResponse,
+        GET_CHAT_HISTORY: () => historyPromise,
+      });
+
+      await import("./index");
+      await flushMicrotasks();
+
+      expect((document.getElementById("loading-banner") as HTMLElement).hidden).toBe(false);
+      expect((document.getElementById("no-table-banner") as HTMLElement).hidden).toBe(true);
+      expect((document.getElementById("composer-input") as HTMLInputElement).disabled).toBe(true);
+
+      resolveHistory({ tableId: "12345", status: "active", messages: [] });
+      await flushMicrotasks();
+
+      expect((document.getElementById("loading-banner") as HTMLElement).hidden).toBe(true);
+      expect((document.getElementById("composer-input") as HTMLInputElement).disabled).toBe(false);
+    });
+
+    it("shows the no-table banner and disables the composer once resolved with no recognizable table", async () => {
+      mockChrome({
+        GET_SETTINGS: defaultSettingsResponse,
+        GET_CHAT_HISTORY: noHistory,
+      });
+
+      await import("./index");
+      await flushMicrotasks();
+
+      expect((document.getElementById("loading-banner") as HTMLElement).hidden).toBe(true);
+      expect((document.getElementById("no-table-banner") as HTMLElement).hidden).toBe(false);
+      expect((document.getElementById("composer-input") as HTMLInputElement).disabled).toBe(true);
+      expect((document.getElementById("composer-send") as HTMLButtonElement).disabled).toBe(true);
+      for (const chip of document.querySelectorAll<HTMLButtonElement>(".quick-action")) {
+        expect(chip.disabled).toBe(true);
+      }
+    });
+
+    it("prioritizes the no-table banner over the missing-key prompt when both apply", async () => {
+      mockChrome({
+        GET_SETTINGS: {
+          activeProvider: "anthropic",
+          hasKey: { anthropic: false, openai: false },
+          keyPreview: { anthropic: null, openai: null },
+        },
+        GET_CHAT_HISTORY: noHistory,
+      });
+
+      await import("./index");
+      await flushMicrotasks();
+
+      expect((document.getElementById("no-table-banner") as HTMLElement).hidden).toBe(false);
+      expect((document.getElementById("key-prompt") as HTMLElement).hidden).toBe(true);
+    });
+
+    it("re-gates the composer when the active tab switches from a real table to no table", async () => {
+      const chrome = mockChrome({
+        GET_SETTINGS: defaultSettingsResponse,
+        GET_CHAT_HISTORY: (message: { tabId?: number }) => (message.tabId === 7 ? hasTable : noHistory),
+      });
+
+      await import("./index");
+      await flushMicrotasks();
+      expect((document.getElementById("composer-input") as HTMLInputElement).disabled).toBe(false);
+
+      chrome.setActiveTabId(9);
+      chrome.triggerTabActivated();
+      await flushMicrotasks();
+
+      expect((document.getElementById("no-table-banner") as HTMLElement).hidden).toBe(false);
+      expect((document.getElementById("composer-input") as HTMLInputElement).disabled).toBe(true);
     });
   });
 });

@@ -1,6 +1,7 @@
 import { loadChatRecord, saveChatRecord, sweepExpiredChatRecords } from "./lib/chat/chatStore";
 import { extractGameState } from "./lib/gameState/extract";
 import { resolveTableId } from "./lib/gameState/tableId";
+import { waitForGamedatas } from "./lib/gameState/waitForGamedatas";
 import { isBgaUrl } from "./lib/isBgaUrl";
 import { handleMessage } from "./lib/messageHandler";
 import type { Message } from "./lib/messages";
@@ -48,6 +49,7 @@ chrome.runtime.onMessage.addListener((message: Message, _sender, sendResponse) =
     validators,
     chatSenders,
     extractGameState,
+    waitForGamedatas,
     chatPersistence: { resolveTableId, loadChatRecord, saveChatRecord, now: () => Date.now() },
   }).then(sendResponse);
   return true; // keep the message channel open for the async response

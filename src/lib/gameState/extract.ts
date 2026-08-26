@@ -53,14 +53,37 @@ export function readGamedatasJson(): string | null {
   // treat "the current game-state snapshot" as one value. `table_id` is the
   // spec's documented primary source for chat-persistence keying, ahead of
   // the URL's `table=` query param (a fallback for before `gameui` loads).
-  return JSON.stringify({
-    ...gameui.gamedatas,
-    viewerPlayerId: gameui.player_id !== undefined ? String(gameui.player_id) : undefined,
-    gameName: gameui.game_name_displayed,
-    gameSlug: gameui.game_name,
-    tableId: gameui.table_id !== undefined ? String(gameui.table_id) : undefined,
-    liveScores,
-  });
+  //
+  // `gamedatas` is spread wholesale rather than picked field-by-field, since
+  // it's an internal BGA structure that varies per game and isn't fully
+  // documented — but that means it can carry fields RawGamedatas never
+  // declares and never reads. Confirmed live (Nucleum, 2026-08-25):
+  // `gamedatas.notifqueue.game` is a circular reference back to BGA's own
+  // game-engine object, which makes a plain `JSON.stringify` throw and
+  // extraction fail outright — for every message, not intermittently, since
+  // the field is a permanent part of that game's live state. The replacer
+  // below drops any value already seen elsewhere in the tree (silently
+  // omitting it, same as `JSON.stringify` already does for functions/
+  // undefined) so a stray internal reference can't break extraction for a
+  // field nothing downstream actually reads.
+  const seen = new WeakSet<object>();
+  return JSON.stringify(
+    {
+      ...gameui.gamedatas,
+      viewerPlayerId: gameui.player_id !== undefined ? String(gameui.player_id) : undefined,
+      gameName: gameui.game_name_displayed,
+      gameSlug: gameui.game_name,
+      tableId: gameui.table_id !== undefined ? String(gameui.table_id) : undefined,
+      liveScores,
+    },
+    (_key, value: unknown) => {
+      if (typeof value === "object" && value !== null) {
+        if (seen.has(value)) return undefined;
+        seen.add(value);
+      }
+      return value;
+    },
+  );
 }
 
 /**

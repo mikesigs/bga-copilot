@@ -39,6 +39,10 @@ function makeDeps(
       openai: vi.fn(async () => ({ ok: true, text: "openai reply" }) as const),
     },
     extractGameState: vi.fn(async () => null),
+    // Defaults to mirroring extractGameState (both null) — tests for #32's
+    // gate behavior override this independently since a real
+    // waitForGamedatas waits out a timeout that extractGameState doesn't.
+    waitForGamedatas: vi.fn(async () => null),
     chatPersistence: makeChatPersistence(chatPersistenceOverrides),
     ...rest,
   };
@@ -142,18 +146,56 @@ describe("handleMessage GET_CHAT_HISTORY", () => {
       messages: [{ role: "user", content: "hi", timestamp: 1 }],
     });
   });
+
+  describe("gating on gameui.gamedatas (#32)", () => {
+    it("uses waitForGamedatas (not the instant extractGameState) to decide whether a table exists", async () => {
+      const deps = makeDeps(defaultSettings(), {
+        waitForGamedatas: vi.fn(async () => ({ gamestate: { name: "playerTurn" }, tableId: "12345" })),
+      });
+
+      const response = await handleMessage({ type: "GET_CHAT_HISTORY", tabId: 7 }, deps);
+
+      expect(deps.waitForGamedatas).toHaveBeenCalledWith(7);
+      expect(deps.extractGameState).not.toHaveBeenCalled();
+      expect(response).toEqual({ tableId: "12345", status: null, messages: [] });
+    });
+
+    it("prefers gamedatas.tableId over the URL-based fallback when both are available", async () => {
+      const resolveTableId = vi.fn(async () => "url-based-id");
+      const deps = makeDeps(defaultSettings(), {
+        waitForGamedatas: vi.fn(async () => ({ gamestate: { name: "playerTurn" }, tableId: "gameui-based-id" })),
+        chatPersistence: { resolveTableId },
+      });
+
+      const response = await handleMessage({ type: "GET_CHAT_HISTORY", tabId: 7 }, deps);
+
+      expect(resolveTableId).not.toHaveBeenCalled();
+      expect(response).toEqual({ tableId: "gameui-based-id", status: null, messages: [] });
+    });
+
+    it("reports no table (gating the composer) when gamedatas never appears within the wait and there's no URL fallback either", async () => {
+      const deps = makeDeps(defaultSettings(), { waitForGamedatas: vi.fn(async () => null) });
+
+      const response = await handleMessage({ type: "GET_CHAT_HISTORY", tabId: 7 }, deps);
+
+      expect(response).toEqual({ tableId: null, status: null, messages: [] });
+    });
+  });
 });
 
 describe("handleMessage SEND_CHAT_MESSAGE", () => {
   it("sends the new message (prefixed with an assembled system prompt) to the active provider's chat sender using its stored key", async () => {
     const settings = setKey(defaultSettings(), "anthropic", "sk-ant-abc");
-    const deps = makeDeps(settings);
+    const deps = makeDeps(settings, {
+      chatPersistence: { resolveTableId: vi.fn(async () => "12345") },
+      extractGameState: vi.fn(async () => ({ gamestate: { name: "playerTurn" } })),
+    });
 
-    const response = await handleMessage({ type: "SEND_CHAT_MESSAGE", message: "hello" }, deps);
+    const response = await handleMessage({ type: "SEND_CHAT_MESSAGE", message: "hello", tabId: 7 }, deps);
 
     expect(deps.chatSenders.anthropic).toHaveBeenCalledWith("sk-ant-abc", [
       expect.objectContaining({ role: "system" }),
-      { role: "user", content: "hello" },
+      expect.objectContaining({ role: "user", content: "hello" }),
     ]);
     expect(response).toEqual({ ok: true, text: "anthropic reply" });
   });
@@ -174,9 +216,11 @@ describe("handleMessage SEND_CHAT_MESSAGE", () => {
         anthropic: vi.fn(async () => ({ ok: false, error: "Could not reach Anthropic: network down" }) as const),
         openai: vi.fn(async () => ({ ok: true, text: "openai reply" }) as const),
       },
+      chatPersistence: { resolveTableId: vi.fn(async () => "12345") },
+      extractGameState: vi.fn(async () => ({ gamestate: { name: "playerTurn" } })),
     });
 
-    const response = await handleMessage({ type: "SEND_CHAT_MESSAGE", message: "hello" }, deps);
+    const response = await handleMessage({ type: "SEND_CHAT_MESSAGE", message: "hello", tabId: 7 }, deps);
 
     expect(response).toEqual({ ok: false, error: "Could not reach Anthropic: network down" });
   });
@@ -187,6 +231,7 @@ describe("handleMessage SEND_CHAT_MESSAGE", () => {
       extractGameState: vi.fn(async (tabId: number) =>
         tabId === 7 ? { gamestate: { name: "playerTurn", active_player: "1" }, players: { "1": { name: "Alice" } } } : null,
       ),
+      chatPersistence: { resolveTableId: vi.fn(async () => "12345") },
     });
 
     await handleMessage({ type: "SEND_CHAT_MESSAGE", message: "whose turn?", tabId: 7 }, deps);
@@ -206,15 +251,62 @@ describe("handleMessage SEND_CHAT_MESSAGE", () => {
     expect(deps.extractGameState).toHaveBeenCalledTimes(2);
   });
 
-  it("falls back to context-free, unpersisted chat without crashing when no tabId is given", async () => {
-    const settings = setKey(defaultSettings(), "anthropic", "sk-ant-abc");
-    const deps = makeDeps(settings);
+  describe("no live game state (#32)", () => {
+    it("rejects with a typed no-game-state error, without calling the provider, when no tabId is given", async () => {
+      const settings = setKey(defaultSettings(), "anthropic", "sk-ant-abc");
+      const deps = makeDeps(settings);
 
-    const response = await handleMessage({ type: "SEND_CHAT_MESSAGE", message: "hello" }, deps);
+      const response = await handleMessage({ type: "SEND_CHAT_MESSAGE", message: "hello" }, deps);
 
-    expect(deps.extractGameState).not.toHaveBeenCalled();
-    expect(deps.chatPersistence.saveChatRecord).not.toHaveBeenCalled();
-    expect(response).toEqual({ ok: true, text: "anthropic reply" });
+      expect(deps.extractGameState).not.toHaveBeenCalled();
+      expect(deps.chatSenders.anthropic).not.toHaveBeenCalled();
+      expect(deps.chatPersistence.saveChatRecord).not.toHaveBeenCalled();
+      expect(response).toEqual({ ok: false, error: expect.any(String), code: "no-game-state" });
+    });
+
+    it("rejects with a typed no-game-state error when extraction returns nothing (e.g. the BGA homepage, or a real table whose extraction failed)", async () => {
+      const settings = setKey(defaultSettings(), "anthropic", "sk-ant-abc");
+      // Deliberately still resolvable via the URL fallback, to prove this is
+      // now checked before (and independently of) table-id resolution — a
+      // real table with a one-off extraction failure gets the same hard
+      // error as a genuinely unrecognized page, per #32's follow-up: a
+      // silent context-free fallback here is exactly what let a real
+      // extraction regression go unnoticed until the LLM's answers were
+      // observed to be generic.
+      const deps = makeDeps(settings, {
+        extractGameState: vi.fn(async () => null),
+        chatPersistence: { resolveTableId: vi.fn(async () => "12345") },
+      });
+
+      const response = await handleMessage({ type: "SEND_CHAT_MESSAGE", message: "hello", tabId: 7 }, deps);
+
+      expect(deps.chatSenders.anthropic).not.toHaveBeenCalled();
+      expect(deps.chatPersistence.saveChatRecord).not.toHaveBeenCalled();
+      expect(response).toEqual({ ok: false, error: expect.any(String), code: "no-game-state" });
+    });
+
+    it("never trusts the client's gate alone — never calls the provider without live game state even with a tabId present", async () => {
+      const settings = setKey(defaultSettings(), "anthropic", "sk-ant-abc");
+      const deps = makeDeps(settings, { extractGameState: vi.fn(async () => null) });
+
+      await handleMessage({ type: "SEND_CHAT_MESSAGE", message: "hello", tabId: 7 }, deps);
+
+      expect(deps.chatSenders.anthropic).not.toHaveBeenCalled();
+      expect(deps.chatSenders.openai).not.toHaveBeenCalled();
+    });
+
+    it("rejects with a typed no-table error (distinct from no-game-state) when gamedatas is present but no table id can be resolved at all", async () => {
+      const settings = setKey(defaultSettings(), "anthropic", "sk-ant-abc");
+      const deps = makeDeps(settings, {
+        extractGameState: vi.fn(async () => ({ gamestate: { name: "playerTurn" } })),
+        chatPersistence: { resolveTableId: vi.fn(async () => null) },
+      });
+
+      const response = await handleMessage({ type: "SEND_CHAT_MESSAGE", message: "hello", tabId: 7 }, deps);
+
+      expect(deps.chatSenders.anthropic).not.toHaveBeenCalled();
+      expect(response).toEqual({ ok: false, error: expect.any(String), code: "no-table" });
+    });
   });
 
   describe("table-id resolution", () => {
@@ -268,7 +360,10 @@ describe("handleMessage SEND_CHAT_MESSAGE", () => {
 
     it("appends to, rather than replaces, a table's existing history", async () => {
       const settings = setKey(defaultSettings(), "anthropic", "sk-ant-abc");
-      const deps = makeDeps(settings, { chatPersistence: { resolveTableId: vi.fn(async () => "12345") } });
+      const deps = makeDeps(settings, {
+        chatPersistence: { resolveTableId: vi.fn(async () => "12345") },
+        extractGameState: vi.fn(async () => ({ gamestate: { name: "playerTurn" } })),
+      });
       await deps.chatPersistence.saveChatRecord({
         tableId: "12345",
         status: "active",
@@ -286,7 +381,10 @@ describe("handleMessage SEND_CHAT_MESSAGE", () => {
 
     it("includes prior persisted history (not just the new message) in what's sent to the provider", async () => {
       const settings = setKey(defaultSettings(), "anthropic", "sk-ant-abc");
-      const deps = makeDeps(settings, { chatPersistence: { resolveTableId: vi.fn(async () => "12345") } });
+      const deps = makeDeps(settings, {
+        chatPersistence: { resolveTableId: vi.fn(async () => "12345") },
+        extractGameState: vi.fn(async () => ({ gamestate: { name: "playerTurn" } })),
+      });
       await deps.chatPersistence.saveChatRecord({
         tableId: "12345",
         status: "active",
@@ -306,6 +404,7 @@ describe("handleMessage SEND_CHAT_MESSAGE", () => {
       const settings = setKey(defaultSettings(), "anthropic", "sk-ant-abc");
       const deps = makeDeps(settings, {
         chatPersistence: { resolveTableId: vi.fn(async () => "12345") },
+        extractGameState: vi.fn(async () => ({ gamestate: { name: "playerTurn" } })),
         chatSenders: {
           anthropic: vi.fn(async () => ({ ok: false, error: "network down" }) as const),
           openai: vi.fn(async () => ({ ok: true, text: "openai reply" }) as const),
@@ -337,7 +436,10 @@ describe("handleMessage SEND_CHAT_MESSAGE", () => {
 
     it("still accepts new messages once a table is finished, for post-game discussion", async () => {
       const settings = setKey(defaultSettings(), "anthropic", "sk-ant-abc");
-      const deps = makeDeps(settings, { chatPersistence: { resolveTableId: vi.fn(async () => "12345") } });
+      const deps = makeDeps(settings, {
+        chatPersistence: { resolveTableId: vi.fn(async () => "12345") },
+        extractGameState: vi.fn(async () => ({ gamestate: { name: "gameEnd" } })),
+      });
       await deps.chatPersistence.saveChatRecord({
         tableId: "12345",
         status: "finished",
@@ -365,7 +467,10 @@ describe("handleMessage SEND_CHAT_MESSAGE", () => {
     it("keeps two different tables' histories from mixing", async () => {
       const settings = setKey(defaultSettings(), "anthropic", "sk-ant-abc");
       const resolveTableId = vi.fn(async (tabId: number) => (tabId === 1 ? "table-a" : "table-b"));
-      const deps = makeDeps(settings, { chatPersistence: { resolveTableId } });
+      const deps = makeDeps(settings, {
+        chatPersistence: { resolveTableId },
+        extractGameState: vi.fn(async () => ({ gamestate: { name: "playerTurn" } })),
+      });
 
       await handleMessage({ type: "SEND_CHAT_MESSAGE", message: "hello from A", tabId: 1 }, deps);
       await handleMessage({ type: "SEND_CHAT_MESSAGE", message: "hello from B", tabId: 2 }, deps);

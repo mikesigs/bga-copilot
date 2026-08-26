@@ -31,6 +31,8 @@ const settingsView = document.getElementById("settings-view") as HTMLElement;
 const keyPrompt = document.getElementById("key-prompt") as HTMLElement;
 const openSettingsFromPrompt = document.getElementById("key-prompt-open-settings") as HTMLButtonElement;
 const finishedBanner = document.getElementById("finished-banner") as HTMLElement;
+const loadingBanner = document.getElementById("loading-banner") as HTMLElement;
+const noTableBanner = document.getElementById("no-table-banner") as HTMLElement;
 const msgList = document.getElementById("msg-list") as HTMLElement;
 const emptyState = document.getElementById("empty-state") as HTMLElement;
 const quickActions = document.getElementById("quick-actions") as HTMLElement;
@@ -86,10 +88,16 @@ function collapseToStatus(card: ProviderCard): void {
 }
 
 function render(): void {
-  keyPrompt.hidden = settings.hasKey[settings.activeProvider];
-  finishedBanner.hidden = chatStatus !== "finished";
+  // Precedence when more than one banner would otherwise apply: loading (a
+  // transient state that should never be seen alongside another banner) >
+  // no-table (per #32, more fundamental than a missing key — there's nothing
+  // to chat about here regardless of settings) > missing key > finished.
+  loadingBanner.hidden = !isLoadingTable;
+  noTableBanner.hidden = isLoadingTable || currentTableId !== null;
+  keyPrompt.hidden = isLoadingTable || currentTableId === null || settings.hasKey[settings.activeProvider];
+  finishedBanner.hidden = isLoadingTable || currentTableId === null || chatStatus !== "finished";
 
-  const canChat = settings.hasKey[settings.activeProvider] && !isSending;
+  const canChat = !isLoadingTable && currentTableId !== null && settings.hasKey[settings.activeProvider] && !isSending;
   composerInput.disabled = !canChat;
   composerSend.disabled = !canChat;
   for (const chip of quickActions.querySelectorAll("button")) {
@@ -187,10 +195,17 @@ for (const card of providerCards) {
 }
 
 let isSending = false;
-// Which table's chat is currently displayed — null when the active tab
-// isn't a recognizable BGA table (chat still works, just isn't persisted).
+// Which table's chat is currently displayed — null means there's no
+// recognizable BGA table on the active tab at all (per #32, the composer is
+// gated in this case; there's no chat to have since there's nothing to
+// persist it against). Only meaningful once isLoadingTable is false.
 let currentTableId: string | null = null;
 let chatStatus: ChatStatus | null = null;
+// True while GET_CHAT_HISTORY's response (which waits out a timeout for
+// gameui.gamedatas to appear on a real table) is still in flight — shown as
+// a brief loading state rather than flashing the "no table" gate on every
+// tab switch to a table that just hasn't finished loading yet.
+let isLoadingTable = true;
 
 // The panel's own script isn't tied to a specific tab, so the currently
 // active tab (in the panel's window) is looked up fresh whenever needed —
@@ -228,15 +243,23 @@ function renderMessageList(messages: ChatMessageRecord[]): void {
 // switching tabs always shows the correct table's history and two tables'
 // chats never mix (a stale in-memory array was the bug before this existed).
 async function loadChatForActiveTab(): Promise<void> {
+  isLoadingTable = true;
+  render();
   try {
     const tabId = await getActiveTabId();
     const response = await sendMessage<GetChatHistoryResponse>({ type: "GET_CHAT_HISTORY", tabId });
     currentTableId = response.tableId;
     chatStatus = response.status;
     renderMessageList(response.messages);
-    render();
   } catch (error) {
     console.error("BGA Copilot: failed to load chat history", error);
+    // Unknown state on failure — fail closed (gate the composer) rather than
+    // risk leaving a stale "ready" state up from a previous, different tab.
+    currentTableId = null;
+    chatStatus = null;
+  } finally {
+    isLoadingTable = false;
+    render();
   }
 }
 
@@ -250,6 +273,16 @@ async function sendChat(text: string): Promise<void> {
   const pending = appendMessage("assistant", "Thinking...");
   pending.classList.add("msg-pending");
 
+  // A successful reply may have pushed the game into gameEnd (marking the
+  // table finished server-side), and a "no-table" rejection means the
+  // background's own check (which never trusts the panel's gate) disagreed
+  // with our locally cached state — both warrant re-syncing from persisted
+  // history so the panel reflects the real state without waiting for a tab
+  // switch or reload. An ordinary provider error changes neither, and errors
+  // are never persisted, so resyncing there would just wipe the error
+  // message this function is about to show right back off the screen.
+  let shouldResync = false;
+
   try {
     const tabId = await getActiveTabId();
     const response = await sendMessage<SendChatMessageResponse>({
@@ -261,6 +294,9 @@ async function sendChat(text: string): Promise<void> {
     pending.remove();
     if (response.ok) {
       appendMessage("assistant", response.text);
+      shouldResync = true;
+    } else if (response.code === "no-table") {
+      shouldResync = true;
     } else {
       appendMessage("error", response.error);
     }
@@ -270,10 +306,7 @@ async function sendChat(text: string): Promise<void> {
     console.error("BGA Copilot: failed to send chat message", error);
   } finally {
     isSending = false;
-    // The message just sent may have pushed the game into gameEnd (marking
-    // the table finished server-side) — re-sync status so the composer
-    // disables itself without waiting for a tab switch or reload.
-    if (currentTableId) void loadChatForActiveTab();
+    if (currentTableId && shouldResync) void loadChatForActiveTab();
     else render();
   }
 }

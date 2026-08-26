@@ -179,6 +179,11 @@ body {
   margin: 0 0 8px;
 }
 
+.loading-banner {
+  display: flex;
+  justify-content: center;
+}
+
 .key-prompt button {
   background: #5c3d24;
   color: #fff;

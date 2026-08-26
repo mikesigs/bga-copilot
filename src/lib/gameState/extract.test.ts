@@ -153,4 +153,43 @@ describe("readGamedatasJson (the MAIN-world injected function)", () => {
       expect(parsed.liveScores).toEqual({ "88257314": 5 });
     });
   });
+
+  // Regression: confirmed live (Nucleum, 2026-08-25) that
+  // gamedatas.notifqueue.game is a circular reference back to BGA's own
+  // game-engine object. A plain JSON.stringify throws on that, silently
+  // breaking extraction for every message on that game (not intermittently —
+  // the field is a permanent part of its live state), which surfaced as the
+  // LLM answering as if no game state existed at all.
+  describe("circular references within gamedatas", () => {
+    it("does not throw when gamedatas contains a circular reference", () => {
+      const gamedatas: { gamestate: { name: string }; notifqueue?: unknown } = {
+        gamestate: { name: "playerTurn" },
+      };
+      const notifqueue: { game: unknown } = { game: undefined };
+      notifqueue.game = { notifqueue };
+      gamedatas.notifqueue = notifqueue;
+      (window as unknown as { gameui: unknown }).gameui = { gamedatas };
+
+      expect(() => readGamedatasJson()).not.toThrow();
+    });
+
+    it("still extracts the rest of gamedatas correctly, dropping only the circular field", () => {
+      const gamedatas: { gamestate: { name: string }; notifqueue?: unknown } = {
+        gamestate: { name: "playerTurn" },
+      };
+      const notifqueue: { game: unknown } = { game: undefined };
+      notifqueue.game = { notifqueue };
+      gamedatas.notifqueue = notifqueue;
+      (window as unknown as { gameui: unknown }).gameui = {
+        gamedatas,
+        game_name: "nucleum",
+        table_id: 904694380,
+      };
+
+      const parsed = JSON.parse(readGamedatasJson()!);
+      expect(parsed.gamestate).toEqual({ name: "playerTurn" });
+      expect(parsed.gameSlug).toBe("nucleum");
+      expect(parsed.tableId).toBe("904694380");
+    });
+  });
 });

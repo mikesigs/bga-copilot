@@ -34,5 +34,6 @@ await esbuild.build({
 cpSync("manifest.json", `${outdir}/manifest.json`);
 cpSync("src/sidepanel/index.html", `${outdir}/sidepanel.html`);
 cpSync("src/sidepanel/style.css", `${outdir}/style.css`);
+cpSync("src/sidepanel/assets", `${outdir}/assets`, { recursive: true });
 
 console.log("Build complete ->", outdir);
