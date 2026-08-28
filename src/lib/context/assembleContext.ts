@@ -1,5 +1,4 @@
 import { summarizeGenericState } from "../gameState/genericSummary";
-import { getPlugin } from "../gameState/plugins/registry";
 import type { RawGamedatas } from "../gameState/types";
 import type { ChatMessage } from "../providers/types";
 
@@ -42,22 +41,6 @@ function trimHistoryToBudget(history: ChatMessage[], maxTokens: number): ChatMes
   return [...kept, newest];
 }
 
-/**
- * Runs the registered per-game plugin (falling back to the no-op plugin for
- * an unrecognized or missing slug), swallowing any error a plugin throws —
- * a bad per-game interpreter shouldn't break the whole chat request, only
- * cost it that plugin's contribution to the summary.
- */
-function summarizePluginState(gamedatas: RawGamedatas | null): string | null {
-  if (!gamedatas) return null;
-  try {
-    return getPlugin(gamedatas.gameSlug).summarizeState(gamedatas, gamedatas.gamestate);
-  } catch (error) {
-    console.error("BGA Copilot: per-game plugin summary failed", error);
-    return null;
-  }
-}
-
 export interface AssembleContextInput {
   gamedatas: RawGamedatas | null;
   history: ChatMessage[];
@@ -75,11 +58,9 @@ export interface AssembleContextInput {
  */
 export function assembleContext(input: AssembleContextInput): ChatMessage[] {
   const stateSummary = summarizeGenericState(input.gamedatas);
-  const pluginSummary = summarizePluginState(input.gamedatas);
-  const combinedSummary = [stateSummary, pluginSummary].filter(Boolean).join("\n\n");
 
-  const systemPrompt = combinedSummary
-    ? `${BASE_SYSTEM_PROMPT}\n\nCurrent game state:\n${combinedSummary}`
+  const systemPrompt = stateSummary
+    ? `${BASE_SYSTEM_PROMPT}\n\nCurrent game state:\n${stateSummary}`
     : `${BASE_SYSTEM_PROMPT}\n\n(No live game-state context is currently available.)`;
 
   const trimmedHistory = trimHistoryToBudget(input.history, HISTORY_TOKEN_BUDGET);
